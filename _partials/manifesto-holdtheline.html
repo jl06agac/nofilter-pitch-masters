@@ -1,0 +1,99 @@
+<!-- ═══ MANIFESTO — "Most … coffee" morph headline + ethos body. Single source of truth for this device;
+     currently included on the homepage under the seam. Reusable across pages via the manifesto-holdtheline include. ═══ -->
+<style>
+/* ═══ "MOST … COFFEE" headline morph — squeeze + letter-cycle (tested in _test-mani-squeeze.html).
+      The gap between "Most" and "coffee" squeezes open to admit workplace → hotel → cafe (each cycling
+      like the §02 price digits), morphing word→word, then collapses back to plain "Most coffee".
+      Width is driven directly (px) on the shop squeeze easing cubic-bezier(.4,0,.2,1). ═══ */
+.mani-ln1{white-space:nowrap;}
+.mani-emph{color:var(--or);}   /* NoFilter orange accent on the headline payoff */
+.mani-slot{display:inline-grid;grid-template-columns:1fr;vertical-align:baseline;width:0;transition:width .42s cubic-bezier(.4,0,.2,1);}
+.mani-slot > .mani-slotc{overflow:hidden;min-width:0;white-space:pre;display:inline-flex;}
+.mani-ch{flex:0 0 auto;display:inline-block;text-align:center;white-space:pre;color:var(--or);}
+.mani-ch.spin{color:#c9705f;}
+@media(prefers-reduced-motion:reduce){.mani-slot{transition:none;}}
+/* left-align the block and start it at the gutter, so the inserted "workplace" grows RIGHTWARD into open space and never clips the right edge; body stays a readable column */
+#why-coffee .wrap{max-width:none;text-align:left;padding-left:clamp(28px,11vw,200px);padding-right:clamp(20px,4vw,60px);}
+#why-coffee .mani-body{max-width:820px;}
+</style>
+
+<section class="band band--pa" id="why-coffee">
+  <div class="wrap rv">
+    <div class="eyebrow">Why this coffee</div>
+    <h2 class="sec-title" id="maniHead"><span class="mani-ln1">Most<span class="mani-slot" id="maniSlot"><span class="mani-slotc" id="maniSlotc"></span></span>coffee is grown</span><br>where it&rsquo;s cheapest.<br>Ours, where it <span class="mani-emph">matters most</span>.</h2>
+    <div class="mani-body">
+      <p class="sec-lead">Every coffee we source grows in the agroforestry that hems a forest under pressure &mdash; Batang Toru, Leuser, the Arakan highlands &mdash; ripening under standing canopy rather than on the bare ground left where forest falls. That agroforestry is the line itself: a living, working edge, tended by the people who farm it, that holds the clearing back. And it only holds while the coffee finds a buyer. So your order is never a gesture &mdash; it funds the NGO partners who keep that edge alive, shelters the forest and the flagship species that call it home, and gives the families under the canopy a reason to let the trees stand. Between 5 and 10% of every sale, ring-fenced before anyone takes a margin, goes straight to that work.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var head  = document.getElementById('maniHead');
+  var slot  = document.getElementById('maniSlot');
+  var slotc = document.getElementById('maniSlotc');
+  if(!head || !slot || !slotc) return;
+  var words = ['workplace','hotel','cafe'];       // inserted adjectives, in order (longest → shortest)
+  var HOLD  = 720, MOVE = 460, ROLL = 560, SWAP = 45;
+  var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var running = false;
+
+  var meas = document.createElement('span');
+  meas.style.cssText = 'position:absolute;left:-9999px;top:0;white-space:pre;visibility:hidden;pointer-events:none;';
+  document.body.appendChild(meas);
+  function syncMeas(){ var cs = getComputedStyle(head); ['fontFamily','fontWeight','fontStyle','fontSize','letterSpacing','textTransform'].forEach(function(p){ meas.style[p]=cs[p]; }); }
+  function charW(ch){ meas.textContent = ch; return meas.getBoundingClientRect().width; }
+  function rowWidth(str){ var w=0; for(var i=0;i<str.length;i++) w+=charW(str[i]); return w; }
+  function rnd(){ return GLYPHS[(Math.random()*GLYPHS.length)|0]; }
+  function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+  function buildRow(str){
+    slotc.innerHTML = '';
+    var letters = [];
+    for(var i=0;i<str.length;i++){
+      var ch = str[i], s = document.createElement('span');
+      s.className = 'mani-ch'; s.style.width = charW(ch) + 'px';
+      if(ch === ' '){ s.textContent = ' '; }
+      else { s.textContent = rnd(); s.dataset.final = ch; s.classList.add('spin'); letters.push(s); }
+      slotc.appendChild(s);
+    }
+    return letters;
+  }
+  function setWidth(px){ slot.style.width = px + 'px'; return wait(MOVE); }
+  function rollIn(letters){
+    return new Promise(function(resolve){
+      if(letters.length === 0){ resolve(); return; }
+      var n = letters.length, start = performance.now(), lastSwap = 0;
+      var settleAt = letters.map(function(_, i){ var f = (i + 1) / n; return ROLL * (0.30 + 0.70 * (1 - Math.pow(1 - f, 3))); });
+      (function frame(now){
+        var t = now - start, doSwap = (now - lastSwap) > SWAP;
+        for(var i=0;i<n;i++){ var s = letters[i];
+          if(t >= settleAt[i]){ if(s.classList.contains('spin')){ s.textContent = s.dataset.final; s.classList.remove('spin'); } }
+          else if(doSwap){ s.textContent = rnd(); } }
+        if(doSwap) lastSwap = now;
+        if(t < ROLL){ requestAnimationFrame(frame); }
+        else { letters.forEach(function(s){ s.textContent = s.dataset.final; s.classList.remove('spin'); }); resolve(); }
+      })(performance.now());
+    });
+  }
+  function rest(){ syncMeas(); buildRow(' '); slot.style.width = charW(' ') + 'px'; }
+  async function run(){
+    if(running) return; running = true; syncMeas();
+    var gapW = charW(' ');
+    if(reduce){ buildRow(' '); slot.style.width = gapW + 'px'; running = false; return; }
+    for(var i=0;i<words.length;i++){
+      var str = ' ' + words[i] + ' ';
+      if(i === 0){ var L = buildRow(str); await setWidth(rowWidth(str)); await rollIn(L); }
+      else { await setWidth(rowWidth(str)); var L2 = buildRow(str); await rollIn(L2); }
+      await wait(HOLD);
+    }
+    await setWidth(gapW); buildRow(' '); running = false;
+  }
+  rest();
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); if(document.fonts && document.fonts.ready){ document.fonts.ready.then(run); } else { run(); } } }); }, { threshold: 0.6 });
+    io.observe(head);
+  } else { run(); }
+})();
+</script>

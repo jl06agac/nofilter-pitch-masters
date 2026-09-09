@@ -1,0 +1,16 @@
+{
+  "TARGET_NAME": "Your workplace",
+  "COLOPHON_CODE": "NF · SG · Packages",
+  "TARGET_SIGNATORY": "Your authorised signatory",
+  "TARGET_SIGNATORY_FIRST": "there",
+  "TARGET_CONTACT_EMAIL": "you@yourcompany.com",
+  "TARGET_BILLING_ENTITY": "Your Company Pte. Ltd.",
+  "FORM_NAME": "nf-package-sheet-sg-generic",
+  "COUNTER_SRC": "",
+  "COBRAND_MACHINE": "",
+  "COBRAND_CARDS": "",
+  "COBRAND_CUP": "",
+  "COBRAND_BAG": "",
+  "SUPPLY_TERM": "24-month",
+  "_README": "GENERIC placeholder skin — no real client. Small SG workplace (<100 pax). Swap TARGET_* when a real client is named."
+}

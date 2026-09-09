@@ -1,0 +1,194 @@
+<!-- ═══ NoFilter shared hero — "HOLD THE LINE" ═══════════════════════════════════
+     Injected as a shared partial (name: hero-holdtheline). EXACT reproduction of the deployed
+     Part 1 cover: RGB-split video glitch (3 layered hero.mp4) + cascade title with
+     glitch. Single source of truth — edit here, re-stamp everywhere.
+     Relies on design tokens (--font-display, --nf-*, --tk-*) from the host :root. -->
+<style id="nf-hero-holdtheline">
+.cover-hero-title,.stance-statement,.choice-headline{text-wrap:balance;}
+.cover{height:100vh;min-height:560px;position:relative;overflow:hidden;
+  background:var(--nf-near-black);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;}
+.cover-video,.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+/* Torn seam at cover bottom — dashed-red overlay tracing the same vertices as
+   the video clip, so the rip reads as a single device (matches Progress Report cover). */
+.cover-tear{display:none;}
+.cover-bg{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(26,24,21,.55) 0%,rgba(26,24,21,.30) 45%,rgba(26,24,21,.72) 100%);}
+.cover-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:0 24px;width:100%;}
+.cover-hero-title{font-family:var(--font-display);font-weight:900;
+  font-size:clamp(64px,14vw,240px);line-height:.86;text-transform:uppercase;
+  letter-spacing:var(--tk-display-tight);color:var(--nf-white);margin:0;position:relative;
+  text-shadow:0 4px 30px rgba(0,0,0,.45);}
+.cover-hero-title.cascade{display:flex;flex-direction:column;align-items:stretch;
+  width:100%;margin:0 auto;line-height:.74;gap:.01em;text-align:center;transform:translateX(-1.5vw) translateY(4vh) scale(0.9);transform-origin:center;}
+.cover-hero-title.cascade .line-row{display:block;position:relative;padding:.04em 0;width:100%;
+  margin-left:-.02em;overflow:visible;}
+/* glitch-materialise: lines are placed, not swooped — they flicker/slice into being */
+.cover-hero-title .rise{display:block;opacity:0;}
+.cover-hero-title.revealed .r1 .rise{animation:lineMaterialise .82s steps(2,end) .00s both;}
+.cover-hero-title.revealed .r2 .rise{animation:lineMaterialise .82s steps(2,end) .36s both;}
+.cover-hero-title.revealed .r3 .rise{animation:lineMaterialise .82s steps(2,end) .72s both;}
+@keyframes lineMaterialise{
+  0%{opacity:0;transform:translate(0,0);clip-path:inset(45% 0 45% 0);}
+  15%{opacity:.7;transform:translate(-4px,1px);clip-path:inset(0 0 62% 0);}
+  28%{opacity:.25;transform:translate(5px,-2px);clip-path:inset(40% 0 22% 0);}
+  42%{opacity:.85;transform:translate(-3px,0);clip-path:inset(55% 0 0 0);}
+  55%{opacity:.4;transform:translate(3px,1px);clip-path:none;}
+  70%{opacity:.95;transform:translate(-1px,0);}
+  100%{opacity:1;transform:translate(0,0);clip-path:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .cover-hero-title .rise{opacity:1;animation:none;}
+}
+/* THE is the pivot — dead center. HOLD left, LINE right — tuned for equal edge gaps at 1440.
+   HOLD nudged down + LINE up by ~10px to tighten the vertical gap around THE. */
+.cover-hero-title.cascade .r1{transform:translateX(calc(-22.6vw + 5px)) translateY(10px);}
+.cover-hero-title.cascade .r2{transform:translateX(-12px);}
+.cover-hero-title.cascade .r3{transform:translateX(21.8vw) translateY(-10px);}
+.cover-hero-title .o{color:var(--nf-orange);}
+@media(max-width:900px){
+  .cover-hero-title.cascade .r1{transform:translateX(-15vw);}
+  .cover-hero-title.cascade .r3{transform:translateX(17vw);}
+}
+@media(max-width:600px){
+  .cover-hero-title.cascade .r1{transform:translateX(-11vw);}
+  .cover-hero-title.cascade .r3{transform:translateX(13vw);}
+}
+/* headline — present on load, no entrance animation */
+.cover-hero-title .glitch{position:relative;display:inline-block;}
+.cover-hero-title .glitch::before,
+.cover-hero-title .glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;
+  opacity:0;pointer-events:none;text-transform:uppercase;color:#fff;}
+.cover-hero-title .glitch.is-glitching::before{
+  color:#00e5ff;mix-blend-mode:screen;animation:glitchTop .6s steps(2,end) 1;}
+.cover-hero-title .glitch.is-glitching::after{
+  color:#ff003c;mix-blend-mode:screen;animation:glitchBot .6s steps(2,end) 1;}
+.cover-hero-title .glitch.is-glitching{animation:glitchMain .6s steps(2,end) 1;}
+/* LINE under threat: shudders + slice-fragments, but never lost — reads as besieged, not broken */
+@keyframes glitchMain{
+  0%{transform:none;opacity:1;clip-path:none;}
+  8%{transform:translate(-3px,1px);opacity:.9;clip-path:inset(0 0 60% 0);}
+  14%{transform:translate(4px,-1px);opacity:.62;clip-path:inset(30% 0 20% 0);}
+  20%{transform:translate(-2px,0);opacity:.95;clip-path:none;}
+  30%{transform:translate(3px,1px);opacity:.66;clip-path:inset(0 0 75% 0);}
+  38%{transform:none;opacity:.58;}
+  44%{transform:translate(-2px,-1px);opacity:.97;clip-path:inset(55% 0 0 0);}
+  58%{transform:translate(1px,1px);opacity:.8;clip-path:none;}
+  70%{transform:none;opacity:1;}
+  100%{transform:none;opacity:1;clip-path:none;}
+}
+@keyframes glitchTop{
+  0%{opacity:0;clip-path:inset(0 0 0 0);}
+  8%{opacity:.55;transform:translate(-4px,-2px);clip-path:inset(0 0 68% 0);}
+  16%{opacity:.5;transform:translate(5px,1px);clip-path:inset(0 0 40% 0);}
+  30%{opacity:.55;transform:translate(-4px,-1px);clip-path:inset(45% 0 0 0);}
+  44%{opacity:.45;transform:translate(4px,2px);clip-path:inset(0 0 72% 0);}
+  58%{opacity:.3;transform:translate(-2px,0);}
+  70%{opacity:0;}100%{opacity:0;}
+}
+@keyframes glitchBot{
+  0%{opacity:0;clip-path:inset(0 0 0 0);}
+  8%{opacity:.55;transform:translate(4px,2px);clip-path:inset(62% 0 0 0);}
+  16%{opacity:.5;transform:translate(-5px,-1px);clip-path:inset(33% 0 33% 0);}
+  30%{opacity:.55;transform:translate(4px,1px);clip-path:inset(0 0 58% 0);}
+  44%{opacity:.45;transform:translate(-4px,-2px);clip-path:inset(52% 0 0 0);}
+  58%{opacity:.3;transform:translate(3px,0);}
+  70%{opacity:0;}100%{opacity:0;}
+}
+
+/* ── hero image fragility: the LINE slice device, applied to the video ──
+   Base layer tears into displaced bands (mirrors glitchMain). Two copies flash
+   as cyan/red offset slices (mirror glitchTop/glitchBot), screen-blended.
+   Copies are invisible until glitch, so they cost nothing at rest. */
+.cover-video-stack{position:absolute;inset:0;z-index:0;}
+.cover-video--cyan,.cover-video--red{opacity:0;mix-blend-mode:screen;}
+.cover-video.is-glitching{animation:vidGlitchMain .6s steps(2,end) 1;}
+.cover-video--cyan.is-glitching{animation:vidGlitchTop .6s steps(2,end) 1;}
+.cover-video--red.is-glitching{animation:vidGlitchBot .6s steps(2,end) 1;}
+.cover-video--cyan{background:#00e5ff;}
+.cover-video--red{background:#ff003c;}
+@keyframes vidGlitchMain{
+  0%{transform:none;clip-path:none;}
+  8%{transform:translate(-2px,1px);clip-path:inset(0 0 60% 0);}
+  14%{transform:translate(3px,-1px);clip-path:inset(30% 0 20% 0);}
+  20%{transform:translate(-1px,0);clip-path:none;}
+  30%{transform:translate(2px,1px);clip-path:inset(0 0 75% 0);}
+  38%{transform:none;}
+  44%{transform:translate(-2px,-1px);clip-path:inset(55% 0 0 0);}
+  58%{transform:translate(1px,1px);clip-path:none;}
+  70%{transform:none;}100%{transform:none;clip-path:none;}
+}
+@keyframes vidGlitchTop{
+  0%{opacity:0;clip-path:inset(0 0 0 0);}
+  8%{opacity:.32;transform:translate(-4px,-2px);clip-path:inset(0 0 68% 0);}
+  16%{opacity:.28;transform:translate(5px,1px);clip-path:inset(0 0 40% 0);}
+  30%{opacity:.32;transform:translate(-3px,-1px);clip-path:inset(45% 0 0 0);}
+  44%{opacity:.24;transform:translate(4px,2px);clip-path:inset(0 0 72% 0);}
+  58%{opacity:.16;transform:translate(-2px,0);}
+  70%{opacity:0;}100%{opacity:0;}
+}
+@keyframes vidGlitchBot{
+  0%{opacity:0;clip-path:inset(0 0 0 0);}
+  8%{opacity:.32;transform:translate(4px,2px);clip-path:inset(62% 0 0 0);}
+  16%{opacity:.28;transform:translate(-5px,-1px);clip-path:inset(33% 0 33% 0);}
+  30%{opacity:.32;transform:translate(3px,1px);clip-path:inset(0 0 58% 0);}
+  44%{opacity:.24;transform:translate(-4px,-2px);clip-path:inset(52% 0 0 0);}
+  58%{opacity:.16;transform:translate(2px,0);}
+  70%{opacity:0;}100%{opacity:0;}
+}
+@media(prefers-reduced-motion:reduce){
+  .cover-video.is-glitching,.cover-video--cyan.is-glitching,.cover-video--red.is-glitching{animation:none;}
+}
+</style>
+
+<section class="cover" id="cover">
+  <div class="cover-video-stack">
+    <video class="cover-video" autoplay muted loop playsinline preload="auto" poster="">
+      <source src="https://nofilter-shared.netlify.app/hero.mp4" type="video/mp4">
+    </video>
+    <video class="cover-video cover-video--cyan" aria-hidden="true" autoplay muted loop playsinline preload="metadata">
+      <source src="https://nofilter-shared.netlify.app/hero.mp4" type="video/mp4">
+    </video>
+    <video class="cover-video cover-video--red" aria-hidden="true" autoplay muted loop playsinline preload="metadata">
+      <source src="https://nofilter-shared.netlify.app/hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="cover-bg"></div>
+  <div class="cover-inner">
+    <h1 class="cover-hero-title cascade" id="coverTitle">
+      <span class="line-row r1"><span class="rise">Hold</span></span>
+      <span class="line-row r2"><span class="rise">the</span></span>
+      <span class="line-row r3"><span class="rise"><span class="glitch o" data-text="line.">line.</span></span></span>
+    </h1>
+  </div>
+</section>
+
+<script>
+// hero: mask-up reveal on load, then LINE flickers under constant threat (irregular)
+(function(){
+  var title=document.getElementById('coverTitle');
+  var word=document.querySelector('.cover-hero-title .glitch');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // glitch-materialise reveal — held back briefly so the footage shows alone first
+  if(title){
+    if(reduce){ title.classList.add('revealed'); }
+    else {
+      setTimeout(function(){ title.classList.add('revealed'); }, 550);
+    }
+  }
+  // glitch flicker — starts only after the reveal has settled
+  if(reduce||!word) return;
+  var vidLayers=document.querySelectorAll('.cover-video');
+  function glitch(){
+    word.classList.remove('is-glitching'); void word.offsetWidth; word.classList.add('is-glitching');
+    if(Math.random()<0.18){   // video shudders on only some of the LINE glitches
+      vidLayers.forEach(function(v){ v.classList.remove('is-glitching'); void v.offsetWidth; v.classList.add('is-glitching'); });
+    }
+  }
+  function schedule(){
+    var wait=4200+Math.random()*5200;
+    setTimeout(function(){ glitch(); schedule(); }, wait);
+  }
+  setTimeout(function(){ glitch(); schedule(); }, 2200);
+})();
+</script>

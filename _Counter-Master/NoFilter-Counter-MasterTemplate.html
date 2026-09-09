@@ -1,0 +1,3067 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NoFilter" />
+    <title>NoFilter Counter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      :root {
+        --bg: #09090b;
+        --panel: #0f0f12;
+        --panel2: #141418;
+        --border: #1c1c22;
+        --border2: #26262e;
+        --text: #8a8a96;
+        --text2: #505060;
+        --accent: #d4d4dc;
+        --accent2: #a0a0ac;
+        --white: #ededf0;
+        --radius: 10px;
+        --radius-sm: 6px;
+        --sb-w: 380px;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", system-ui, sans-serif;
+        display: flex;
+        height: 100dvh;
+        overflow: hidden;
+        font-size: 13px;
+      }
+      .sidebar {
+        width: var(--sb-w);
+        background: var(--panel);
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--border);
+        z-index: 20;
+        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+        overflow: hidden;
+      }
+      .sidebar.closed {
+        margin-left: calc(var(--sb-w) * -1);
+      }
+      .hero {
+        padding: 20px 18px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.005)
+        );
+      }
+      .hero-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .hero h1 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: -0.3px;
+      }
+      .hero .badge {
+        background: var(--white);
+        color: #000;
+        font-size: 8px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 20px;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+      .hero p {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+      .hero-btns {
+        display: flex;
+        gap: 8px;
+      }
+      .hero-btns a,
+      .hero-btns button {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        transition: all 0.15s;
+      }
+      .btn-demo {
+        background: var(--white);
+        color: #000;
+      }
+      .btn-demo:hover {
+        background: #fff;
+      }
+      .btn-src {
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border: 1px solid var(--border) !important;
+      }
+      .btn-src:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--white);
+      }
+      .sb-scroll {
+        overflow-y: auto;
+        flex: 1;
+        padding: 8px 10px 100px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .sec {
+        margin-bottom: 4px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+      }
+      .sec-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 12px;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        user-select: none;
+        transition: background 0.12s;
+      }
+      .sec-head:hover {
+        background: rgba(255, 255, 255, 0.025);
+      }
+      .sec-title {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text2);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+      }
+      .chevron {
+        color: var(--text2);
+        font-size: 9px;
+        transition: transform 0.2s;
+      }
+      .sec.open .chevron {
+        transform: rotate(90deg);
+      }
+      .sec-body {
+        display: none;
+        padding: 2px 12px 14px;
+      }
+      .sec.open .sec-body {
+        display: block;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      .field:last-child {
+        margin-bottom: 0;
+      }
+      .field-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .field-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text2);
+      }
+      .field-val {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent);
+        font-family: "Roboto Mono", monospace;
+      }
+      .field.disabled {
+        opacity: 0.35;
+        pointer-events: none;
+      }
+      input[type="range"] {
+        width: 100%;
+        -webkit-appearance: none;
+        background: var(--bg);
+        height: 3px;
+        border-radius: 2px;
+        outline: none;
+        margin: 0;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        box-shadow: 0 0 6px rgba(200, 200, 220, 0.15);
+      }
+      .hint {
+        font-size: 10px;
+        color: #3a3a44;
+        margin-top: 3px;
+        line-height: 1.5;
+      }
+      textarea,
+      .text-input,
+      select {
+        width: 100%;
+        background: var(--bg);
+        color: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 8px 10px;
+        font-family: "Roboto Mono", monospace;
+        font-size: 11px;
+        resize: none;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      textarea:focus,
+      .text-input:focus,
+      select:focus {
+        border-color: var(--accent2);
+      }
+      select {
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+      }
+      .color-pair {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .color-pair .field-label {
+        flex: 1;
+      }
+      .color-pair .arrow {
+        color: var(--text2);
+        font-size: 10px;
+      }
+      input[type="color"] {
+        -webkit-appearance: none;
+        border: 1px solid var(--border);
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        background: transparent;
+        padding: 0;
+        flex-shrink: 0;
+      }
+      input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 1px;
+      }
+      input[type="color"]::-webkit-color-swatch {
+        border: none;
+        border-radius: 3px;
+      }
+      .btn {
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        border: none;
+        font-weight: 600;
+        transition: all 0.12s;
+        font-family: "Inter", sans-serif;
+      }
+      .btn-accent {
+        background: var(--accent);
+        color: #000;
+      }
+      .btn-accent:hover {
+        background: var(--white);
+      }
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .btn-green {
+        background: #1a6b28;
+        color: #cde6d0;
+      }
+      .btn-green:hover {
+        background: #228833;
+      }
+      .btn-orange {
+        background: #7a5010;
+        color: #f0d8a8;
+      }
+      .btn-orange:hover {
+        background: #946218;
+      }
+      .btn-red {
+        background: #6b1e1e;
+        color: #f0c8c8;
+      }
+      .btn-red:hover {
+        background: #842828;
+      }
+      .mode-bar {
+        display: flex;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg);
+      }
+      .mode-bar button {
+        flex: 1;
+        padding: 7px 2px;
+        background: transparent;
+        color: var(--text2);
+        border: none;
+        font-size: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.12s;
+        font-family: "Inter", sans-serif;
+        letter-spacing: 0.2px;
+      }
+      .mode-bar button.active {
+        background: var(--accent);
+        color: #000;
+      }
+      .mode-bar button:not(:last-child) {
+        border-right: 1px solid var(--border);
+      }
+      .status-line {
+        font-size: 10px;
+        color: var(--accent2);
+        padding: 2px 0;
+        min-height: 16px;
+        opacity: 0.8;
+      }
+      .sb-bottom {
+        border-top: 1px solid var(--border);
+        background: var(--panel2);
+        flex-shrink: 0;
+      }
+      .sb-bottom-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+      }
+      .sb-bottom-head span {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .sb-bottom pre {
+        margin: 0;
+        padding: 6px 12px;
+        overflow-y: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 9px;
+        color: #3a3a44;
+        max-height: 140px;
+        background: var(--bg);
+      }
+      .fab {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background: var(--panel2);
+        color: var(--text);
+        border: 1px solid var(--border);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 100;
+        font-size: 18px;
+        transition: all 0.2s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      }
+      .fab:hover {
+        border-color: var(--accent2);
+        color: var(--white);
+        box-shadow: 0 0 20px rgba(180, 180, 200, 0.08);
+      }
+      .preview-area {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+        min-width: 0;
+      }
+      #vestaboard-wrapper {
+        position: relative;
+        z-index: 1;
+        transform-origin: center center;
+      }
+      hr.sep {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 10px 0;
+      }
+      .color-block-row {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .color-block-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.12s;
+        font-size: 0;
+      }
+      .color-block-btn:hover {
+        transform: scale(1.15);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .toggle-row .field-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text2);
+      }
+      .toggle {
+        position: relative;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+      }
+      .toggle-track {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .toggle-knob {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 12px;
+        height: 12px;
+        background: var(--text2);
+        border-radius: 50%;
+        transition: all 0.2s;
+        pointer-events: none;
+      }
+      .toggle input:checked + .toggle-track {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .toggle input:checked + .toggle-track .toggle-knob {
+        left: 19px;
+        background: #000;
+      }
+      @media (min-width: 801px) {
+        .backdrop {
+          display: none !important;
+        }
+      }
+      .backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 15;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .backdrop.visible {
+        display: block;
+        opacity: 1;
+      }
+      @media (max-width: 800px) {
+        body {
+          flex-direction: column;
+        }
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: min(var(--sb-w), 85vw);
+          z-index: 30;
+          box-shadow: 4px 0 30px rgba(0, 0, 0, 0.6);
+          margin-left: 0 !important;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar.closed {
+          transform: translateX(-100%);
+        }
+        .preview-area {
+          padding: 0;
+          width: 100%;
+        }
+        .fab {
+          bottom: 12px;
+          left: 12px;
+          width: 40px;
+          height: 40px;
+          font-size: 16px;
+        }
+        .hero-btns {
+          flex-wrap: wrap;
+        }
+      }
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 14px;
+        }
+        .hero p {
+          font-size: 10px;
+        }
+        .mode-bar button {
+          font-size: 9px;
+          padding: 6px 2px;
+        }
+      }
+    </style>
+    <style id="base-structural-css">
+      .rocker-switch * {
+        box-sizing: border-box;
+      }
+      .rocker-switch {
+        position: relative;
+        will-change: transform;
+      }
+      .bezel,
+      .bezel-highlight,
+      .recessed-hole-stroke,
+      .recessed-hole-bg,
+      .rocker-wrapper-top,
+      .rocker-wrapper-bot,
+      .rocker-wrapper-falling,
+      .rocker-split-overlay,
+      .ridges {
+        position: absolute;
+      }
+      .bezel-highlight {
+        pointer-events: none;
+      }
+      /* PERF: replaced filter:drop-shadow with box-shadow on inner elements */
+      .rocker-wrapper-top,
+      .rocker-wrapper-bot {
+        /* no filter */
+      }
+      .rocker-top,
+      .rocker-bot,
+      .ridge {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .rocker-top,
+      .rocker-bot {
+        height: 100%;
+      }
+      .ridges {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      /* PERF: contain each flap cell to prevent global layout thrash */
+      .rocker-scale-wrapper {
+        contain: layout style paint;
+      }
+      /* PERF: promote falling flap to its own GPU layer */
+    </style>
+    <style id="dynamic-board-css"></style>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style id="nf-wrapper-style">
+  body.nf-view #sidebar, body.nf-view #backdrop { display:none !important; }
+  body.nf-view #preview-area {
+    position:fixed; inset:0; width:100vw; height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(120% 80% at 50% 0%, #313231 0%, #2A2B2A 62%);
+    margin:0; padding:0;
+  }
+  /* hide THEIR settings gear in view mode so it can't intercept clicks */
+  body.nf-view #sidebar-toggle, body.nf-view .sb-toggle, body.nf-view [class*="settings"],
+  body.nf-view button[title*="ettings"] { display:none !important; }
+  #nf-eyebrow, #nf-status { display:none; position:fixed; left:0; right:0; text-align:center;
+    font-family:'Roboto Mono',monospace; z-index:60; pointer-events:none; }
+  body.nf-view #nf-eyebrow { display:none; top:7vh; text-transform:uppercase;
+    letter-spacing:.4em; font-size:clamp(11px,2.2vw,17px); font-weight:400; color:#ee4d17; }
+  body.nf-view #nf-status { display:none; bottom:6vh; text-transform:uppercase;
+    letter-spacing:.18em; font-size:clamp(11px,1.8vw,14px); color:#F4F2EE; opacity:.5; }
+  /* my unlock control: fixed, very high z, only in view mode, guaranteed clickable */
+  #nf-lock { display:none; position:fixed; right:18px; bottom:18px; width:30px; height:30px;
+    border-radius:50%; background:rgba(28,29,28,.6); color:#555; border:1px solid #333;
+    align-items:center; justify-content:center; font-size:13px; z-index:9999; cursor:pointer;
+    transition:color .2s, background .2s; }
+  #nf-lock:hover { color:#ee4d17; background:rgba(28,29,28,.95); }
+  body.nf-view #nf-lock { display:flex; }
+  #nf-sound { display:none; position:fixed; right:54px; bottom:54px; width:54px; height:54px;
+    border-radius:50%; background:rgba(238,77,23,.92); color:#fff; border:2px solid #fff;
+    align-items:center; justify-content:center; z-index:99999; cursor:pointer;
+    transition:transform .15s, background .2s; box-shadow:0 3px 12px rgba(0,0,0,.4); }
+  #nf-sound svg { width:28px; height:28px; }
+  #nf-sound:hover { transform:scale(1.06); }
+  #nf-sound.on { background:rgba(22,163,74,.95); }
+  body.nf-view #nf-sound { display:flex; }
+  #nf-gate { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93);
+    z-index:10000; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+    font-family:'Roboto Mono',monospace; color:#F4F2EE; }
+  #nf-gate.show { display:flex; }
+  #nf-gate input { background:#111; border:1px solid #444; color:#F4F2EE; padding:12px 16px;
+    border-radius:8px; font-family:inherit; font-size:16px; letter-spacing:.1em; text-align:center; }
+  #nf-gate .nf-hint { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#888; }
+</style>
+</head>
+  <body>
+<div id="nf-eyebrow">A standing forest, held</div>
+<div id="nf-status">connecting…</div>
+<div id="nf-lock" title="Edit (locked)">&#9881;</div>
+<div id="nf-sound" title="Sound off — tap for the tiger chuff at milestone" aria-label="toggle sound" role="button" tabindex="0">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="4 9 8 9 13 5 13 19 8 15 4 15"></polygon>
+    <line id="nf-sound-x1" x1="17" y1="9" x2="22" y2="14"></line>
+    <line id="nf-sound-x2" x1="22" y1="9" x2="17" y2="14"></line>
+    <path id="nf-sound-w1" d="M16.5 8.5a5 5 0 0 1 0 7" style="display:none"></path>
+    <path id="nf-sound-w2" d="M18.5 6.5a8 8 0 0 1 0 11" style="display:none"></path>
+  </svg>
+</div>
+<div id="nf-gate">
+  <div class="nf-hint">NoFilter — editing locked</div>
+  <input id="nf-gate-input" type="password" placeholder="passcode" autocomplete="off">
+  <button id="nf-gate-go" style="background:#ee4d17;color:#fff;border:0;padding:10px 22px;border-radius:8px;font-family:inherit;letter-spacing:.1em;cursor:pointer">UNLOCK</button>
+  <div class="nf-hint">Esc to cancel</div>
+</div>
+
+    <div class="sidebar closed" id="sidebar">
+      <div class="hero">
+        <div class="hero-row">
+          <h1>Vestaboard</h1>
+          <span class="badge">Open Source</span>
+        </div>
+        <p>
+          A free, self-hosted split-flap display you can control from your
+          phone. Put it on a TV, connect from any device, and make it yours.
+        </p>
+        <div class="hero-btns">
+          <button
+            class="btn-demo"
+            onclick="
+              closeSidebar();
+              playSequence();
+            "
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" /></svg
+            >Try the Demo
+          </button>
+          <a
+            class="btn-src"
+            href="https://github.com"
+            target="_blank"
+            rel="noopener"
+            ><svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              /></svg
+            >View Source</a
+          >
+        </div>
+      </div>
+      <div class="sb-scroll">
+        <!-- MESSAGE -->
+        <div class="sec open" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Message</span><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="hint" style="margin-bottom: 6px">
+              Separate messages with
+              <code
+                style="
+                  background: var(--bg);
+                  padding: 1px 4px;
+                  border-radius: 3px;
+                "
+                >---</code
+              >. Use color codes:
+              <code
+                style="
+                  background: var(--bg);
+                  padding: 1px 4px;
+                  border-radius: 3px;
+                "
+                >🟥🟧🟨🟩🟦🟪⬜</code
+              >
+            </div>
+            <textarea id="input-text" rows="8">
+🟥🟧🟨🟩🟦🟪⬜⬜🟪🟦🟩🟨🟧🟥🟥🟧🟨🟩🟦🟪⬜⬜
+⬜                    ⬜
+⬜   SPLITFLAP.DEV    ⬜
+⬜                    ⬜
+🟪🟦🟩🟨🟧🟥🟥🟧🟨🟩🟦🟪⬜⬜🟪🟦🟩🟨🟧🟥⬜⬜
+---
+  OPEN SOURCE  CODE   
+                      
+🟨  NO $3.5K HARDWARE 🟨
+🟥  NO $199 SOFTWARE  🟥
+🟩  FREE FOREVER      🟩
+---
+                      
+     GOD IS IN        
+     THE DETAILS.     
+     - LUDWIG MIES    
+                      
+---
+🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
+🟦⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🟦
+🟦⬜ BUILD SOMETHING  ⬜🟦
+🟦⬜    BEAUTIFUL.    ⬜🟦
+🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦</textarea
+            >
+            <div class="hint" style="margin-top: 6px">
+              Tip: Click a color block below, then click in the textarea to
+              insert it.
+            </div>
+            <div class="color-block-row" id="color-insert-row"></div>
+          </div>
+        </div>
+
+        <!-- ANIMATION -->
+        <div class="sec open" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Animation</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div
+              style="
+                display: flex;
+                gap: 5px;
+                margin-bottom: 8px;
+                flex-wrap: wrap;
+              "
+            >
+              <button class="btn btn-green" onclick="playSequence()">
+                ▶ Play
+              </button>
+              <button class="btn btn-orange" onclick="flipToNext()">
+                ⏭ Next
+              </button>
+              <button class="btn btn-red" onclick="resetBoard()">
+                ⏹ Reset
+              </button>
+            </div>
+            <div class="status-line" id="msg-status">
+              Ready — board is blank
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Intermediate Speed</span
+                ><span class="field-val" id="val-fastSpeed">25ms</span>
+              </div>
+              <input
+                type="range"
+                id="input-fastSpeed"
+                min="10"
+                max="80"
+                step="1"
+                value="25"
+              />
+              <div class="hint">
+                Speed per character as the drum cycles through. Lower = faster.
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Final Flip Duration</span
+                ><span class="field-val" id="val-animDuration">360ms</span>
+              </div>
+              <input
+                type="range"
+                id="input-animDuration"
+                min="50"
+                max="1500"
+                step="10"
+                value="360"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Wave Stagger</span
+                ><span class="field-val" id="val-animStagger">40ms</span>
+              </div>
+              <input
+                type="range"
+                id="input-animStagger"
+                min="0"
+                max="300"
+                step="5"
+                value="40"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Message Delay</span
+                ><span class="field-val" id="val-msgDelay">6000ms</span>
+              </div>
+              <input
+                type="range"
+                id="input-msgDelay"
+                min="500"
+                max="15000"
+                step="100"
+                value="6000"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">3D Perspective</span
+                ><span class="field-val" id="val-animPerspective">3000px</span>
+              </div>
+              <input
+                type="range"
+                id="input-animPerspective"
+                min="200"
+                max="5000"
+                step="50"
+                value="3000"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Easing</span>
+              </div>
+              <select id="input-animEasing">
+                <option value="linear">Linear</option>
+                <option value="ease-in">Ease-In</option>
+                <option value="ease-out">Ease-Out</option>
+                <option value="ease-in-out" selected>Ease-In-Out</option>
+                <option value="cubic-bezier(0.175,0.885,0.32,1.275)">
+                  Bouncy
+                </option>
+                <option value="cubic-bezier(0.4,0,1,1)">Snappy</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="field-row"><span class="field-label">Loop</span></div>
+              <div class="mode-bar" id="loop-bar">
+                <button class="active" onclick="setLoop(true)">Loop</button
+                ><button onclick="setLoop(false)">Once</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOUND -->
+        <div class="sec open" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Sound</span><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div style="display: flex; gap: 5px; margin-bottom: 8px">
+              <button class="btn btn-ghost" onclick="testSingleClick()">
+                🔈 Click
+              </button>
+              <button class="btn btn-ghost" onclick="testBurstClicks()">
+                🔊 Burst
+              </button>
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Volume</span
+                ><span class="field-val" id="val-soundVolume">0.8</span>
+              </div>
+              <input
+                type="range"
+                id="input-soundVolume"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.8"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Base Pitch</span
+                ><span class="field-val" id="val-soundRate">1.5</span>
+              </div>
+              <input
+                type="range"
+                id="input-soundRate"
+                min="0.3"
+                max="3.0"
+                step="0.1"
+                value="1.5"
+              />
+              <div class="hint">
+                Base playback speed. Randomized ±0.2 per click for realism.
+              </div>
+            </div>
+            <div class="hint" style="margin-top: 6px; color: #3a3a44">
+              Uses
+              <code
+                style="
+                  background: var(--bg);
+                  padding: 1px 3px;
+                  border-radius: 2px;
+                "
+                >click.wav</code
+              >
+              — place in project root. Falls back to synthesized click.
+            </div>
+          </div>
+        </div>
+
+        <!-- BOARD -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Board & Grid</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="toggle-row">
+              <span class="field-label">Auto Fit to Screen</span>
+              <label class="toggle"
+                ><input
+                  type="checkbox"
+                  id="input-autoFit"
+                  onchange="toggleAutoFit()" />
+                <div class="toggle-track"><div class="toggle-knob"></div></div
+              ></label>
+            </div>
+            <div class="hint" style="margin-bottom: 10px">
+              Scales the entire board proportionally to fill the available
+              screen space.
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Columns</span
+                ><span class="field-val" id="val-cols">22</span>
+              </div>
+              <input type="range" id="input-cols" min="1" max="30" value="22" />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Rows</span
+                ><span class="field-val" id="val-rows">5</span>
+              </div>
+              <input type="range" id="input-rows" min="1" max="10" value="5" />
+            </div>
+            <div class="field" id="field-scale">
+              <div class="field-row">
+                <span class="field-label">Scale</span
+                ><span class="field-val" id="val-scale">0.22</span>
+              </div>
+              <input
+                type="range"
+                id="input-scale"
+                min="0.05"
+                max="1"
+                step="0.01"
+                value="0.22"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Grid Gap</span
+                ><span class="field-val" id="val-gridGap">11px</span>
+              </div>
+              <input
+                type="range"
+                id="input-gridGap"
+                min="0"
+                max="50"
+                step="1"
+                value="11"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Padding</span
+                ><span class="field-val" id="val-boardPad">13px</span>
+              </div>
+              <input
+                type="range"
+                id="input-boardPad"
+                min="0"
+                max="150"
+                step="1"
+                value="13"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Radius</span
+                ><span class="field-val" id="val-boardRadius">6px</span>
+              </div>
+              <input
+                type="range"
+                id="input-boardRadius"
+                min="0"
+                max="100"
+                step="1"
+                value="6"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Shadow</span
+                ><span class="field-val" id="val-boardShadow">0.4</span>
+              </div>
+              <input
+                type="range"
+                id="input-boardShadow"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.4"
+              />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Board Bg</span
+              ><input type="color" id="input-boardBg" value="#0f0f0f" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Preview Bg</span
+              ><input type="color" id="input-previewBg" value="#f0f0f0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPOGRAPHY -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Typography</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Font Family</span>
+              </div>
+              <input
+                type="text"
+                id="input-fontFamily"
+                class="text-input"
+                value="'Roboto Mono', monospace"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Size</span
+                ><span class="field-val" id="val-fontSize">247px</span>
+              </div>
+              <input
+                type="range"
+                id="input-fontSize"
+                min="50"
+                max="400"
+                step="1"
+                value="247"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Weight</span
+                ><span class="field-val" id="val-fontWeight">300</span>
+              </div>
+              <input
+                type="range"
+                id="input-fontWeight"
+                min="100"
+                max="900"
+                step="100"
+                value="300"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">X Offset</span
+                ><span class="field-val" id="val-fontX">0px</span>
+              </div>
+              <input
+                type="range"
+                id="input-fontX"
+                min="-100"
+                max="100"
+                step="1"
+                value="0"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Y Offset</span
+                ><span class="field-val" id="val-fontY">-52px</span>
+              </div>
+              <input
+                type="range"
+                id="input-fontY"
+                min="-100"
+                max="100"
+                step="1"
+                value="-52"
+              />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Color</span
+              ><input type="color" id="input-fontColor" value="#ffffff" />
+            </div>
+          </div>
+        </div>
+
+        <!-- FLAP SHAPE -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Flap Shape</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Width</span
+                ><span class="field-val" id="val-width">250px</span>
+              </div>
+              <input
+                type="range"
+                id="input-width"
+                min="120"
+                max="350"
+                value="250"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Height</span
+                ><span class="field-val" id="val-height">540px</span>
+              </div>
+              <input
+                type="range"
+                id="input-height"
+                min="200"
+                max="600"
+                value="540"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Split</span
+                ><span class="field-val" id="val-split">194px</span>
+              </div>
+              <input
+                type="range"
+                id="input-split"
+                min="60"
+                max="300"
+                value="194"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Pinch Depth</span
+                ><span class="field-val" id="val-pinch">14px</span>
+              </div>
+              <input
+                type="range"
+                id="input-pinch"
+                min="0"
+                max="40"
+                value="14"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Pinch Height</span
+                ><span class="field-val" id="val-pinchHeight">54px</span>
+              </div>
+              <input
+                type="range"
+                id="input-pinchHeight"
+                min="0"
+                max="100"
+                value="54"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Pinch Slope</span
+                ><span class="field-val" id="val-pinchSlope">7px</span>
+              </div>
+              <input
+                type="range"
+                id="input-pinchSlope"
+                min="0"
+                max="50"
+                value="7"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Outer Radius</span
+                ><span class="field-val" id="val-outerRadius">30px</span>
+              </div>
+              <input
+                type="range"
+                id="input-outerRadius"
+                min="0"
+                max="50"
+                step="1"
+                value="30"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Bezel Radius</span
+                ><span class="field-val" id="val-bezelRadius">30px</span>
+              </div>
+              <input
+                type="range"
+                id="input-bezelRadius"
+                min="0"
+                max="50"
+                step="1"
+                value="30"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Hole Radius</span
+                ><span class="field-val" id="val-radius">24px</span>
+              </div>
+              <input
+                type="range"
+                id="input-radius"
+                min="0"
+                max="30"
+                value="24"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- THICKNESSES -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Thicknesses</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Bezel Margin</span
+                ><span class="field-val" id="val-padBezel">10px</span>
+              </div>
+              <input
+                type="range"
+                id="input-padBezel"
+                min="0"
+                max="50"
+                step="1"
+                value="10"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Hole Padding</span
+                ><span class="field-val" id="val-padHole">24px</span>
+              </div>
+              <input
+                type="range"
+                id="input-padHole"
+                min="10"
+                max="100"
+                step="1"
+                value="24"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Middle Gap</span
+                ><span class="field-val" id="val-gap">7px</span>
+              </div>
+              <input
+                type="range"
+                id="input-gap"
+                min="0"
+                max="20"
+                step="0.5"
+                value="7"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Highlight Inset</span
+                ><span class="field-val" id="val-highlightInset">0px</span>
+              </div>
+              <input
+                type="range"
+                id="input-highlightInset"
+                min="0"
+                max="10"
+                step="1"
+                value="0"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Hole Stroke</span
+                ><span class="field-val" id="val-strokeW">0px</span>
+              </div>
+              <input
+                type="range"
+                id="input-strokeW"
+                min="0"
+                max="10"
+                step="0.5"
+                value="0"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- RIDGES -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Ridges</span><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Count</span
+                ><span class="field-val" id="val-ridgeCount">7</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeCount"
+                min="0"
+                max="15"
+                step="1"
+                value="7"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Bottom Offset</span
+                ><span class="field-val" id="val-ridgeBottom">0px</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeBottom"
+                min="0"
+                max="100"
+                step="1"
+                value="0"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Side Margin</span
+                ><span class="field-val" id="val-ridgeMargin">0px</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeMargin"
+                min="-30"
+                max="50"
+                step="1"
+                value="0"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Height</span
+                ><span class="field-val" id="val-ridgeHeight">7px</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeHeight"
+                min="2"
+                max="20"
+                step="1"
+                value="7"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Gap</span
+                ><span class="field-val" id="val-ridgeGap">1px</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeGap"
+                min="0"
+                max="10"
+                step="1"
+                value="1"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Corner Radius</span
+                ><span class="field-val" id="val-ridgeRadius">20px</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeRadius"
+                min="0"
+                max="20"
+                step="1"
+                value="20"
+              />
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <span class="field-label">Shadow</span
+                ><span class="field-val" id="val-ridgeShadow">0</span>
+              </div>
+              <input
+                type="range"
+                id="input-ridgeShadow"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0"
+              />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Stop 1</span
+              ><input type="color" id="color-r1" value="#000000" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Stop 2</span
+              ><input type="color" id="color-r2" value="#000000" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Stop 3</span
+              ><input type="color" id="color-r3" value="#000000" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Stop 4</span
+              ><input type="color" id="color-r4" value="#000000" />
+            </div>
+          </div>
+        </div>
+
+        <!-- FLAP COLORS -->
+        <div class="sec" data-sec>
+          <div class="sec-head" onclick="toggleSec(this)">
+            <span class="sec-title">Flap Colors</span
+            ><span class="chevron">▶</span>
+          </div>
+          <div class="sec-body">
+            <div class="color-pair">
+              <span class="field-label">Outer Plate</span
+              ><input type="color" id="color-bg" value="#0f0f0f" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Hole Stroke</span
+              ><input type="color" id="color-holeStroke" value="#000000" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Hole Bg</span
+              ><input type="color" id="color-holeBg" value="#040404" />
+            </div>
+            <hr class="sep" />
+            <div class="color-pair">
+              <span class="field-label">Bezel</span
+              ><input type="color" id="grad-bezel1" value="#000000" /><span
+                class="arrow"
+                >→</span
+              ><input type="color" id="grad-bezel2" value="#000000" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Top Flap</span
+              ><input type="color" id="grad-top1" value="#0f0f0f" /><span
+                class="arrow"
+                >→</span
+              ><input type="color" id="grad-top2" value="#0f0f0f" />
+            </div>
+            <div class="color-pair">
+              <span class="field-label">Bottom</span
+              ><input type="color" id="grad-bot1" value="#0f0f0f" /><input
+                type="color"
+                id="grad-bot2"
+                value="#0f0f0f"
+              /><input type="color" id="grad-bot3" value="#0f0f0f" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-bottom">
+        <div class="sb-bottom-head">
+          <span>CSS Output</span>
+          <div style="display: flex; gap: 5px">
+            <button
+              class="btn btn-ghost"
+              style="font-size: 9px; padding: 3px 8px"
+              onclick="openImportModal()"
+            >
+              Import
+            </button>
+            <button
+              class="btn btn-accent"
+              style="font-size: 9px; padding: 3px 8px"
+              onclick="copyCSS()"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+        <pre><code id="css-code"></code></pre>
+      </div>
+    </div>
+
+    <div class="backdrop" id="backdrop" onclick="closeSidebar()"></div>
+    <button class="fab" onclick="toggleSidebar()" aria-label="Settings">
+      ⚙
+    </button>
+    <div class="preview-area" id="preview-area">
+      <div id="vestaboard-wrapper"></div>
+    </div>
+
+    <div
+      id="import-modal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 50;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      "
+    >
+      <div
+        style="
+          background: var(--panel2);
+          padding: 22px;
+          border-radius: var(--radius);
+          width: 520px;
+          max-width: 100%;
+          border: 1px solid var(--border);
+        "
+      >
+        <h3 style="font-size: 14px; color: var(--white); margin-bottom: 10px">
+          Import CSS
+        </h3>
+        <textarea
+          id="import-textarea"
+          style="
+            height: 220px;
+            margin-bottom: 10px;
+            font-size: 9px;
+            white-space: pre;
+          "
+        ></textarea>
+        <div style="display: flex; justify-content: flex-end; gap: 6px">
+          <button
+            class="btn btn-ghost"
+            onclick="
+              document.getElementById('import-modal').style.display = 'none'
+            "
+          >
+            Cancel
+          </button>
+          <button class="btn btn-accent" onclick="processImport()">
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===== COLOR MAP =====
+      const COLOR_MAP = {
+        "🟥": "#e02424",
+        "🟧": "#f97316",
+        "🟨": "#eab308",
+        "🟩": "#16a34a",
+        "🟦": "#2563eb",
+        "🟪": "#9333ea",
+        "⬜": "#ffffff",
+      };
+      const COLOR_EMOJIS = Object.keys(COLOR_MAP);
+      const SPOOL = Array.from(
+        " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-+=:;',./?",
+      );
+      COLOR_EMOJIS.forEach((e) => SPOOL.push(e));
+      function spoolIndexOf(ch) {
+        const i = SPOOL.indexOf(ch);
+        return i !== -1 ? i : 0;
+      }
+
+      // ===== UI =====
+      function toggleSec(el) {
+        el.parentElement.classList.toggle("open");
+      }
+      function toggleSidebar() {
+        const sb = document.getElementById("sidebar"),
+          bd = document.getElementById("backdrop");
+        const closing = !sb.classList.contains("closed");
+        sb.classList.toggle("closed");
+        if (closing) bd.classList.remove("visible");
+        else bd.classList.add("visible");
+        if (S.autoFit) setTimeout(applyAutoFit, 350);
+      }
+      function closeSidebar() {
+        document.getElementById("sidebar").classList.add("closed");
+        document.getElementById("backdrop").classList.remove("visible");
+        if (S.autoFit) setTimeout(applyAutoFit, 350);
+      }
+      function openImportModal() {
+        document.getElementById("import-modal").style.display = "flex";
+        document.getElementById("import-textarea").value = "";
+      }
+
+      // ===== AUDIO ENGINE (pooled + throttled) =====
+      if (typeof window.__nfMuted === 'undefined') window.__nfMuted = false;
+      let audioCtx = null,
+        clickBuffer = null,
+        wavLoaded = false;
+      // PERF: track active audio source count, cap concurrency
+      let activeAudioCount = 0;
+      const MAX_CONCURRENT_AUDIO = 8;
+      const MIN_CLICK_INTERVAL = 25; // ms between any two clicks
+      let lastClickMs = 0;
+
+      function getAudioCtx() {
+        if (!audioCtx)
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        return audioCtx;
+      }
+      function loadClickWav() {
+        const ctx = getAudioCtx();
+        fetch("click.wav")
+          .then((r) => {
+            if (!r.ok) throw 0;
+            return r.arrayBuffer();
+          })
+          .then((buf) => ctx.decodeAudioData(buf))
+          .then((d) => {
+            clickBuffer = d;
+            wavLoaded = true;
+          })
+          .catch(() => {});
+      }
+      function synthClick(vol, rate) {
+        const ctx = getAudioCtx(),
+          now = ctx.currentTime,
+          dur = 0.035;
+        const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate),
+          d = buf.getChannelData(0);
+        const freq = 3500 * rate;
+        for (let i = 0; i < d.length; i++) {
+          const t = i / ctx.sampleRate;
+          d[i] =
+            (Math.random() * 2 -
+              1 +
+              Math.sin(2 * Math.PI * freq * 1.5 * t) * 0.3) *
+            Math.exp(-t / 0.003);
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const hp = ctx.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.value = freq;
+        hp.Q.value = 1.5;
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = Math.min(freq * 3, 12000);
+        lp.Q.value = 0.7;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+        src.connect(hp);
+        hp.connect(lp);
+        lp.connect(gain);
+        gain.connect(ctx.destination);
+        activeAudioCount++;
+        src.onended = () => {
+          activeAudioCount--;
+        };
+        src.start(now);
+        src.stop(now + dur);
+      }
+      function playClick(vol, rate) {
+        if (window.__nfMuted) return; // parent-controlled mute (postMessage / scroll-past)
+        const now = performance.now();
+        if (now - lastClickMs < MIN_CLICK_INTERVAL) return;
+        if (activeAudioCount >= MAX_CONCURRENT_AUDIO) return;
+        lastClickMs = now;
+        const ctx = getAudioCtx();
+        if (wavLoaded && clickBuffer) {
+          const src = ctx.createBufferSource();
+          src.buffer = clickBuffer;
+          src.playbackRate.value = rate + (Math.random() * 0.4 - 0.2);
+          const gain = ctx.createGain();
+          gain.gain.value = vol;
+          src.connect(gain);
+          gain.connect(ctx.destination);
+          activeAudioCount++;
+          src.onended = () => {
+            activeAudioCount--;
+          };
+          src.start();
+        } else {
+          synthClick(vol, rate);
+        }
+      }
+      function testSingleClick() {
+        playClick(S.soundVolume, S.soundRate);
+      }
+      function testBurstClicks() {
+        for (let i = 0; i < 5; i++) setTimeout(() => testSingleClick(), i * 80);
+      }
+
+      // ===== STATE =====
+      const S = {
+        animDuration: 360,
+        animPerspective: 3000,
+        animStagger: 40,
+        animEasing: "ease-in-out",
+        msgDelay: 6000,
+        fastSpeed: 25,
+        loopSequence: true,
+        soundVolume: 0.8,
+        soundRate: 1.5,
+        cols: 22,
+        rows: 5,
+        scale: 0.22,
+        gridGap: 11,
+        fontFamily: "'Roboto Mono', monospace",
+        fontSize: 247,
+        fontWeight: 300,
+        fontX: 0,
+        fontY: -52,
+        fontColor: "#ffffff",
+        boardPad: 13,
+        boardShadow: 0.4,
+        boardRadius: 6,
+        boardBg: "#0f0f0f",
+        previewBg: "#f0f0f0",
+        width: 250,
+        height: 540,
+        split: 194,
+        pinch: 14,
+        pinchHeight: 54,
+        pinchSlope: 7,
+        outerRadius: 30,
+        bezelRadius: 30,
+        radius: 24,
+        shadow: 0,
+        padBezel: 10,
+        padHole: 24,
+        gap: 7,
+        highlightInset: 0,
+        strokeW: 0,
+        ridgeCount: 7,
+        ridgeHeight: 7,
+        ridgeGap: 1,
+        ridgeRadius: 20,
+        ridgeShadow: 0,
+        ridgeBottom: 0,
+        ridgeMargin: 0,
+        r1: "#000000",
+        r2: "#000000",
+        r3: "#000000",
+        r4: "#000000",
+        c_bg: "#0f0f0f",
+        c_holeStroke: "#000000",
+        c_holeBg: "#040404",
+        g_bezel1: "#000000",
+        g_bezel2: "#000000",
+        g_top1: "#0f0f0f",
+        g_top2: "#0f0f0f",
+        g_bot1: "#0f0f0f",
+        g_bot2: "#0f0f0f",
+        g_bot3: "#0f0f0f",
+        autoFit: false,
+      };
+      function setLoop(v) {
+        S.loopSequence = v;
+        document
+          .getElementById("loop-bar")
+          .querySelectorAll("button")
+          .forEach((b, i) =>
+            b.classList.toggle("active", [true, false][i] === v),
+          );
+      }
+
+      // ===== AUTO FIT =====
+      function toggleAutoFit() {
+        S.autoFit = document.getElementById("input-autoFit").checked;
+        document
+          .getElementById("field-scale")
+          .classList.toggle("disabled", S.autoFit);
+        if (S.autoFit) applyAutoFit();
+        else {
+          boardWrapper.style.transform = "";
+          boardWrapper.style.width = "";
+          boardWrapper.style.height = "";
+        }
+      }
+      function applyAutoFit() {
+        if (!S.autoFit) return;
+        const grid = boardWrapper.querySelector(".vestaboard-grid");
+        if (!grid) return;
+        boardWrapper.style.transform = "none";
+        boardWrapper.style.width = "";
+        boardWrapper.style.height = "";
+        requestAnimationFrame(() => {
+          const bw = grid.offsetWidth,
+            bh = grid.offsetHeight;
+          if (bw === 0 || bh === 0) return;
+          const rect = previewArea.getBoundingClientRect();
+          const fitRatio = Math.min(
+            (rect.width - 16) / bw,
+            (rect.height - 16) / bh,
+          );
+          boardWrapper.style.width = bw + "px";
+          boardWrapper.style.height = bh + "px";
+          boardWrapper.style.transform = `scale(${fitRatio})`;
+        });
+      }
+      let resizeTimer = null;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (S.autoFit) applyAutoFit();
+        }, 100);
+      });
+
+      // ===== COLOR INSERT =====
+      function renderColorInsertRow() {
+        const row = document.getElementById("color-insert-row");
+        row.innerHTML = "";
+        COLOR_EMOJIS.forEach((emoji) => {
+          const btn = document.createElement("div");
+          btn.className = "color-block-btn";
+          btn.style.backgroundColor = COLOR_MAP[emoji];
+          btn.title = emoji;
+          btn.onclick = () => {
+            const ta = document.getElementById("input-text"),
+              start = ta.selectionStart,
+              end = ta.selectionEnd;
+            ta.value =
+              ta.value.substring(0, start) + emoji + ta.value.substring(end);
+            ta.selectionStart = ta.selectionEnd = start + emoji.length;
+            ta.focus();
+            queueVisualUpdate();
+          };
+          row.appendChild(btn);
+        });
+      }
+
+      // ===== BOARD =====
+      let currentChars = [],
+        currentMsgIdx = -1,
+        sequenceTimer = null,
+        isFlipping = false;
+      // PERF: cache DOM references per cell
+      let cellCache = [];
+      function parseMessages() {
+        return document
+          .getElementById("input-text")
+          .value.split(/\n---\n|\n---$|^---\n/)
+          .filter((m) => m.trim() !== "");
+      }
+      function messageToGrid(msg) {
+        const lines = msg.split("\n"),
+          g = [];
+        for (let r = 0; r < S.rows; r++) {
+          let chars = Array.from((lines[r] || "").toUpperCase());
+          while (chars.length < S.cols) chars.push(" ");
+          g.push(...chars.slice(0, S.cols));
+        }
+        return g;
+      }
+      function blankGrid() {
+        return Array(S.cols * S.rows).fill(" ");
+      }
+
+      const dynamicCSS = document.getElementById("dynamic-board-css"),
+        cssCode = document.getElementById("css-code"),
+        boardWrapper = document.getElementById("vestaboard-wrapper"),
+        previewArea = document.getElementById("preview-area"),
+        msgStatus = document.getElementById("msg-status");
+      let rAF = null,
+        codeBlockTimeout = null;
+
+      function buildCornerArcs(w, h, r) {
+        const p = (v) => v.toFixed(1) + "px";
+        return {
+          tl: [
+            `0px ${p(r)}`,
+            `${p(r * 0.05)} ${p(r * 0.65)}`,
+            `${p(r * 0.25)} ${p(r * 0.25)}`,
+            `${p(r * 0.65)} ${p(r * 0.05)}`,
+            `${p(r)} 0px`,
+          ],
+          tr: [
+            `${p(w - r)} 0px`,
+            `${p(w - r * 0.65)} ${p(r * 0.05)}`,
+            `${p(w - r * 0.25)} ${p(r * 0.25)}`,
+            `${p(w - r * 0.05)} ${p(r * 0.65)}`,
+            `${p(w)} ${p(r)}`,
+          ],
+          br: [
+            `${p(w)} ${p(h - r)}`,
+            `${p(w - r * 0.05)} ${p(h - r * 0.65)}`,
+            `${p(w - r * 0.25)} ${p(h - r * 0.25)}`,
+            `${p(w - r * 0.65)} ${p(h - r * 0.05)}`,
+            `${p(w - r)} ${p(h)}`,
+          ],
+          bl: [
+            `${p(r)} ${p(h)}`,
+            `${p(r * 0.65)} ${p(h - r * 0.05)}`,
+            `${p(r * 0.25)} ${p(h - r * 0.25)}`,
+            `${p(r * 0.05)} ${p(h - r * 0.65)}`,
+            `0px ${p(h - r)}`,
+          ],
+        };
+      }
+
+      function renderBoard() {
+        const total = S.cols * S.rows;
+        if (currentChars.length !== total) currentChars = blankGrid();
+        let ridges = "";
+        for (let i = 0; i < S.ridgeCount; i++)
+          ridges += '<div class="ridge"></div>';
+        let html = '<div class="vestaboard-grid">';
+        currentChars.forEach((ch, i) => {
+          const col = i % S.cols,
+            row = Math.floor(i / S.cols),
+            delay = col * S.animStagger + row * S.animStagger * 1.5;
+          const isColor = !!COLOR_MAP[ch],
+            dc = isColor ? "" : ch === " " ? "" : ch,
+            bgStyle = isColor ? ` style="background:${COLOR_MAP[ch]}"` : "";
+          html += `<div class="rocker-scale-wrapper"><div class="rocker-switch" data-idx="${i}" style="--flip-delay:${delay};"><div class="bezel"><div class="bezel-highlight"></div></div><div class="recessed-hole-stroke"><div class="recessed-hole-bg"><div class="rocker-wrapper-top"><div class="rocker-top" data-role="top-bg"${bgStyle}></div><div class="rocker-text rocker-text-top" data-role="static-top">${dc}</div></div><div class="rocker-wrapper-bot"><div class="rocker-bot" data-role="bot-bg"${bgStyle}><div class="ridges">${ridges}</div></div><div class="rocker-text rocker-text-bot" data-role="static-bot">${dc}</div></div><div class="rocker-wrapper-falling"><div class="rocker-falling-front"><div class="rocker-top" data-role="falling-bg"${bgStyle}></div><div class="rocker-text rocker-text-top" data-role="falling-txt">${dc}</div></div></div><div class="rocker-split-overlay"></div></div></div></div></div>`;
+        });
+        html += "</div>";
+        boardWrapper.innerHTML = html;
+        // PERF: build lookup cache of DOM refs for each cell
+        cellCache = [];
+        for (let i = 0; i < total; i++) {
+          const sw = boardWrapper.querySelector(
+            `.rocker-switch[data-idx="${i}"]`,
+          );
+          if (!sw) {
+            cellCache.push(null);
+            continue;
+          }
+          cellCache.push({
+            sTop: sw.querySelector('[data-role="static-top"]'),
+            sBtm: sw.querySelector('[data-role="static-bot"]'),
+            fTxt: sw.querySelector('[data-role="falling-txt"]'),
+            topBg: sw.querySelector('[data-role="top-bg"]'),
+            botBg: sw.querySelector('[data-role="bot-bg"]'),
+            fallBg: sw.querySelector('[data-role="falling-bg"]'),
+            wrap: sw.querySelector(".rocker-wrapper-falling"),
+          });
+        }
+      }
+
+      // ===== rAF ANIMATION ENGINE =====
+      // Instead of thousands of setTimeouts, we maintain a sorted action queue
+      // processed by a single requestAnimationFrame loop.
+      let animQueue = []; // [{time:ms, fn:Function}, ...] sorted by time asc
+      let animRAF = null; // the single rAF id
+      let animT0 = 0; // performance.now() at animation start
+      let animTarget = null; // target char array
+      let animDoneCb = null; // callback when all actions processed
+
+      function scheduleAction(timeMs, fn) {
+        animQueue.push({ time: timeMs, fn });
+      }
+
+      function animTick(now) {
+        const elapsed = now - animT0;
+        // Process all queued actions whose time has passed
+        let i = 0;
+        while (i < animQueue.length && animQueue[i].time <= elapsed) {
+          animQueue[i].fn();
+          i++;
+        }
+        // Remove processed actions
+        if (i > 0) animQueue.splice(0, i);
+        if (animQueue.length > 0) {
+          animRAF = requestAnimationFrame(animTick);
+        } else {
+          // All done
+          animRAF = null;
+          currentChars = [...animTarget];
+          isFlipping = false;
+          if (animDoneCb) animDoneCb();
+        }
+      }
+
+      function startAnimLoop() {
+        // Sort queue by time (actions are added per-cell so may be out of order)
+        animQueue.sort((a, b) => a.time - b.time);
+        animT0 = performance.now();
+        animRAF = requestAnimationFrame(animTick);
+      }
+
+      function cancelAnimLoop() {
+        if (animRAF) {
+          cancelAnimationFrame(animRAF);
+          animRAF = null;
+        }
+        animQueue = [];
+        // Cancel any running Web Animations on falling wrappers
+        cellCache.forEach((c) => {
+          if (c && c.wrap && c.wrap._anim) {
+            try {
+              c.wrap._anim.cancel();
+            } catch (e) {}
+          }
+        });
+      }
+
+      function getDelay(idx) {
+        return (
+          (idx % S.cols) * S.animStagger +
+          Math.floor(idx / S.cols) * S.animStagger * 1.5
+        );
+      }
+
+      function buildCellSchedule(idx, oldChar, newChar) {
+        const c = cellCache[idx];
+        if (!c) return 0;
+        const delay = getDelay(idx);
+
+        let oi = spoolIndexOf(oldChar || " "),
+          ni = spoolIndexOf(newChar || " ");
+        let steps = ni - oi;
+        if (steps < 0) steps += SPOOL.length;
+        if (steps === 0 && oldChar !== newChar) steps = 1;
+
+        const path = [];
+        for (let i = 1; i <= steps; i++)
+          path.push(SPOOL[(oi + i) % SPOOL.length]);
+        if (!path.length || path[path.length - 1] !== (newChar || " "))
+          path.push(newChar || " ");
+
+        let t = delay;
+        // Reference the correct state object name:
+        // - board.html / custom-board.html use `S`
+        // - index.html uses `state`
+        // Adjust the variable name to match your file, or use a
+        // local alias like: const _S = (typeof S !== 'undefined') ? S : state;
+        const _S = typeof S !== "undefined" ? S : state;
+        const FAST = _S.fastSpeed;
+        const FINAL = _S.animDuration;
+
+        path.forEach((char, i) => {
+          const isLast = i === path.length - 1;
+          const speed = isLast ? FINAL : FAST;
+          const easing = isLast ? _S.animEasing : "linear";
+
+          const isColor = !!(
+            typeof COLOR_MAP !== "undefined" ? COLOR_MAP : colorMap
+          )[char];
+          const cmap = typeof COLOR_MAP !== "undefined" ? COLOR_MAP : colorMap;
+          const dc = isColor ? "" : char === " " ? "" : char;
+          const bg = isColor ? cmap[char] : "";
+
+          const prev = i === 0 ? oldChar || " " : path[i - 1];
+          const prevIsColor = !!cmap[prev];
+          const pdc = prevIsColor ? "" : prev === " " ? "" : prev;
+          const pbg = prevIsColor ? cmap[prev] : "";
+
+          const capturedT = t;
+          const capturedSpeed = speed;
+
+          if (!isLast) {
+            // ── INTERMEDIATE STEP: instant DOM swap, NO Animation object ──
+            scheduleAction(capturedT, () => {
+              // Update top half to new char
+              if (c.sTop) c.sTop.textContent = dc;
+              if (c.topBg) c.topBg.style.background = bg;
+              // Update bottom half to new char (no half-flip delay needed
+              // at 25ms — it's visually instant anyway)
+              if (c.sBtm) c.sBtm.textContent = dc;
+              if (c.botBg) c.botBg.style.background = bg;
+              // Audio: only every 3rd intermediate
+              if (i % 3 === 0) {
+                if (typeof playClick === "function") {
+                  // index.html's playClick takes no args
+                  // board.html / custom-board.html take (vol, rate)
+                  if (playClick.length === 0) playClick();
+                  else playClick(_S.soundVolume, _S.soundRate);
+                }
+              }
+            });
+          } else {
+            // ── FINAL STEP: full falling-flap animation ──
+            scheduleAction(capturedT, () => {
+              if (c.sTop) c.sTop.textContent = dc;
+              if (c.topBg) c.topBg.style.background = bg;
+              if (c.fTxt) c.fTxt.textContent = pdc;
+              if (c.fallBg) c.fallBg.style.background = pbg;
+
+              if (c.wrap) {
+                if (c.wrap._anim)
+                  try {
+                    c.wrap._anim.cancel();
+                  } catch (_) {}
+                c.wrap.style.opacity = "1";
+                c.wrap._anim = c.wrap.animate(
+                  [
+                    { transform: "rotateX(0deg)", opacity: 1 },
+                    { transform: "rotateX(-90deg)", opacity: 0 },
+                  ],
+                  {
+                    duration: capturedSpeed,
+                    easing: easing === "linear" ? "linear" : easing,
+                    fill: "forwards",
+                  },
+                );
+              }
+              // Always play click on final land
+              if (typeof playClick === "function") {
+                if (playClick.length === 0) playClick();
+                else playClick(_S.soundVolume, _S.soundRate);
+              }
+            });
+
+            // Halfway: update bottom half
+            scheduleAction(capturedT + capturedSpeed * 0.5, () => {
+              if (c.sBtm) c.sBtm.textContent = dc;
+              if (c.botBg) c.botBg.style.background = bg;
+            });
+
+            // End: clean up falling flap
+            scheduleAction(capturedT + capturedSpeed, () => {
+              if (c.wrap) {
+                if (c.wrap._anim)
+                  try {
+                    c.wrap._anim.cancel();
+                  } catch (_) {}
+                c.wrap.style.opacity = "0";
+                c.wrap.style.transform = "";
+              }
+              if (c.fTxt) c.fTxt.textContent = dc;
+              if (c.fallBg) c.fallBg.style.background = bg;
+            });
+          }
+
+          t += speed;
+        });
+
+        return t;
+      }
+
+      function flipToTarget(target, onDone) {
+        if (isFlipping) {
+          if (onDone) onDone();
+          return;
+        }
+        isFlipping = true;
+        const total = S.cols * S.rows;
+        if (currentChars.length !== total) currentChars = blankGrid();
+        const changed = [];
+        for (let i = 0; i < total; i++)
+          if (currentChars[i] !== target[i]) changed.push(i);
+        if (!changed.length) {
+          isFlipping = false;
+          if (onDone) onDone();
+          return;
+        }
+
+        cancelAnimLoop();
+        animTarget = target;
+        animDoneCb = onDone || null;
+        animQueue = [];
+
+        let maxEnd = 0;
+        changed.forEach((idx) => {
+          const end = buildCellSchedule(idx, currentChars[idx], target[idx]);
+          if (end > maxEnd) maxEnd = end;
+        });
+        // Safety: ensure cleanup happens
+        scheduleAction(maxEnd + 50, () => {});
+
+        startAnimLoop();
+      }
+
+      function flipToNext() {
+        const msgs = parseMessages();
+        if (!msgs.length) return;
+        currentMsgIdx = (currentMsgIdx + 1) % msgs.length;
+        flipToTarget(messageToGrid(msgs[currentMsgIdx]));
+        msgStatus.textContent = `Message ${currentMsgIdx + 1} of ${msgs.length}`;
+      }
+      function resetBoard() {
+        if (sequenceTimer) {
+          clearTimeout(sequenceTimer);
+          sequenceTimer = null;
+        }
+        cancelAnimLoop();
+        isFlipping = false;
+        currentMsgIdx = -1;
+        flipToTarget(blankGrid());
+        msgStatus.textContent = "Resetting...";
+        setTimeout(() => {
+          msgStatus.textContent = "Ready — board is blank";
+        }, 1500);
+      }
+      function playSequence() {
+        if (sequenceTimer) {
+          clearTimeout(sequenceTimer);
+          sequenceTimer = null;
+        }
+        const msgs = parseMessages();
+        if (!msgs.length) return;
+        function go(i) {
+          if (i >= msgs.length) {
+            if (S.loopSequence) setTimeout(() => go(0), S.msgDelay);
+            else msgStatus.textContent = "Sequence complete!";
+            return;
+          }
+          currentMsgIdx = i;
+          msgStatus.textContent = `Playing ${i + 1} of ${msgs.length}...`;
+          flipToTarget(messageToGrid(msgs[i]), () => {
+            sequenceTimer = setTimeout(() => go(i + 1), S.msgDelay);
+          });
+        }
+        if (currentMsgIdx !== -1) {
+          cancelAnimLoop();
+          isFlipping = false;
+          currentMsgIdx = -1;
+          flipToTarget(blankGrid(), () => {
+            setTimeout(() => go(0), S.msgDelay);
+          });
+        } else go(0);
+      }
+
+      // ===== CSS BUILDER =====
+      function buildDynamicCSS() {
+        const s = S,
+          hw = s.width - s.padHole * 2,
+          hh = s.height - s.padHole * 2 + 10,
+          ihw = hw - s.strokeW * 2,
+          ihh = hh - s.strokeW * 2,
+          ir = Math.max(0, s.radius - s.strokeW);
+        const py1 = Math.max(s.radius, s.split - s.pinchHeight - s.pinchSlope),
+          py2 = s.split - s.pinchHeight,
+          py3 = s.split + s.gap + s.pinchHeight,
+          py4 = Math.min(
+            hh - s.radius,
+            s.split + s.gap + s.pinchHeight + s.pinchSlope,
+          );
+        const c = buildCornerArcs(hw, hh, s.radius),
+          ic = buildCornerArcs(ihw, ihh, ir);
+        const holeClip = `polygon(${c.tl},${c.tr},${hw}px ${py1}px,${hw - s.pinch}px ${py2}px,${hw - s.pinch}px ${py3}px,${hw}px ${py4}px,${c.br},${c.bl},0px ${py4}px,${s.pinch}px ${py3}px,${s.pinch}px ${py2}px,0px ${py1}px)`;
+        const ipy1 = Math.max(ir, py1 - s.strokeW),
+          ipy2 = py2 - s.strokeW,
+          ipy3 = py3 - s.strokeW,
+          ipy4 = Math.min(ihh - ir, py4 - s.strokeW);
+        const holeBgClip = `polygon(${ic.tl},${ic.tr},${ihw}px ${ipy1}px,${ihw - s.pinch}px ${ipy2}px,${ihw - s.pinch}px ${ipy3}px,${ihw}px ${ipy4}px,${ic.br},${ic.bl},0px ${ipy4}px,${s.pinch}px ${ipy3}px,${s.pinch}px ${ipy2}px,0px ${ipy1}px)`;
+        const topH = s.split - s.strokeW,
+          topClip = `polygon(${ic.tl},${ic.tr},${ihw}px ${ipy1}px,${ihw - s.pinch}px ${ipy2}px,${ihw - s.pinch}px ${topH}px,${s.pinch}px ${topH}px,${s.pinch}px ${ipy2}px,0px ${ipy1}px)`;
+        const botH = ihh - topH - s.gap,
+          lpy3 = s.pinchHeight,
+          lpy4 = s.pinchHeight + s.pinchSlope;
+        const botClip = `polygon(${s.pinch}px 0px,${ihw - s.pinch}px 0px,${ihw - s.pinch}px ${lpy3}px,${ihw}px ${lpy4}px,${ic.br},${ic.bl},0px ${lpy4}px,${s.pinch}px ${lpy3}px)`;
+        const ridgesH =
+            s.ridgeHeight * s.ridgeCount + s.ridgeGap * (s.ridgeCount - 1),
+          rh = (v) =>
+            Math.round(v * 255)
+              .toString(16)
+              .padStart(2, "0");
+        return `
+.rocker-switch{width:${s.width}px;height:${s.height}px;border-radius:${s.outerRadius}px;background-color:${s.c_bg};${s.shadow > 0 ? `filter:drop-shadow(0 20px 30px rgba(0,0,0,${s.shadow}));` : ""}transform-style:preserve-3d}
+.bezel{left:${s.padBezel}px;top:${s.padBezel - 7}px;width:${s.width - s.padBezel * 2}px;height:${s.height - s.padBezel * 2 + 10}px;border-radius:${s.bezelRadius}px;background:linear-gradient(to bottom,${s.g_bezel1},${s.g_bezel2})}
+.bezel-highlight{inset:${s.highlightInset}px;border:${s.highlightInset > 0 ? "1px" : "0px"} solid rgba(255,255,255,.05);border-radius:${Math.max(0, s.bezelRadius - s.highlightInset)}px}
+.recessed-hole-stroke{left:${s.padHole}px;top:${s.padHole - 5}px;width:${hw}px;height:${hh}px;background-color:${s.c_holeStroke};-webkit-clip-path:${holeClip};clip-path:${holeClip}}
+.recessed-hole-bg{left:${s.strokeW}px;top:${s.strokeW}px;width:${ihw}px;height:${ihh}px;background-color:${s.c_holeBg};-webkit-clip-path:${holeBgClip};clip-path:${holeBgClip}}
+.rocker-wrapper-top{left:0;top:0;width:${ihw}px;height:${topH}px;overflow:hidden}
+.rocker-top{background:linear-gradient(to bottom,${s.g_top1},${s.g_top2});-webkit-clip-path:${topClip};clip-path:${topClip};transition:background 60ms}
+.rocker-wrapper-bot{left:0;top:${topH + s.gap}px;width:${ihw}px;height:${botH}px;overflow:hidden}
+.rocker-bot{background:linear-gradient(to bottom,${s.g_bot1} 0%,${s.g_bot2} 60%,${s.g_bot3} 100%);-webkit-clip-path:${botClip};clip-path:${botClip};transition:background 60ms}
+.rocker-wrapper-falling{left:0;top:0;width:${ihw}px;height:${topH}px;transform-origin:bottom center;z-index:5;transform-style:preserve-3d;opacity:0;pointer-events:none}
+.rocker-falling-front{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;-webkit-clip-path:${topClip};clip-path:${topClip};overflow:hidden}
+.rocker-split-overlay{position:absolute;left:0;width:${ihw}px;top:${topH}px;height:${s.gap}px;background-color:${s.c_holeBg};z-index:20;pointer-events:none;box-shadow:0 -1px 2px rgba(0,0,0,.9),0 1px 2px rgba(0,0,0,.9)}
+.ridges{bottom:${s.ridgeBottom}px;left:${s.ridgeMargin}px;width:calc(100% - ${s.ridgeMargin * 2}px);height:${ridgesH}px}
+.ridge{height:${s.ridgeHeight}px;margin-bottom:${s.ridgeGap}px;border-radius:${s.ridgeRadius}px;background:linear-gradient(to bottom,${s.r1}${rh(s.ridgeShadow)} 0%,${s.r2}05 20%,${s.r3}66 70%,${s.r4}e6 100%);border-top:${s.ridgeShadow > 0 ? "1px solid rgba(255,255,255," + s.ridgeShadow + ")" : "none"}}
+.vestaboard-grid{display:grid;grid-template-columns:repeat(${s.cols},auto);gap:${s.gridGap}px;padding:${s.boardPad}px;background-color:${s.boardBg};${s.boardShadow > 0 ? `box-shadow:0 10px 30px -5px rgba(0,0,0,${s.boardShadow}),0 4px 10px rgba(0,0,0,${s.boardShadow * 0.5});` : ""}border-radius:${s.boardRadius}px}
+.rocker-scale-wrapper{perspective:${s.animPerspective}px;width:calc(${s.width}px*${s.scale});height:calc(${s.height}px*${s.scale});position:relative}
+.rocker-switch{transform:scale(${s.scale});transform-origin:top left}
+.rocker-text{position:absolute;width:${ihw}px;height:${ihh}px;display:flex;justify-content:center;align-items:center;margin:0;padding:0;z-index:10;pointer-events:none;font-family:${s.fontFamily};font-size:${s.fontSize}px;font-weight:${s.fontWeight};color:${s.fontColor};transform:translate(${s.fontX}px,${s.fontY}px);line-height:1;text-align:center;transition:opacity 80ms}
+.rocker-text-top{top:0;left:0}
+.rocker-text-bot{top:-${topH + s.gap}px;left:0}`;
+      }
+
+      // ===== UI SYNC =====
+      function updateUILabels() {
+        const noUnit = [
+          "scale",
+          "boardShadow",
+          "shadow",
+          "ridgeShadow",
+          "fontWeight",
+          "cols",
+          "rows",
+          "soundVolume",
+          "soundRate",
+        ];
+        const msUnit = ["animDuration", "animStagger", "msgDelay", "fastSpeed"];
+        [
+          "cols",
+          "rows",
+          "scale",
+          "gridGap",
+          "fontSize",
+          "fontWeight",
+          "fontX",
+          "fontY",
+          "boardPad",
+          "boardShadow",
+          "boardRadius",
+          "width",
+          "height",
+          "split",
+          "gap",
+          "pinch",
+          "pinchHeight",
+          "pinchSlope",
+          "outerRadius",
+          "bezelRadius",
+          "radius",
+          "padBezel",
+          "padHole",
+          "highlightInset",
+          "strokeW",
+          "ridgeCount",
+          "ridgeHeight",
+          "ridgeGap",
+          "ridgeRadius",
+          "ridgeShadow",
+          "ridgeBottom",
+          "ridgeMargin",
+          "animDuration",
+          "animPerspective",
+          "animStagger",
+          "soundVolume",
+          "soundRate",
+          "msgDelay",
+          "fastSpeed",
+        ].forEach((k) => {
+          const el = document.getElementById("val-" + k);
+          if (!el) return;
+          el.textContent =
+            S[k] + (noUnit.includes(k) ? "" : msUnit.includes(k) ? "ms" : "px");
+        });
+      }
+      function readStateFromUI() {
+        S.fontFamily = document.getElementById("input-fontFamily").value;
+        S.animEasing = document.getElementById("input-animEasing").value;
+        [
+          "cols",
+          "rows",
+          "scale",
+          "gridGap",
+          "fontSize",
+          "fontWeight",
+          "fontX",
+          "fontY",
+          "boardPad",
+          "boardShadow",
+          "boardRadius",
+          "width",
+          "height",
+          "split",
+          "gap",
+          "pinch",
+          "pinchHeight",
+          "pinchSlope",
+          "outerRadius",
+          "bezelRadius",
+          "radius",
+          "shadow",
+          "padBezel",
+          "padHole",
+          "highlightInset",
+          "strokeW",
+          "ridgeCount",
+          "ridgeHeight",
+          "ridgeGap",
+          "ridgeRadius",
+          "ridgeShadow",
+          "ridgeBottom",
+          "ridgeMargin",
+          "animDuration",
+          "animPerspective",
+          "animStagger",
+          "soundVolume",
+          "soundRate",
+          "msgDelay",
+          "fastSpeed",
+        ].forEach((k) => {
+          const el = document.getElementById("input-" + k);
+          if (el) S[k] = parseFloat(el.value);
+        });
+        const colorMap = {
+          fontColor: "input-fontColor",
+          boardBg: "input-boardBg",
+          previewBg: "input-previewBg",
+          c_bg: "color-bg",
+          c_holeStroke: "color-holeStroke",
+          c_holeBg: "color-holeBg",
+          g_bezel1: "grad-bezel1",
+          g_bezel2: "grad-bezel2",
+          g_top1: "grad-top1",
+          g_top2: "grad-top2",
+          g_bot1: "grad-bot1",
+          g_bot2: "grad-bot2",
+          g_bot3: "grad-bot3",
+          r1: "color-r1",
+          r2: "color-r2",
+          r3: "color-r3",
+          r4: "color-r4",
+        };
+        Object.entries(colorMap).forEach(([k, id]) => {
+          const el = document.getElementById(id);
+          if (el) S[k] = el.value;
+        });
+        const maxSplit = S.height - 100 - S.gap;
+        const splitEl = document.getElementById("input-split");
+        if (splitEl) {
+          splitEl.max = maxSplit;
+          S.split = Math.min(S.split, maxSplit);
+        }
+      }
+      let lastStructKey = "";
+      function executeFullUpdate() {
+        readStateFromUI();
+        updateUILabels();
+        previewArea.style.backgroundColor = S.previewBg;
+        const sk = `${S.cols}|${S.rows}|${S.ridgeCount}`;
+        if (sk !== lastStructKey) {
+          cancelAnimLoop();
+          isFlipping = false;
+          currentChars = blankGrid();
+          currentMsgIdx = -1;
+          renderBoard();
+          lastStructKey = sk;
+          msgStatus.textContent = "Ready — board is blank";
+        }
+        dynamicCSS.textContent = buildDynamicCSS();
+        if (S.autoFit) requestAnimationFrame(applyAutoFit);
+        clearTimeout(codeBlockTimeout);
+        codeBlockTimeout = setTimeout(() => {
+          const exportState = { ...S };
+          delete exportState.autoFit;
+          cssCode.textContent = `/* VESTABOARD_STATE: ${JSON.stringify(exportState).replace(/\*/g, "").replace(/\//g, "")} */\n${document.getElementById("base-structural-css").textContent.trim()}\n${buildDynamicCSS()}`;
+        }, 200);
+      }
+      function queueVisualUpdate() {
+        if (rAF) cancelAnimationFrame(rAF);
+        rAF = requestAnimationFrame(executeFullUpdate);
+      }
+      function processImport() {
+        const str = document.getElementById("import-textarea").value;
+        if (!str) return;
+        try {
+          const m = str.match(/VESTABOARD_STATE:\s*({.*})\s*\*/);
+          if (m) Object.assign(S, JSON.parse(m[1]));
+          syncUItoState();
+          executeFullUpdate();
+          document.getElementById("import-modal").style.display = "none";
+        } catch (e) {
+          alert("Failed to parse.");
+        }
+      }
+      function syncUItoState() {
+        Object.keys(S).forEach((k) => {
+          const el =
+            document.getElementById("input-" + k) ||
+            document.getElementById("color-" + k) ||
+            document.getElementById("grad-" + k);
+          if (el) {
+            if (el.type === "checkbox") el.checked = S[k];
+            else if (typeof S[k] !== "object") el.value = S[k];
+          }
+        });
+        updateUILabels();
+      }
+      function copyCSS() {
+        navigator.clipboard.writeText(cssCode.textContent).then(() => {
+          const btn = document.querySelector(".sb-bottom .btn-accent");
+          btn.textContent = "✓ Copied";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 1500);
+        });
+      }
+      document
+        .querySelectorAll("input[type=range],input[type=color],select")
+        .forEach((el) => {
+          el.addEventListener("input", queueVisualUpdate);
+          el.addEventListener("change", queueVisualUpdate);
+        });
+      document.querySelectorAll("input[type=text],textarea").forEach((el) => {
+        el.addEventListener("input", () => {
+          clearTimeout(window.td);
+          window.td = setTimeout(queueVisualUpdate, 200);
+        });
+      });
+
+      // Init
+      renderColorInsertRow();
+      executeFullUpdate();
+      loadClickWav();
+    </script>
+  
+<script id="nf-wrapper-js">
+(function(){
+  const PASSCODE = "Cswqnx1987";
+  function center(s,w){ s=String(s).slice(0,w); const pad=w-s.length, l=Math.floor(pad/2);
+    return ' '.repeat(l)+s+' '.repeat(w-l-s.length); }
+  function boot(){
+    if (typeof S==='undefined' || typeof flipToTarget!=='function' || typeof messageToGrid!=='function')
+      return setTimeout(boot,30);
+    S.fontColor = '#F4F2EE';
+    try { if (typeof executeFullUpdate==='function') executeFullUpdate(); } catch(e){}
+    document.body.classList.add('nf-view');
+
+    // editable lines (persist to localStorage so YOUR edits stick); {COUNT} is live.
+    // 10-row board: pad top/bottom so the count sits centred vertically.
+    const KEY='nf-board-lines-v3';
+    const DEFAULT = ['NOFILTER','', '{COUNT} CUPS','', 'THE LINE HELD'];
+    let lines = DEFAULT.slice();
+    try { const s=localStorage.getItem(KEY); if(s) lines=JSON.parse(s); } catch(e){}
+
+    let shown=-1;
+    function buildGridText(c){
+      const num=String(c).padStart(5,'0');
+      const W=S.cols;
+      return lines.map(ln => center(String(ln).replace('{COUNT}',num).toUpperCase(), W)).join('\n');
+    }
+    let lastCount = -1;
+    function renderStatus(c){
+      const st=document.getElementById('nf-status');
+      if(st) st.innerHTML='live \u2022 '+c+' cup'+(c===1?'':'s')+' held the line';
+    }
+    // Compute the flat cell indices that hold the 5 count digits in row 3 ("{COUNT} CUPS"), centred.
+    function digitIndices(){
+      const W=S.cols;
+      // row index of the line containing {COUNT}
+      let row=-1;
+      for(let r=0;r<lines.length;r++){ if(String(lines[r]).indexOf('{COUNT}')>=0){ row=r; break; } }
+      if(row<0) return null;
+      // the centred string for this row with a placeholder count, to find where digits start
+      const sample=String(lines[row]).replace('{COUNT}','#####').toUpperCase();
+      const s=sample.slice(0,W);
+      const pad=W-s.length, l=Math.floor(pad/2);
+      const centred=' '.repeat(l)+s+' '.repeat(W-l-s.length);
+      const startCol=centred.indexOf('#####');
+      if(startCol<0) return null;
+      const idx=[];
+      for(let k=0;k<5;k++) idx.push(row*W + startCol + k);
+      return idx;
+    }
+    // Set the digit cells DIRECTLY (no flip engine) so the count is always correct.
+    function setDigitsDirect(c){
+      const num=String(c).padStart(5,'0');
+      const idx=digitIndices();
+      if(!idx) return false;
+      for(let k=0;k<5;k++){
+        const cell=document.querySelector('.rocker-switch[data-idx="'+idx[k]+'"]');
+        if(!cell){ console.log('[nf] NO CELL at idx',idx[k]); return false; }
+        const ch=num[k];
+        // write ALL four text layers, not just two
+        cell.querySelectorAll('[data-role=static-top],[data-role=static-bot],[data-role=falling-txt]').forEach(el=>{ el.textContent=ch; });
+        try{ if(typeof currentChars!=='undefined' && currentChars.length>idx[k]) currentChars[idx[k]]=ch; }catch(e){}
+      }
+      return true;
+    }
+    // Paint the static word layout once (their engine, single flip) so the words render with the look.
+    function paintWordsOnce(){
+      flipToTarget(messageToGrid(buildGridText(0)), function(){});
+    }
+    // ---- IDLE / ACTIVE behaviour ----------------------------------------
+    // When coffee is happening the board shows the live count (ACTIVE).
+    // After a quiet stretch it drifts into a REST state that slowly rotates
+    // brand copy lines. The instant a new drink is detected it clatters back
+    // to the live count.
+    const NF = {
+      IDLE_AFTER_MS:   2*60*1000,  // go to rest after this long with no new drink (2 min)
+      REST_ROTATE_MS:  8*1000,     // how long each rest message holds before the next (8 s)
+      // Rest messages rotate one at a time, shown in the board's look. {COUNT} is live.
+      // Edit freely; keep each line within the column width.
+      REST_MESSAGES: [
+        ['','NOFILTER','','THERE IS A LINE','','SOME PEOPLE HOLD IT'],
+        ['','NOFILTER','','A STANDING FOREST','','IS WORTH MORE'],
+        ['','NOFILTER','','{COUNT} CUPS','','THE LINE HELD']
+      ]
+    };
+    let mode = 'active';          // 'active' | 'rest'
+    let lastDrinkAt = Date.now(); // when the count last changed
+    let restIdx = 0;
+    let restTimer = null;
+
+    // clear any flap background colours (kept for the colour experiments to come)
+    function clearFlapColors(){
+      document.querySelectorAll('.rocker-switch [data-role=top-bg],.rocker-switch [data-role=bot-bg],.rocker-switch [data-role=falling-bg]').forEach(el=>{
+        el.style.background=''; el.style.backgroundImage=''; el.style.backgroundSize=''; el.style.backgroundPosition='';
+      });
+    }
+
+    function showRestText(lines){
+      const W = S.cols;
+      clearFlapColors();
+      const grid = lines.map(ln =>
+        center(String(ln).replace('{COUNT}', String(lastCount<0?0:lastCount).padStart(5,'0')).toUpperCase(), W)
+      ).join('\n');
+      try { flipToTarget(messageToGrid(grid), function(){}); } catch(e){}
+      if(typeof playClick==='function'){ try{ playClick(0.4,1.0); }catch(e){} }
+    }
+    function showRestItem(){
+      const msg = NF.REST_MESSAGES[restIdx % NF.REST_MESSAGES.length];
+      restIdx++;
+      showRestText(msg);
+    }
+    function enterRest(){
+      if(mode==='rest') return;
+      mode='rest';
+      restIdx=0;
+      showRestItem();
+      restTimer = setInterval(showRestItem, NF.REST_ROTATE_MS);
+      const st=document.getElementById('nf-status'); if(st) st.textContent='';
+    }
+    function wakeToCount(){
+      if(mode==='active') return;
+      mode='active';
+      if(restTimer){ clearInterval(restTimer); restTimer=null; }
+      clearFlapColors();
+      try {
+        flipToTarget(messageToGrid(buildGridText(lastCount<0?0:lastCount)), function(){
+          setDigitsDirect(lastCount<0?0:lastCount);
+        });
+      } catch(e){ setDigitsDirect(lastCount<0?0:lastCount); }
+      if(typeof playClick==='function'){ try{ playClick(0.6,1.0); }catch(e){} }
+      renderStatus(lastCount<0?0:lastCount);
+    }
+
+    async function poll(){
+      try{ const r=await fetch('/count',{cache:'no-store'}); const j=await r.json();
+        if(j.count!==lastCount){
+          // a new drink (or first reading) -> always wake and show it
+          lastCount=j.count;
+          lastDrinkAt=Date.now();
+          if(mode==='rest'){ wakeToCount(); }
+          else {
+            const ok=setDigitsDirect(j.count);
+            if(ok){ renderStatus(j.count);
+              if(typeof playClick==='function'){ try{ playClick(0.5,1.0); }catch(e){} } }
+          }
+        } else {
+          // no new drink: if we've been quiet long enough, drift into rest
+          if(mode==='active' && (Date.now()-lastDrinkAt) > NF.IDLE_AFTER_MS){
+            enterRest();
+          }
+        }
+      }
+      catch(e){ const st=document.getElementById('nf-status'); if(st) st.textContent='reconnecting…'; }
+    }
+    // ============================================================
+    //  THE COUNTER, TELLING ITS OWN STORY  (for [[TARGET_NAME]])
+    //  A self-running narrative: the board introduces itself and
+    //  demonstrates each capability as a beat in the story.
+    //  10c/cup is a demo figure. $ = cups x 0.10 (real arithmetic).
+    //  Any impact equivalence is PLACEHOLDER — verify before publishing.
+    // ============================================================
+    const PAL = { orange:'#ee4d17', green:'#16a34a', yellow:'#eab308', blue:'#2563eb', purple:'#9333ea', red:'#e02424', cream:'#F4F2EE', dark:'#1A1815' };
+    const RAIN = [PAL.orange,PAL.yellow,PAL.green,PAL.blue,PAL.purple,PAL.red];
+    const PER_CUP = [[PER_CUP]];
+    const W=S.cols, H=S.rows, NN=W*H;
+    const nap = ms=>new Promise(r=>setTimeout(r,ms));
+    function bg(idx){ const c=document.querySelector('.rocker-switch[data-idx="'+idx+'"]'); return c?c.querySelectorAll('[data-role=top-bg],[data-role=bot-bg],[data-role=falling-bg]'):[]; }
+    function paint(idx,col){ bg(idx).forEach(el=>{ el.style.backgroundImage=''; el.style.background=col; });
+      const c=document.querySelector('.rocker-switch[data-idx="'+idx+'"]'); if(c) c.querySelectorAll('[data-role=static-top],[data-role=static-bot],[data-role=falling-txt]').forEach(el=>el.textContent=''); }
+    function lab(t){ const st=document.getElementById('nf-status'); if(st) st.textContent=t; }
+    function clk(v){ if(typeof playClick==='function'){ try{ playClick(v||0.5,1.0); }catch(e){} } }
+    function money(c){ return '[[CUR_PREFIX]]'+(c*PER_CUP).toFixed(2); }
+
+    let _gen=0; // bumps every time a new scene starts, so stale re-fills abort
+    // Hard reset: physically blank every flap (text + colour) AND tell the engine the
+    // board is blank, so the next flip repaints EVERY flap from a known state. Without
+    // this, flipToTarget skips flaps whose stale currentChars match the new target —
+    // which is what dropped letters and made whole lines vanish after colour scenes.
+    function hardReset(){
+      clearFlapColors();
+      for(let i=0;i<NN;i++){ const cell=document.querySelector('.rocker-switch[data-idx="'+i+'"]');
+        if(cell) cell.querySelectorAll('[data-role=static-top],[data-role=static-bot],[data-role=falling-txt]').forEach(el=>el.textContent=''); }
+      try{ if(typeof currentChars!=='undefined'){ for(let i=0;i<currentChars.length;i++) currentChars[i]=' '; } }catch(e){}
+      try{ if(typeof isFlipping!=='undefined') isFlipping=false; }catch(e){}
+      try{ if(typeof cancelAnimLoop==='function') cancelAnimLoop(); }catch(e){}
+    }
+    // total time to allow a flip to fully clatter in before it is readable:
+    // stagger across the grid + final flap spin. Generous so the iPad keeps up.
+    function flipInMs(){ return (S.cols+S.rows)*40 + 700; }
+
+    // show a message and WAIT for it to fully clatter in, then hold `readMs` so it is
+    // readable. Returns a promise so beats never collide / interrupt each other.
+    function show(lines, readMs){
+      _gen++;
+      hardReset();
+      const grid=lines.slice(0,H).map(ln=>center(String(ln).toUpperCase(),W)).join('\n');
+      let resolved=false;
+      return new Promise(resolve=>{
+        const finish=()=>{ if(resolved) return; resolved=true; setTimeout(resolve, readMs||2000); };
+        try{ flipToTarget(messageToGrid(grid), finish); }catch(e){ finish(); }
+        clk(0.45);
+        // safety: if onDone never fires (slow device), proceed after the worst-case flip time
+        setTimeout(finish, flipInMs());
+      });
+    }
+    function showOnField(lines, field, readMs){
+      const myGen=++_gen;
+      hardReset();
+      const grid=lines.slice(0,H).map(ln=>center(String(ln).toUpperCase(),W)).join('\n');
+      function fillField(){
+        if(myGen!==_gen) return;
+        for(let i=0;i<NN;i++){
+          const cell=document.querySelector('.rocker-switch[data-idx="'+i+'"]');
+          if(!cell) continue;
+          const hasText=[...cell.querySelectorAll('[data-role=static-top],[data-role=static-bot]')].some(el=>el.textContent.trim());
+          if(!hasText) paint(i, field);
+        }
+      }
+      let resolved=false;
+      return new Promise(resolve=>{
+        const finish=()=>{ if(resolved) return; resolved=true; fillField(); setTimeout(resolve, readMs||2400); };
+        try{ flipToTarget(messageToGrid(grid), function(){ fillField(); finish(); }); }catch(e){ finish(); }
+        [500,800,1100,1500,1900].forEach(t=>setTimeout(fillField,t));
+        clk(0.5);
+        setTimeout(finish, flipInMs());
+      });
+    }
+    async function cascade(passes){
+      for(let p=0;p<passes;p++){ for(let col=0; col<W; col++){
+        for(let row=0; row<H; row++) paint(row*W+col, RAIN[(col+row+p)%RAIN.length]);
+        clk(0.5); await nap(32);
+      } }
+      await nap(300);
+    }
+    // tick the count up live: set digits DIRECTLY (instant, no flip) so rapid counting
+    // never collides with the slow flip animation. Each number holds briefly.
+    function setCountDirect(c, label2){
+      _gen++;
+      hardReset();
+      const grid=['[[TARGET_NAME_UC]]','',String(c)+' CUPS','',money(c)+(label2||' RAISED')]
+        .map(ln=>center(String(ln).toUpperCase(),W)).join('\n');
+      // paint the text instantly onto the static layers (no flip engine)
+      const cells=messageToGrid(grid);
+      for(let i=0;i<NN;i++){ const cell=document.querySelector('.rocker-switch[data-idx="'+i+'"]'); if(!cell) continue;
+        const ch=cells[i]===' '?'':cells[i];
+        cell.querySelectorAll('[data-role=static-top],[data-role=static-bot]').forEach(el=>el.textContent=ch);
+      }
+      try{ if(typeof currentChars!=='undefined'){ for(let i=0;i<cells.length;i++) currentChars[i]=cells[i]; } }catch(e){}
+      clk(0.4);
+    }
+    async function tickUp(a,b,label2){
+      for(let c=a;c<=b;c++){ setCountDirect(c,label2); await nap(c===b?1100:300); }
+    }
+
+    // ---- Tiger chuff at milestone (opt-in, tap to unlock audio) ----
+    // Uses an <audio> element (not fetch) so it works on local file:// pages.
+    // Sourced from the Danum Valley long-call; we start ~35s in (where the
+    // vocalisation lands) and play a short, gently-faded passage — eased in
+    // and out so it never starts or stops abruptly.
+    let soundOn = false;
+    let roarEl = null;
+    var CALL_START = 0;      // seconds — tiger chuff plays from the start of the file
+    var CALL_LEN   = 6.0;    // seconds — total audible window (incl. fades)
+    var CALL_PEAK  = 0.45;   // peak volume (was 0.9 — softened)
+    var FADE_IN    = 1.2;    // seconds — ease in
+    var FADE_OUT   = 1.6;    // seconds — ease out
+    var _callStop  = null;   // timer handle for the auto-stop
+    var _fadeRAF   = null;   // animation handle for the volume ramp
+    function ensureRoar(){
+      if(roarEl) return roarEl;
+      // Resolve against this document's own URL so it works inside an iframe on file://
+      var roarUrl = 'assets/roar.mp3';
+      try { roarUrl = new URL('assets/roar.mp3', (document.baseURI || location.href)).href; } catch(e){}
+      roarEl = new Audio(roarUrl);
+      roarEl.preload = 'auto';
+      roarEl.volume = 0;      // start silent; the envelope ramps it up
+      roarEl.addEventListener('error', function(){ console.warn('[call] audio element error; src=', roarEl.src); });
+      console.log('[call] audio src =', roarUrl);
+      return roarEl;
+    }
+    function unlockRoar(){
+      // play+pause once on the user gesture to satisfy autoplay policy
+      const a = ensureRoar();
+      try{ a.volume = 0; a.play().then(()=>{ a.pause(); a.currentTime = 0; console.log('[call] unlocked OK'); })
+        .catch(err=>{ console.warn('[call] unlock blocked:', err && err.name, err && err.message); }); }catch(e){ console.warn('[call] unlock threw', e); }
+    }
+    // smooth volume envelope: silence -> peak (ease-in), hold, peak -> silence (ease-out)
+    function runEnvelope(a){
+      if(_fadeRAF){ cancelAnimationFrame(_fadeRAF); _fadeRAF = null; }
+      var t0 = performance.now();
+      var total = CALL_LEN, fin = FADE_IN, fout = FADE_OUT;
+      function frame(now){
+        var t = (now - t0) / 1000;            // seconds elapsed
+        var v;
+        if(t < fin){                          // fade in (ease-in-out curve)
+          var p = t / fin; v = CALL_PEAK * (p*p*(3-2*p));
+        } else if(t > total - fout){          // fade out
+          var q = (total - t) / fout; if(q < 0) q = 0; v = CALL_PEAK * (q*q*(3-2*q));
+        } else {                              // sustain
+          v = CALL_PEAK;
+        }
+        try{ a.volume = Math.max(0, Math.min(1, v)); }catch(e){}
+        if(t < total){ _fadeRAF = requestAnimationFrame(frame); }
+        else { try{ a.pause(); a.currentTime = CALL_START; a.volume = 0; }catch(e){} _fadeRAF = null; }
+      }
+      _fadeRAF = requestAnimationFrame(frame);
+    }
+    function playRoar(){
+      if(window.__nfMuted){ return; }
+      if(!soundOn){ console.log('[call] milestone reached but sound is OFF (tap speaker)'); return; }
+      const a = ensureRoar();
+      if(_callStop){ clearTimeout(_callStop); _callStop = null; }
+      if(_fadeRAF){ cancelAnimationFrame(_fadeRAF); _fadeRAF = null; }
+      function startAt(){
+        try{
+          a.currentTime = CALL_START;
+          a.volume = 0;
+          a.play().then(()=>{ console.log('[call] PLAYING'); runEnvelope(a); })
+            .catch(err=>console.warn('[call] play blocked:', err && err.name, err && err.message));
+          // safety stop in case the envelope's own end-handler is missed
+          _callStop = setTimeout(function(){ try{ a.pause(); a.currentTime = CALL_START; a.volume = 0; }catch(e){} }, (CALL_LEN+0.5)*1000);
+        }catch(e){ console.warn('[call] play threw', e); }
+      }
+      // if metadata not yet loaded, setting currentTime can fail silently; guard it
+      if(a.readyState >= 1){ startAt(); }
+      else { a.addEventListener('loadedmetadata', startAt, {once:true}); try{ a.load(); }catch(e){} }
+    }
+    (function(){
+      const btn=document.getElementById('nf-sound');
+      const x1=document.getElementById('nf-sound-x1'), x2=document.getElementById('nf-sound-x2');
+      const w1=document.getElementById('nf-sound-w1'), w2=document.getElementById('nf-sound-w2');
+      function paint(){
+        if(btn){
+          btn.classList.toggle('on', soundOn);
+          if(x1) x1.style.display = soundOn?'none':'';
+          if(x2) x2.style.display = soundOn?'none':'';
+          if(w1) w1.style.display = soundOn?'':'none';
+          if(w2) w2.style.display = soundOn?'':'none';
+          btn.title = soundOn ? 'Sound on — tap to mute' : 'Sound off — tap to unmute';
+        }
+        window.__nfMuted = !soundOn;   // mirror for playClick (crosses script blocks)
+      }
+      // expose a setter the parent (and the button) both use
+      window.__nfSetSound = function(on){
+        soundOn = !!on;
+        if(soundOn){ unlockRoar(); }
+        paint();
+      };
+      function toggle(e){
+        if(e){ e.preventDefault(); e.stopPropagation(); }
+        window.__nfSetSound(!soundOn);
+      }
+      if(btn){
+        btn.addEventListener('click', toggle);
+        btn.addEventListener('keydown', ev=>{ if(ev.key==='Enter'||ev.key===' ') toggle(ev); });
+      }
+      // parent page controls sound by visibility (scroll in = on, scroll past = off)
+      window.addEventListener('message', function(e){
+        if(e.data && e.data.type==='nf-mute'){ window.__nfSetSound(!e.data.muted); }
+      });
+      paint();
+    })();
+
+    async function story(){
+      // ---- BEAT 1: hello (both names) ----
+      await show(['','HELLO','[[COUNTER_GREETING]]',''], 2400);
+
+      // ---- BEAT 2: what am I ----
+      await show(['','I COUNT','EVERY CUP','OF COFFEE',''], 2400);
+      await show(['','SERVED AT','[[TARGET_NAME_UC]]',''], 2200);
+
+      // ---- BEAT 3: watch me work (live count) ----
+      lab('the basic function: counting, live');
+      await tickUp(0,6,' RAISED');
+      await show(['','EVERY CUP','COUNTS','UPWARDS',''], 2200);
+
+      // ---- BEAT 4: but each cup does something ----
+      // "gives a share", not "gives 10 cents": under the tiered contribution the
+      // per-cup figure moves with the price (≈3.8¢ at 42 up to the full 10% band),
+      // so a flat 10-cents claim is only true at the top of the ladder.
+      await showOnField(['','EACH CUP','GIVES','A SHARE',''], PAL.dark, 2400);
+      await showOnField(['','TO THE','FOREST',''], PAL.green, 2200);
+
+      // ---- BEAT 5: watch the contribution grow ----
+      lab('count + live contribution climbing together');
+      await tickUp(40,48,' TO FOREST');
+
+      // ---- BEAT 6: milestones are celebrated ----
+      await show(['','AND WHEN','YOU REACH','A MILESTONE',''], 2600);
+      lab('milestone celebration — colour cascade + call');
+      setCountDirect(50,' TO FOREST'); await nap(900);
+      playRoar();
+      await cascade(2);
+      setCountDirect(50,' TO FOREST'); await nap(2200);
+
+      // ---- BEAT 7: the brand truth ----
+      await showOnField(['','THERE IS','A LINE',''], PAL.dark, 2200);
+      await showOnField(['','SOME PEOPLE','STILL','HOLD IT',''], PAL.orange, 2600);
+
+      // ---- BEAT 8: the bigger picture ----
+      await showOnField(['','YOUR COFFEE','IS HOW','WE MAKE IT','LAST'], PAL.green, 3000);
+
+      // ---- BEAT 9: the close ----
+      await show(['','[[TARGET_NAME_UC]]','x','NOFILTER',''], 2600);
+      await showOnField(['','LETS HOLD','THE LINE','TOGETHER',''], PAL.orange, 3000);
+
+      lab('— story loops —'); await nap(1600);
+      story();
+    }
+
+    paintWordsOnce();
+    setTimeout(function(){ setDigitsDirect(0); }, 700);
+    setTimeout(story, 1400);
+
+        // edit gate
+    const gate=document.getElementById('nf-gate'), inp=document.getElementById('nf-gate-input');
+    document.getElementById('nf-lock').addEventListener('click', ()=>{ gate.classList.add('show'); inp.focus(); });
+    function unlock(){ if(inp.value===PASSCODE){ gate.classList.remove('show'); inp.value='';
+      document.body.classList.remove('nf-view'); } else { inp.value=''; inp.placeholder='try again'; } }
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') unlock(); });
+    document.getElementById('nf-gate-go').addEventListener('click', unlock);
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ gate.classList.remove('show'); document.body.classList.add('nf-view'); } });
+
+    // expose a helper so YOU (in edit mode console or a future field) can set board lines:
+    window.nfSetLines = function(arr){ lines=arr.slice(0,S.rows); localStorage.setItem(KEY,JSON.stringify(lines)); push(shown<0?0:shown); };
+    window.nfGetLines = function(){ return lines.slice(); };
+    window.nfWake = function(){ try{ wakeToCount(); }catch(e){ console.log(e); } };
+
+    // ---- SOUND: bulletproof resume of THEIR audio context on first gesture ----
+    let soundArmed = false;
+    function armSound(){
+      try{
+        // their getAudioCtx() creates+resumes the shared `audioCtx`
+        if (typeof getAudioCtx === 'function') {
+          const c = getAudioCtx();
+          if (c && c.state === 'suspended' && c.resume) c.resume();
+          // force-unlock: play a 1-sample silent buffer (Safari/iOS gesture unlock)
+          if (c && c.createBuffer) {
+            const b = c.createBuffer(1,1,c.sampleRate||44100);
+            const s = c.createBufferSource(); s.buffer=b; s.connect(c.destination);
+            (s.start||s.noteOn).call(s,0);
+          }
+        }
+        // (re)load the wav if it didn't take
+        if (typeof loadClickWav === 'function' && typeof wavLoaded !== 'undefined' && !wavLoaded) loadClickWav();
+        if (!soundArmed) {
+          soundArmed = true;
+          const lk = document.getElementById('nf-lock');
+          if (lk) lk.title = 'Edit (locked) — sound on';
+        }
+      }catch(e){ console.log('armSound error', e); }
+    }
+    // capture phase at window level so nothing can stop it reaching us
+    ['pointerdown','mousedown','click','keydown','touchstart'].forEach(ev =>
+      window.addEventListener(ev, armSound, {capture:true}));
+  }
+  boot();
+})();
+</script>
+<script id="nf-board-fit">
+/* ══ Fit the board to the tablet screen ════════════════════════════════════════
+   Two faults, one fix. (1) The grid is sized from S: 22 cols x 250*0.22 + gaps +
+   padding = ~1467px inside a 1024px page, so the outermost column at each end was
+   cut off — which is why a long money line lost its first and last character while
+   short lines looked fine. (2) Scaling to fit the WIDTH leaves the cell aspect
+   (250:540) unable to also fill 768px of height, so a bare scale left grey dead
+   space above and below inside the iPad bezel.
+   So: scale to fit the width, then paint the page in the board's own colour and
+   centre the grid, so the black reads edge to edge and the flaps sit in the middle
+   of it. Measured off the live grid, so any cols/scale/gap combination self-corrects. */
+(function(){
+  function fit(){
+    var g=document.querySelector('.vestaboard-grid'); if(!g) return;
+    g.style.transform='';
+    var bg=getComputedStyle(g).backgroundColor;
+    var need=g.getBoundingClientRect().width;
+    var have=document.documentElement.clientWidth;
+    if(need>have){
+      var k=have/need;
+      g.style.transformOrigin='center center';
+      g.style.transform='scale('+k.toFixed(4)+')';
+    }
+    // the board's own colour becomes the screen, so the tablet is filled, not letterboxed
+    if(bg && bg!=='rgba(0, 0, 0, 0)'){
+      document.documentElement.style.background=bg;
+      document.body.style.background=bg;
+    }
+    var w=document.getElementById('vestaboard-wrapper');
+    if(w){ w.style.overflow='visible'; w.style.background=bg;
+           w.style.minHeight='100vh'; w.style.display='flex';
+           w.style.alignItems='center'; w.style.justifyContent='center'; }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(fit,60);});
+  else setTimeout(fit,60);
+  setTimeout(fit,600); setTimeout(fit,1800);
+  window.addEventListener('resize',fit);
+})();
+</script>
+</body>
+</html>

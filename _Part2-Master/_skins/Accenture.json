@@ -1,0 +1,15 @@
+{
+  "TARGET_NAME": "Accenture",
+  "COLOPHON_CODE": "DP-2026-AC02",
+  "TARGET_SIGNATORY": "Jessie Kok",
+  "TARGET_SIGNATORY_FIRST": "Jessie",
+  "TARGET_CONTACT_EMAIL": "jessie.kok@accenture.com",
+  "TARGET_BILLING_ENTITY": "ISS Facility Services",
+  "FORM_NAME": "accenture-terms",
+  "COUNTER_SRC": "accenture-counter.html",
+  "COBRAND_MACHINE": "accenture-nofilter-machine.png",
+  "COBRAND_CARDS": "accenture-nofilter-cards.png",
+  "COBRAND_CUP": "accenture-nofilter-cup.png",
+  "COBRAND_BAG": "accenture-nofilter-bag.mp4",
+  "SUPPLY_TERM": "2-year"
+}

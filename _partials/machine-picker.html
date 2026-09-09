@@ -1,0 +1,450 @@
+<!-- ═══ NoFilter machine picker — verbatim from the Generic §04 ═════════════════════
+     CSS 2137-2242, cards+panel markup 3248-3385, JS: init/terms 4467-4511, steppers 4691-4712,
+     detail panel 5797-5921. Animated: card hover, rental/purchase + term toggles, +/- steppers,
+     "See full details" slide-over. compute() guarded; one line added to update the visible count
+     (the only thing the quote engine did that the picker needs standalone). Host :root tokens. -->
+<style id="nf-machine-picker">
+  .q-eq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 18px;}
+  /* ══ machine spec detail panel (opens over the picker, focus-shrink) ══ */
+  .mx-specs-btn{font-family:var(--font-m,monospace);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--nb,#1A1815);background:none;border:none;border-bottom:1px solid rgba(26,24,21,.3);cursor:pointer;padding:1px 0;margin:0 0 8px;align-self:flex-start;}
+  .mx-specs-btn:hover{color:var(--or,#ed3326);border-color:var(--or,#ed3326);}
+  .mx-inline{display:none;max-width:1240px;margin:12px auto 10px;}
+  .mx-inline.is-open{display:block;animation:mxIn .55s cubic-bezier(.5,0,.15,1) both;}
+  @keyframes mxIn{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+  .mx-inline.is-open .mx-stat{opacity:0;transform:translateY(9px);animation:mxRow .5s cubic-bezier(.5,0,.15,1) both;animation-delay:calc(90ms + var(--s)*45ms);}
+  .mx-inline.is-open .mx-table tr{opacity:0;transform:translateY(9px);animation:mxRow .5s cubic-bezier(.5,0,.15,1) both;animation-delay:calc(140ms + var(--i)*36ms);}
+  @keyframes mxRow{to{opacity:1;transform:none;}}
+  .q-eq-grid{transition:opacity .35s cubic-bezier(.5,0,.15,1),transform .35s cubic-bezier(.5,0,.15,1);}
+  .q-eq-grid.mx-exiting{opacity:0;transform:translateY(14px);pointer-events:none;}
+  .q-eq-grid.mx-hidden{display:none;}
+  .mx-topbar{display:flex;align-items:baseline;justify-content:flex-end;gap:16px;margin:0 0 4px;}
+  .mx-backlink{font-family:var(--font-b,sans-serif);font-size:12.5px;font-weight:600;color:var(--gy,#6B6B6B);background:none;border:none;cursor:pointer;padding:0;}
+  .mx-backlink:hover{color:var(--nb,#1A1815);}
+  .mx-eyebrow{font-family:var(--font-m,monospace);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--or,#ed3326);margin:0;}
+  .mx-name{font-family:var(--font-d,Georgia,serif);font-size:clamp(28px,3vw,38px);line-height:1;margin:4px 0 2px;color:var(--nb,#1A1815);}
+  .mx-cap{font-family:var(--font-m,monospace);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--or,#ed3326);margin:0 0 10px;}
+  .mx-grid{display:flex;align-items:stretch;gap:34px;}
+  @media(max-width:760px){.mx-grid{flex-direction:column;}}
+  .mx-left{flex:1.05 1 0;min-width:0;display:flex;flex-direction:column;gap:12px;}
+  .mx-right{flex:1 1 0;min-width:0;display:flex;flex-direction:column;}
+  .mx-gallery{background:#fff;border:1px solid rgba(26,24,21,.12);border-radius:12px;overflow:hidden;}
+  .mx-gallery-main{width:100%;aspect-ratio:4/3;max-height:440px;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .mx-gallery-main img{width:100%;height:100%;object-fit:contain;padding:16px;box-sizing:border-box;}
+  .mx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .mx-stat{background:#fff;border:1px solid rgba(26,24,21,.1);border-radius:10px;padding:12px 14px;}
+  .mx-stat-n{font-family:var(--font-d,Georgia,serif);font-size:clamp(26px,2.7vw,36px);line-height:1;color:var(--nb,#1A1815);}
+  .mx-stat-l{font-family:var(--font-m,monospace);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--gy,#6B6B6B);margin-top:5px;}
+  .mx-specs-block{background:#fff;border:1px solid rgba(26,24,21,.12);border-radius:10px;padding:22px 26px;flex:1 1 auto;}
+  .mx-specs-head{margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid rgba(26,24,21,.1);}
+  .mx-specs-tag{display:inline-block;font-family:var(--font-m,monospace);font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--or,#ed3326);text-transform:uppercase;margin-bottom:4px;}
+  .mx-specs-intro{font-size:12px;line-height:1.45;opacity:.7;margin:0;}
+  .mx-table{width:100%;border-collapse:collapse;}
+  .mx-table tr{border-bottom:1px solid rgba(26,24,21,.08);}
+  .mx-table tr:last-child{border-bottom:none;}
+  .mx-table th{text-align:left;font-family:var(--font-m,monospace);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.55;padding:10px 16px 10px 0;vertical-align:top;width:38%;line-height:1.3;color:var(--nb,#1A1815);}
+  .mx-table td{font-size:13.5px;padding:10px 0;color:var(--nb,#1A1815);vertical-align:top;line-height:1.35;}
+  .mx-table .spec-plain{display:block;line-height:1.4;}
+  .mx-table .spec-raw{display:block;margin-top:2px;font-family:var(--font-m,monospace);font-size:10.5px;letter-spacing:.02em;color:#806C61;opacity:.75;}
+  @media(max-width:860px){.q-eq-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.q-eq-grid{grid-template-columns:1fr;}}
+  /* ── per-card term / mode toggle ── */
+  .q-eq-terms{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 2px;}
+  .q-eq-modes{display:inline-flex;border:1.5px solid var(--nb,#1A1815);border-radius:7px;overflow:hidden;}
+  .q-eq-mode{font-family:var(--font-b,sans-serif);font-size:11px;font-weight:600;padding:5px 10px;background:transparent;color:var(--nb,#1A1815);border:none;cursor:pointer;transition:background .15s ease,color .15s ease;}
+  .q-eq-mode:not(:last-child){border-right:1.5px solid var(--nb,#1A1815);}
+  .q-eq-mode.is-on{background:var(--nb,#1A1815);color:var(--cr,#F4F2EE);}
+  .q-eq-lengths{display:inline-flex;gap:6px;}
+  .q-eq-lengths.is-hidden{display:none;}
+  .q-eq-len{font-family:var(--font-b,sans-serif);font-size:13px;font-weight:600;padding:6px 12px;background:transparent;border:1.5px solid rgba(26,24,21,.22);border-radius:8px;color:var(--nb,#1A1815);cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease;line-height:1;}
+  .q-eq-len span{font-family:var(--font-m,monospace);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-left:3px;color:var(--gy,#6B6B6B);}
+  .q-eq-len:hover{border-color:rgba(26,24,21,.5);}
+  .q-eq-len.is-on{border-color:var(--or,#ed3326);background:rgba(238,77,23,.06);color:var(--or,#ed3326);}
+  .q-eq-len.is-on span{color:var(--or,#ed3326);}
+  .q-eq-card{position:relative;background:#fdfcf8;border:1.5px solid #E8E2D4;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;
+    overflow:hidden;transition:transform .25s cubic-bezier(.4,0,.2,1),box-shadow .25s ease,border-color .25s ease;}
+  .q-eq-card:hover{border-color:rgba(238,77,23,.4);transform:translateY(-2px);}
+  .q-eq-card.is-active{border-color:var(--or);box-shadow:0 10px 26px -12px rgba(238,77,23,.4);}
+  .q-eq-photo{position:relative;background:linear-gradient(160deg,#efe7db,#e4d9c9);display:flex;align-items:center;justify-content:center;
+    border-radius:9px;aspect-ratio:1/1;overflow:hidden;}
+  .q-eq-photo img{width:100%;height:100%;object-fit:contain;display:block;padding:8px;
+    transition:transform .4s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 6px 12px rgba(26,24,21,.18));}
+  .q-eq-card:hover .q-eq-photo img{transform:scale(1.05);}
+  .q-eq-card.is-active .q-eq-photo{background:linear-gradient(160deg,#fbe6d8,#f6d3bd);}
+  .q-eq-badge{position:absolute;top:8px;right:8px;z-index:2;font-family:var(--font-m);font-size:9px;letter-spacing:.05em;
+    background:var(--or);color:#fff;padding:4px 8px;border-radius:99px;opacity:0;transition:.25s;}
+  .q-eq-card.is-active .q-eq-badge{opacity:1;}
+  .q-eq-body{padding:0;display:flex;flex-direction:column;gap:3px;flex:1;}
+  .mx-size-badge{display:inline-block;font-family:var(--font-m,monospace);font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;border:1.2px solid var(--nb,#1A1815);border-radius:99px;color:var(--nb,#1A1815);margin:0 0 7px;}
+  .q-eq-name{font-family:var(--font-d,Georgia,serif);font-size:16px;line-height:1.1;}
+  .q-eq-loc{display:none;}
+  .q-eq-spec{font-size:11.5px;color:#6a655c;line-height:1.4;margin:2px 0 6px;flex:1;}
+  .q-eq-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding-top:10px;border-top:1px solid #ece5d6;flex-wrap:wrap;}
+  .q-eq-rate{font-family:var(--font-m);font-size:11px;color:var(--nb,#1A1815);}
+  .q-eq-rate b{font-size:14px;}
+  .q-eq-per{opacity:.55;}
+  .q-eq-sub{font-family:var(--font-m);font-size:10px;color:var(--or);letter-spacing:.03em;line-height:1.6;min-height:1.6em;transition:opacity .3s;opacity:0;width:100%;}
+  .q-eq-card.is-active .q-eq-sub{opacity:1;}
+  .q-stepper{display:flex;align-items:center;gap:8px;}
+  @media(prefers-reduced-motion:reduce){.q-eq-card,.q-eq-photo img{transition:none;}}
+  /* ── sticky live quote bar ── */
+  .nf-sticky-quote{position:fixed;left:0;right:0;bottom:0;z-index:900;background:var(--nf-near-black,#1A1815);color:var(--nf-cream,#F4F2EE);
+    box-shadow:0 -8px 30px rgba(0,0,0,.16);transform:translateY(0);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+  .nf-sticky-quote[hidden]{display:none;}
+  .nf-sticky-quote.is-tucked{transform:translateY(100%);}
+  .nf-sq-inner{max-width:1100px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .nf-sq-left{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .nf-sq-label{font-family:var(--font-m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,242,238,.5);}
+  .nf-sq-items{font-size:13.5px;color:var(--nf-cream,#F4F2EE);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw;}
+  .nf-sq-items b{font-family:var(--font-d);font-weight:500;}
+  .nf-sq-right{display:flex;align-items:center;gap:20px;flex:0 0 auto;}
+  .nf-sq-total{text-align:right;line-height:1;}
+  .nf-sq-n{font-family:var(--font-m);font-size:20px;font-weight:600;}
+  .nf-sq-u{font-family:var(--font-m);font-size:10px;color:rgba(244,242,238,.55);}
+  .nf-sq-cta{font-family:var(--font-b);font-size:13.5px;font-weight:600;color:#fff;background:var(--or,#ed3326);border:none;
+    border-radius:9px;padding:11px 20px;cursor:pointer;transition:filter .15s;white-space:nowrap;text-decoration:none;}
+  .nf-sq-cta:hover{filter:brightness(1.08);}
+  @media(max-width:560px){.nf-sq-items{max-width:44vw;}.nf-sq-inner{padding:12px 18px;gap:12px;}}
+  .q-stepper{display:flex;align-items:center;gap:12px;}
+  .q-step-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--nb,#1A1815);background:transparent;
+    font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;color:inherit;}
+  .q-step-btn:hover{background:var(--or);border-color:var(--or);color:#fff;}
+  .q-step-btn:active{transform:scale(.92);}
+  .q-step-val{font-family:var(--font-m);font-size:16px;font-weight:700;min-width:20px;text-align:center;}
+</style>
+
+  <div class="q-eq-grid rv">
+    <div class="q-eq-card" id="eqCardCm5">
+      <div class="q-eq-photo">
+        <span class="q-eq-badge" id="eqBadgeCm5">In your fleet</span>
+        <img src="https://nofilter-shared.netlify.app/cafematic-5.png" alt="CaféMatic 5 bean-to-cup machine in NoFilter livery" loading="lazy" onerror="this.style.display='none';">
+      </div>
+      <div class="q-eq-body">
+        <div class="mx-size-badge">Mid-size teams · up to ~75</div><div class="q-eq-name">CaféMatic 5</div>
+        <div class="q-eq-loc">Executive Floor · L35 · 1 grinder · 1 powder hopper</div>
+        <div class="q-eq-spec">1 grinder · 1 powder hopper · steam wand + hot water</div>
+        <button type="button" class="mx-specs-btn" data-machine="CaféMatic 5">See full details &rarr;</button>
+        <div class="q-eq-terms" data-m="cm5">
+          <div class="q-eq-modes" role="radiogroup" aria-label="CaféMatic 5 — rental or purchase">
+            <button type="button" class="q-eq-mode is-on" data-mode="rental" role="radio" aria-checked="true">Rental</button>
+            <button type="button" class="q-eq-mode" data-mode="purchase" role="radio" aria-checked="false">Purchase</button>
+          </div>
+          <div class="q-eq-lengths" role="radiogroup" aria-label="CaféMatic 5 — rental term">
+            <button type="button" class="q-eq-len" data-term="24" role="radio" aria-checked="false">24<span>mo</span></button>
+            <button type="button" class="q-eq-len is-on" data-term="36" role="radio" aria-checked="true">36<span>mo</span></button>
+          </div>
+        </div>
+        <div class="q-eq-foot">
+          <div class="q-eq-rate">SGD <b>369.99</b> <span class="q-eq-per">/mo each</span><div class="q-eq-sub" id="eqSubCm5"></div></div>
+          <div class="q-stepper">
+            <button class="q-step-btn" data-m="cm5" data-d="-1" aria-label="fewer CaféMatic 5">−</button>
+            <span class="q-step-val" id="qtyCm5">1</span>
+            <button class="q-step-btn" data-m="cm5" data-d="1" aria-label="more CaféMatic 5">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-eq-card" id="eqCardCm8">
+      <div class="q-eq-photo">
+        <span class="q-eq-badge" id="eqBadgeCm8">In your fleet</span>
+        <img src="https://nofilter-shared.netlify.app/cafematic-8.png" alt="CaféMatic 8 bean-to-cup machine in NoFilter livery" loading="lazy" onerror="this.style.display='none';">
+      </div>
+      <div class="q-eq-body">
+        <div class="mx-size-badge">Large floors · 100+</div><div class="q-eq-name">CaféMatic 8</div>
+        <div class="q-eq-loc">Employee Pantry · L34 · 2 grinders · 2 powder hoppers</div>
+        <div class="q-eq-spec">2 grinders · 2 powder hoppers · the fullest menu</div>
+        <button type="button" class="mx-specs-btn" data-machine="CaféMatic 8">See full details &rarr;</button>
+        <div class="q-eq-terms" data-m="cm8">
+          <div class="q-eq-modes" role="radiogroup" aria-label="CaféMatic 8 — rental or purchase">
+            <button type="button" class="q-eq-mode is-on" data-mode="rental" role="radio" aria-checked="true">Rental</button>
+            <button type="button" class="q-eq-mode" data-mode="purchase" role="radio" aria-checked="false">Purchase</button>
+          </div>
+          <div class="q-eq-lengths" role="radiogroup" aria-label="CaféMatic 8 — rental term">
+            <button type="button" class="q-eq-len" data-term="24" role="radio" aria-checked="false">24<span>mo</span></button>
+            <button type="button" class="q-eq-len is-on" data-term="36" role="radio" aria-checked="true">36<span>mo</span></button>
+          </div>
+        </div>
+        <div class="q-eq-foot">
+          <div class="q-eq-rate">SGD <b>499.99</b> <span class="q-eq-per">/mo each</span><div class="q-eq-sub" id="eqSubCm8"></div></div>
+          <div class="q-stepper">
+            <button class="q-step-btn" data-m="cm8" data-d="-1" aria-label="fewer CaféMatic 8">−</button>
+            <span class="q-step-val" id="qtyCm8">1</span>
+            <button class="q-step-btn" data-m="cm8" data-d="1" aria-label="more CaféMatic 8">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-eq-card" id="eqCardCm2">
+      <div class="q-eq-photo">
+        <span class="q-eq-badge" id="eqBadgeCm2">Add to fleet</span>
+        <img src="https://nofilter-shared.netlify.app/cafematic-2.png" alt="CaféMatic 2 countertop bean-to-cup machine in NoFilter livery" loading="lazy" onerror="this.style.display='none';">
+      </div>
+      <div class="q-eq-body">
+        <div class="mx-size-badge">Small teams · up to ~40</div><div class="q-eq-name">CaféMatic 2</div>
+        <div class="q-eq-spec">1 grinder · fresh-milk drinks · true countertop</div>
+        <button type="button" class="mx-specs-btn" data-machine="CaféMatic 2">See full details &rarr;</button>
+        <div class="q-eq-terms" data-m="cm2">
+          <div class="q-eq-modes" role="radiogroup" aria-label="CaféMatic 2 — rental or purchase">
+            <button type="button" class="q-eq-mode is-on" data-mode="rental" role="radio" aria-checked="true">Rental</button>
+            <button type="button" class="q-eq-mode" data-mode="purchase" role="radio" aria-checked="false">Purchase</button>
+          </div>
+          <div class="q-eq-lengths" role="radiogroup" aria-label="CaféMatic 2 — rental term">
+            <button type="button" class="q-eq-len" data-term="24" role="radio" aria-checked="false">24<span>mo</span></button>
+            <button type="button" class="q-eq-len is-on" data-term="36" role="radio" aria-checked="true">36<span>mo</span></button>
+          </div>
+        </div>
+        <div class="q-eq-foot">
+          <div class="q-eq-rate">SGD <b>269.99</b> <span class="q-eq-per">/mo each</span><div class="q-eq-sub" id="eqSubCm2"></div></div>
+          <div class="q-stepper">
+            <button class="q-step-btn" data-m="cm2" data-d="-1" aria-label="fewer CaféMatic 2">−</button>
+            <span class="q-step-val" id="qtyCm2">0</span>
+            <button class="q-step-btn" data-m="cm2" data-d="1" aria-label="more CaféMatic 2">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="q-eq-card" id="eqCardCm6">
+      <div class="q-eq-photo">
+        <span class="q-eq-badge" id="eqBadgeCm6">Add to fleet</span>
+        <img src="https://nofilter-shared.netlify.app/cafematic-6.png" alt="CaféMatic 6 bean-to-cup machine in NoFilter livery" loading="lazy" onerror="this.style.display='none';">
+      </div>
+      <div class="q-eq-body">
+        <div class="mx-size-badge">Large floors · 100+</div><div class="q-eq-name">CaféMatic 6</div>
+        <div class="q-eq-spec">2 grinders · two beans side by side · no powder</div>
+        <button type="button" class="mx-specs-btn" data-machine="CaféMatic 6">See full details &rarr;</button>
+        <div class="q-eq-terms" data-m="cm6">
+          <div class="q-eq-modes" role="radiogroup" aria-label="CaféMatic 6 — rental or purchase">
+            <button type="button" class="q-eq-mode is-on" data-mode="rental" role="radio" aria-checked="true">Rental</button>
+            <button type="button" class="q-eq-mode" data-mode="purchase" role="radio" aria-checked="false">Purchase</button>
+          </div>
+          <div class="q-eq-lengths" role="radiogroup" aria-label="CaféMatic 6 — rental term">
+            <button type="button" class="q-eq-len" data-term="24" role="radio" aria-checked="false">24<span>mo</span></button>
+            <button type="button" class="q-eq-len is-on" data-term="36" role="radio" aria-checked="true">36<span>mo</span></button>
+          </div>
+        </div>
+        <div class="q-eq-foot">
+          <div class="q-eq-rate">SGD <b>449.99</b> <span class="q-eq-per">/mo each</span><div class="q-eq-sub" id="eqSubCm6"></div></div>
+          <div class="q-stepper">
+            <button class="q-step-btn" data-m="cm6" data-d="-1" aria-label="fewer CaféMatic 6">−</button>
+            <span class="q-step-val" id="qtyCm6">0</span>
+            <button class="q-step-btn" data-m="cm6" data-d="1" aria-label="more CaféMatic 6">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-inline" id="mxInline">
+    <div class="mx-topbar"><button class="mx-backlink" id="mxBack" type="button">← Back to machines</button></div>
+    <h3 class="mx-name" id="mxName">—</h3>
+    <p class="mx-cap" id="mxCap"></p>
+    <div class="mx-grid">
+      <div class="mx-left">
+        <div class="mx-gallery"><div class="mx-gallery-main"><img id="mxImg" alt="" onerror="this.style.opacity=0"></div></div>
+        <div class="mx-stats" id="mxStats"></div>
+      </div>
+      <div class="mx-right">
+        <div class="mx-specs-block">
+          <div class="mx-specs-head"><span class="mx-specs-tag">What this means for your office</span><p class="mx-specs-intro">Plain terms, with the technical detail underneath.</p></div>
+          <table class="mx-table" id="mxTable"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+    window.__MACHINES = [
+      { slug:'cm5', name:'CaféMatic 5', qtyDefault:0 },
+      { slug:'cm8', name:'CaféMatic 8', qtyDefault:0 },
+      { slug:'cm2', name:'CaféMatic 2', qtyDefault:0 },
+      { slug:'cm6', name:'CaféMatic 6', qtyDefault:0 }
+    ];
+    window.__qty = {};       // { cm5:1, cm8:1, cm2:0, cm6:0 }
+    window.__eqTerms = {};   // { cm5:{mode,term}, ... }
+    window.__MACHINES.forEach(function(mc){
+      window.__qty[mc.slug] = mc.qtyDefault;
+      window.__eqTerms[mc.slug] = { mode:'rental', term:36 };
+    });
+    // back-compat: some code still reads window.__qtyCm5 / __qtyCm8 directly
+    Object.defineProperty(window,'__qtyCm5',{get:function(){return window.__qty.cm5;},set:function(v){window.__qty.cm5=v;},configurable:true});
+    Object.defineProperty(window,'__qtyCm8',{get:function(){return window.__qty.cm8;},set:function(v){window.__qty.cm8=v;},configurable:true});
+    (function(){
+      document.querySelectorAll('.q-eq-terms').forEach(function(wrap){
+        var m = wrap.getAttribute('data-m');
+        if(!m || !window.__eqTerms[m]) return;
+        var lenWrap = wrap.querySelector('.q-eq-lengths');
+        function syncLenVisibility(){
+          if(lenWrap) lenWrap.classList.toggle('is-hidden', window.__eqTerms[m].mode !== 'rental');
+        }
+        wrap.querySelectorAll('.q-eq-mode').forEach(function(b){
+          b.addEventListener('click',function(){
+            window.__eqTerms[m].mode = b.getAttribute('data-mode');
+            wrap.querySelectorAll('.q-eq-mode').forEach(function(x){
+              var on=x===b; x.classList.toggle('is-on',on); x.setAttribute('aria-checked',on?'true':'false');
+            });
+            syncLenVisibility();
+            if(typeof compute==='function') compute();
+          });
+        });
+        wrap.querySelectorAll('.q-eq-len').forEach(function(b){
+          b.addEventListener('click',function(){
+            window.__eqTerms[m].term = parseInt(b.getAttribute('data-term'),10);
+            wrap.querySelectorAll('.q-eq-len').forEach(function(x){
+              var on=x===b; x.classList.toggle('is-on',on); x.setAttribute('aria-checked',on?'true':'false');
+            });
+            if(typeof compute==='function') compute();
+          });
+        });
+        syncLenVisibility();
+      });
+    })();
+    var stepBtns = document.querySelectorAll('.q-step-btn');
+    function syncMachinesCta(){
+      var btn=document.querySelector('.deck-next[data-goto="2"]'); if(!btn) return;
+      var total=0; for(var k in window.__qty){ total+=window.__qty[k]||0; }
+      var skip = total===0;
+      btn.innerHTML = skip ? 'Skip machines &rarr;' : 'Confirm machines &rarr;';
+      btn.classList.toggle('deck-next--skip', skip);
+    }
+    if(stepBtns.length){
+      stepBtns.forEach(function(b){
+        b.addEventListener('click',function(){
+          var m=b.getAttribute('data-m'), d=parseInt(b.getAttribute('data-d'),10);
+          if(!(m in window.__qty)) return;
+          var next = Math.max(0, Math.min(9, window.__qty[m]+d));
+          // coffee-only is a valid configuration — no minimum machine count
+          window.__qty[m]=next; var _sv=document.getElementById('qty'+m.charAt(0).toUpperCase()+m.slice(1)); if(_sv)_sv.textContent=next;
+          if(typeof compute==='function') compute();
+          syncMachinesCta();
+        });
+      });
+      syncMachinesCta();
+    }
+})();
+</script>
+<script>
+/* ══ machine spec detail panel controller — real CaféMatic data ══ */
+(function(){
+function initSpecs(){
+  var CAP = {
+    'CaféMatic 2':'Coffee & milk drinks at one button press · countertop · up to ~80 cups/day',
+    'CaféMatic 5':'Coffee plus one powder drink like hot chocolate or matcha · barista milk + hot water on tap · up to ~200 cups/day',
+    'CaféMatic 6':'Two bean types side by side, e.g. regular & decaf · built for a busy rush · up to ~200 cups/day',
+    'CaféMatic 8':'The fullest menu: two coffees plus two powders like cocoa & matcha · up to ~200 cups/day'
+  };
+  var ROWS = ['Daily volume','How fast at peak','What it can make','Milk & froth','Decaf or second coffee','Strength & customising','Water','Footprint on the counter','How loud','Power'];
+  var DETAIL = {
+    'CaféMatic 2':{
+      'Daily volume':['Up to about 80 cups a day','60–80 cups/day recommended'],
+      'How fast at peak':['Keeps a short queue moving — roughly a cup a minute','Up to 70 espresso/hour (50ml)'],
+      'What it can make':['Espresso, long black, cappuccino, latte, flat white — all at one button','1 bean hopper · no powder hopper'],
+      'Milk & froth':['Hot, properly frothed milk automatically, cleans its own milk path','Min. 60°C, adjustable · self-cleaning'],
+      'Decaf or second coffee':['One coffee at a time (single bean hopper)','1 × 1200 g hopper'],
+      'Strength & customising':['Five strength settings, so staff can dial in their cup','Max. 16 g dose · 9 grind levels'],
+      'Water':['Fill the 8L tank, or plumb it into the mains — your choice','8 L tank, or mains inlet'],
+      'Footprint on the counter':['Compact — about the width of a microwave','410 × 500 × 580 mm · 23 kg'],
+      'How loud':['Quiet enough for an open-plan office','< 70 dB'],
+      'Power':['Plugs into a standard office socket','220–240 V · 2900 W']
+    },
+    'CaféMatic 5':{
+      'Daily volume':['Up to about 150 cups a day','120–150 cups/day recommended'],
+      'How fast at peak':['Handles a steady morning rush without a long wait','Up to 100 espresso/hour (50ml)'],
+      'What it can make':['Coffee plus one powder drink like hot chocolate or matcha, on top of the full coffee menu','1 bean hopper + 1 powder hopper'],
+      'Milk & froth':['Proper barista-style steam wand and a hot-water tap for tea','Independent steam + hot-water wands · froth > 60°C'],
+      'Decaf or second coffee':['One coffee at a time, but adds a powder option alongside it','1 × 1500 g bean · 1 × 1200 g powder'],
+      'Strength & customising':['Five strength settings and a stronger maximum shot than the entry model','Max. 21 g dose · 9 grind levels'],
+      'Water':['Fill the tank, or plumb in for higher-volume days','4 L tank · 30 L/hour hot water'],
+      'Footprint on the counter':['Countertop machine, a little taller with the hopper fitted','340 × 545 × 620 mm (700 with hopper) · 30 kg'],
+      'How loud':['Quiet enough for an open-plan office','< 70 dB'],
+      'Power':['Plugs into a standard office socket','220–240 V · 2900 W']
+    },
+    'CaféMatic 6':{
+      'Daily volume':['Up to about 200 cups a day','150–200 cups/day recommended'],
+      'How fast at peak':['Built for a busy rush — two grinders mean less waiting','Up to 156 espresso/hour (50ml)'],
+      'What it can make':['Full coffee menu from two bean types — no powder drinks on this one','2 bean hoppers · no powder hopper'],
+      'Milk & froth':['One outlet pours coffee, hot water and frothed milk','Coffee, hot water, milk/foam > 60°C'],
+      'Decaf or second coffee':['Yes — two beans side by side, e.g. regular and decaf, or a second roast','2 × 1200 g hoppers · 2 grinders'],
+      'Strength & customising':['Five strength settings and a full-size maximum shot','Max. 21 g dose · 9 grind levels'],
+      'Water':['Fill the tank, or plumb into the mains','4 L tank, or mains inlet'],
+      'Footprint on the counter':['Taller floor- or counter-standing unit; needs a bit more height','340 × 540 × 800 mm · 42 kg'],
+      'How loud':['Quiet enough for an open-plan office','< 70 dB'],
+      'Power':['Plugs into a standard office socket','220–240 V · 2900 W']
+    },
+    'CaféMatic 8':{
+      'Daily volume':['Up to about 200 cups a day','150–200 cups/day recommended'],
+      'How fast at peak':['Built for a busy rush — two grinders keep the queue short','Up to 156 espresso/hour (50ml)'],
+      'What it can make':['The fullest menu: two coffees plus two powders, e.g. cocoa and matcha together','2 bean hoppers + 2 powder hoppers'],
+      'Milk & froth':['One outlet pours coffee, hot water and frothed milk','Coffee, hot water, milk/foam > 60°C'],
+      'Decaf or second coffee':['Yes — two beans and two powders all available at once','2 × 1200 g bean · 2 × 1000 g powder'],
+      'Strength & customising':['Five strength settings and a full-size maximum shot','Max. 21 g dose · 9 grind levels'],
+      'Water':['Fill the tank, or plumb into the mains','4 L tank, or mains inlet'],
+      'Footprint on the counter':['The largest of the range; needs the most space','340 × 540 × 800 mm · 45 kg'],
+      'How loud':['Quiet enough for an open-plan office','< 70 dB'],
+      'Power':['Plugs into a standard office socket','220–240 V · 2900 W']
+    }
+  };
+  var SLUG={'CaféMatic 2':'cm2','CaféMatic 5':'cm5','CaféMatic 6':'cm6','CaféMatic 8':'cm8'};
+  var STATS={
+    'CaféMatic 2':[['~80','cups / day'],['70','espresso / hr'],['1','bean hopper']],
+    'CaféMatic 5':[['~150','cups / day'],['100','espresso / hr'],['1 + 1','bean + powder']],
+    'CaféMatic 6':[['~200','cups / day'],['156','espresso / hr'],['2','bean hoppers']],
+    'CaféMatic 8':[['~200','cups / day'],['156','espresso / hr'],['2 + 2','bean + powder']]
+  };
+  var TABLEROWS=['What it can make','Milk & froth','Decaf or second coffee','Strength & customising','Water','Footprint on the counter','How loud','Power'];
+  var panel=document.getElementById('mxInline'), grid=document.querySelector('.q-eq-grid');
+  var nameEl=document.getElementById('mxName'), capEl=document.getElementById('mxCap'), tableEl=document.getElementById('mxTable');
+  var imgEl=document.getElementById('mxImg'), statsEl=document.getElementById('mxStats');
+  function open(machine){
+    var d=DETAIL[machine]; if(!d) return;
+    panel.classList.toggle('mx-compact', machine==='CaféMatic 5'||machine==='CaféMatic 6');
+    nameEl.textContent=machine;
+    capEl.textContent=CAP[machine].replace(/&amp;/g,'&');
+    imgEl.style.opacity=''; imgEl.src='https://nofilter-shared.netlify.app/cafematic-'+SLUG[machine].slice(2)+'.png';
+    statsEl.innerHTML=STATS[machine].map(function(s,i){
+      return '<div class="mx-stat" style="--s:'+i+'"><div class="mx-stat-n">'+s[0]+'</div><div class="mx-stat-l">'+s[1]+'</div></div>';
+    }).join('');
+    tableEl.innerHTML=TABLEROWS.map(function(r){
+      var v=d[r]||['',''];
+      return '<tr><th>'+r+'</th><td><span class="spec-plain">'+v[0]+'</span><span class="spec-raw">'+v[1]+'</span></td></tr>';
+    }).join('');
+    tableEl.querySelectorAll('tr').forEach(function(tr,i){ tr.style.setProperty('--i', i); });
+    grid.classList.add('mx-exiting');
+    document.body.classList.add('mx-detail-open');
+    setTimeout(function(){
+      grid.classList.add('mx-hidden'); grid.classList.remove('mx-exiting');
+      panel.classList.add('is-open');
+      // while a detail is open the only action is "back to machines" — hide the step's advance pill
+      var proceed=panel.parentElement.querySelector('.deck-next[data-goto="2"]');
+      if(proceed && proceed.closest('.deck-actions')) proceed.closest('.deck-actions').style.display='none';
+      else if(proceed) proceed.style.display='none';
+      // step-head and grid above the panel are both display:none when open, so resetting the
+      // focus container to the top lands the panel at the top — fixes the video sliver on tall CM5/CM6
+      try{
+        var sec=document.getElementById('price');
+        if(sec && sec.classList.contains('nf-focus-sec')){ sec.scrollTop=0; }
+        else if(panel.scrollIntoView){ panel.scrollIntoView({behavior:'smooth',block:'start'}); }
+      }catch(e){}
+    }, 340);
+  }
+  function close(){
+    panel.classList.remove('is-open');
+    document.body.classList.remove('mx-detail-open');
+    grid.classList.remove('mx-hidden');
+    grid.classList.add('mx-exiting');
+    void grid.offsetWidth;
+    grid.classList.remove('mx-exiting');
+    // back in the grid, advancing the step makes sense again
+    var proceed=panel.parentElement.querySelector('.deck-next[data-goto="2"]');
+    if(proceed && proceed.closest('.deck-actions')) proceed.closest('.deck-actions').style.display='';
+    else if(proceed) proceed.style.display='';
+  }
+  document.querySelectorAll('.mx-specs-btn').forEach(function(b){
+    b.addEventListener('click',function(e){ e.stopPropagation(); open(b.getAttribute('data-machine')); });
+  });
+  document.getElementById('mxBack').addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+}
+if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',initSpecs); } else { initSpecs(); }
+})();
+</script>
+<!-- ═══ end machine-picker partial ═══ -->

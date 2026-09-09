@@ -1,0 +1,410 @@
+<!-- ═══ NoFilter shared impact counter — "impact-holdtheline" ═══════════════════
+     Verbatim from the Part 1 master (CSS 1055-1173, markup 1978-2027, counter engine 2887-3117).
+     Split-flap board is a SIMULATED, per-prospect device by canon design ("no backend… targets are
+     placeholders; swap per prospect"). De-tokenised for the generic site; targets illustrative.
+     Relies on host :root tokens (--nf-*, --font-display, --font-mono). -->
+<style id="nf-impact">
+.impact{position:relative;background:var(--nf-parchment);padding:clamp(40px,5vh,70px) 0;
+  border-top:4px solid var(--nf-near-black);overflow-x:clip;}
+/* Single right footprint just below the parchment line, banner-size */
+.line-print{position:absolute;z-index:2;pointer-events:none;color:var(--nf-near-black);}
+.line-print .fp-one{height:22px;width:auto;display:block;}
+.line-print.fp-foot .fp-one{transform:scaleY(-1);}
+
+/* TEST A: section background video */
+.impact-bg{position:absolute;inset:0;z-index:0;overflow:hidden;}
+.impact-bg.is-empty{display:none;}
+.impact-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.impact-bg-shade{position:absolute;inset:0;background:rgba(26,24,21,.82);}
+/* TEST B: vertical side clip, left of counter */
+.cafe-side{position:absolute;left:clamp(20px,4vw,80px);top:50%;transform:translateY(-50%);
+  margin:0;width:clamp(150px,16vw,240px);aspect-ratio:9/16;overflow:hidden;border-radius:8px;
+  box-shadow:0 12px 34px rgba(0,0,0,.28);z-index:3;}
+.cafe-side.is-empty{display:none;}
+.cafe-side video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+@media(max-width:1100px){.cafe-side{display:none;}}
+.impact .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 clamp(20px,2.5vw,44px);}
+.cafe-counter{position:relative;z-index:2;text-align:center;width:100%;margin:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(24px,3vw,40px) clamp(20px,2.5vw,40px);border-radius:10px;overflow:hidden;
+  background:#1A1815;
+  border:1px solid rgba(168,144,96,.18);
+  box-shadow:0 10px 30px rgba(0,0,0,.18);}
+.cafe-counter.is-nudged{animation:counterPulse .7s ease-out 1;}
+@keyframes counterPulse{
+  0%{border-color:rgba(168,144,96,.18);box-shadow:0 10px 30px rgba(0,0,0,.18);}
+  25%{border-color:rgba(238,77,23,.85);box-shadow:0 10px 36px rgba(238,77,23,.28),0 0 0 1px rgba(238,77,23,.4) inset;}
+  100%{border-color:rgba(168,144,96,.18);box-shadow:0 10px 30px rgba(0,0,0,.18);}
+}
+.cafe-counter.is-nudged .cafe-flap-prefix,.cafe-counter.is-nudged .cf-cell{animation:digitGlow .7s ease-out 1;}
+@keyframes digitGlow{0%{color:var(--nf-cream);}25%{color:#ffd9c2;}100%{color:var(--nf-cream);}}
+.cafe-counter-hook{margin:0 0 clamp(20px,2.6vw,30px);font-family:var(--font-display);font-weight:800;
+  line-height:1.08;text-transform:uppercase;letter-spacing:-.01em;color:var(--nf-cream);}
+/* media grid: counter + feature video on top, 3 clips across the bottom */
+.impact-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  grid-template-rows:auto auto;gap:clamp(12px,1.5vw,20px);
+  width:min(100%, 1080px);margin:0 auto;align-items:stretch;box-sizing:border-box;}
+.cafe-counter{grid-column:span 3;grid-row:1;min-width:0;}
+.impact-cell--feature{grid-column:span 3;grid-row:1;min-width:0;width:100%;aspect-ratio:auto;}
+.impact-cell--feature video{object-position:78% 50%;}
+.impact-grid > .impact-cell:not(.impact-cell--feature){grid-column:span 2;grid-row:2;min-width:0;}
+.impact-cell{position:relative;margin:0;overflow:hidden;border-radius:10px;background:#1f1916;
+  aspect-ratio:16/10;box-shadow:0 10px 30px rgba(0,0,0,.14);min-width:0;}
+.impact-cell.is-empty{display:none;}
+.impact-cell video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+@media(max-width:820px){
+  .impact-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto;}
+  .cafe-counter,.impact-cell--feature{grid-column:span 2;grid-row:auto;}
+  .impact-cell--feature{aspect-ratio:16/10;}
+  .impact-grid > .impact-cell:not(.impact-cell--feature){grid-column:span 1;grid-row:auto;}
+}
+@media(max-width:520px){
+  .impact-grid{grid-template-columns:1fr;}
+  .cafe-counter,.impact-cell--feature,.impact-grid > .impact-cell:not(.impact-cell--feature){grid-column:span 1;}
+}
+.cafe-hook-1{display:block;font-size:clamp(20px,3vw,34px);}
+.cafe-hook-2{display:block;margin-top:.4em;font-size:clamp(20px,3vw,34px);color:var(--nf-cream);}
+.cafe-hook-hl{color:var(--nf-orange);}
+.cafe-hook-2b{margin-top:.5em;}
+.cafe-counter-flip-lead{margin:0 0 clamp(14px,2vw,20px);font-family:var(--font-display);font-weight:800;
+  font-size:clamp(22px,3.2vw,38px);text-transform:uppercase;letter-spacing:-.01em;color:var(--nf-orange);
+  text-shadow:0 2px 16px rgba(0,0,0,.55);}
+.cafe-count{color:var(--nf-orange);font-variant-numeric:tabular-nums;}
+.cafe-counter-flap{display:flex;width:fit-content;margin:0 auto;align-items:center;gap:8px;justify-content:center;
+  padding:clamp(10px,1.6vw,16px);background:var(--nf-near-black);border-radius:8px;
+  box-shadow:0 10px 30px -6px rgba(0,0,0,.45),0 3px 8px rgba(0,0,0,.3);}
+.cafe-flap-prefix{font-family:var(--font-mono);font-weight:400;font-size:clamp(30px,5vw,56px);
+  line-height:1;color:var(--nf-cream);align-self:center;}
+.cafe-flap-tiles{display:inline-flex;gap:5px;}
+/* one split-flap cell — falling-flap mechanic.
+   Technique: each half clips a FULL-tile-height digit. Top half anchors that
+   digit to the top of the cell; bottom half anchors an identical digit to the
+   bottom. Same glyph, same centreline, clipped to opposite halves -> they
+   reconstruct one clean number across the seam. */
+.cf-cell{position:relative;width:clamp(30px,4.6vw,52px);height:clamp(46px,7vw,78px);
+  perspective:600px;font-family:var(--font-mono);font-weight:400;
+  font-size:clamp(26px,4.1vw,46px);line-height:1;
+  color:var(--nf-cream);border-radius:5px;background:#000;}
+.cf-blank{background:#000;}
+.cf-blank::after{content:"";position:absolute;left:0;right:0;top:calc(50% - 1px);height:2px;background:rgba(0,0,0,.6);}
+.cf-half{position:absolute;left:0;right:0;height:calc(50% - 1px);overflow:hidden;background:#0f0f0f;}
+/* the inner glyph is the full cell height, centred, and positioned so both
+   halves see the same centreline. */
+.cf-half span{position:absolute;left:0;right:0;height:calc(200% + 2px);display:flex;
+  align-items:center;justify-content:center;}
+.cf-top{top:0;border-radius:5px 5px 0 0;}
+.cf-top span{top:0;}
+.cf-bot{bottom:0;border-radius:0 0 5px 5px;}
+.cf-bot span{bottom:0;}
+/* the falling front leaf — JS animates rotateX 0 -> -90. Mirrors the top half. */
+.cf-leaf{position:absolute;left:0;right:0;top:0;height:calc(50% - 1px);overflow:hidden;background:#0f0f0f;
+  border-radius:5px 5px 0 0;transform-origin:bottom center;backface-visibility:hidden;
+  z-index:5;opacity:0;pointer-events:none;}
+.cf-leaf span{position:absolute;left:0;right:0;top:0;height:calc(200% + 2px);display:flex;
+  align-items:center;justify-content:center;}
+.cf-sep{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:12px;
+  color:var(--nf-cream);font-family:var(--font-mono);align-self:center;}
+.cafe-mute{margin:clamp(12px,1.8vw,16px) auto 0;display:flex;width:fit-content;align-items:center;gap:5px;
+  padding:3px 6px;border:none;border-radius:6px;background:transparent;cursor:pointer;
+  font-family:var(--font-mono);font-size:10px;font-weight:400;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(244,242,238,.5);transition:color .2s;}
+.cafe-mute:hover{color:rgba(244,242,238,.85);}
+.cafe-mute[aria-pressed="true"]{color:rgba(244,242,238,.38);}
+.cafe-mute-icon{font-size:11px;line-height:1;}
+.cafe-mute:focus{outline:none;}
+.cafe-mute:focus-visible{outline:1px solid rgba(244,242,238,.45);outline-offset:2px;border-radius:6px;}
+/* scene-setting clips beneath the counter — atmosphere, understated */
+.cafe-scene{max-width:1180px;margin:clamp(22px,3vw,36px) auto 0;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,18px);}
+.cafe-scene-clip{position:relative;margin:0;aspect-ratio:16/10;overflow:hidden;border-radius:6px;
+  background:#241813;box-shadow:0 6px 18px rgba(0,0,0,.16);}
+.cafe-scene-clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(.92);}
+.cafe-scene-clip.is-empty{display:none;}
+@media(max-width:680px){
+  .cafe-scene{grid-template-columns:1fr;max-width:420px;}
+</style>
+
+<section class="impact" id="impact">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="wrap">
+    <div class="impact-grid reveal d1">
+
+      <!-- top-left: counter cell (headline + digits + note, solid dark frame) -->
+      <div class="cafe-counter">
+        <p class="cafe-counter-hook">
+          <span class="cafe-hook-1">Every day, a NoFilter office pours coffee for <b id="guestCount" class="cafe-count">250</b> people.</span>
+          <span class="cafe-hook-2">Imagine if every cup quietly <span class="cafe-hook-hl">funded&nbsp;conservation.</span></span>
+          <span class="cafe-hook-2 cafe-hook-2b">In a way <span class="cafe-hook-hl">your community could&nbsp;see.</span></span>
+        </p>
+        <div class="cafe-counter-flap" role="img" aria-label="Live conservation contribution counter">
+          <span class="cafe-flap-prefix">SGD </span>
+          <span class="cafe-flap-tiles" id="impactCounter"></span>
+        </div>
+        <button type="button" id="cafeMute" class="cafe-mute" aria-pressed="false" aria-label="Mute counter sound">
+          <span class="cafe-mute-icon" aria-hidden="true">&#9834;</span><span class="cafe-mute-label">Sound on</span>
+        </button>
+      </div>
+
+      <!-- top-right: feature video (Wondershare-treated cup clip) -->
+      <figure class="impact-cell impact-cell--feature" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" onerror="this.closest('.impact-cell').classList.add('is-empty');"><source src="https://nofilter-shared.netlify.app/cafe-treated.mp4" type="video/mp4"></video>
+      </figure>
+
+      <!-- bottom row: friends, espresso, latte -->
+      <figure class="impact-cell" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" onerror="this.closest('.impact-cell').classList.add('is-empty');"><source src="https://nofilter-shared.netlify.app/cafe-bg.mp4" type="video/mp4"></video>
+      </figure>
+      <figure class="impact-cell" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" onerror="this.closest('.impact-cell').classList.add('is-empty');"><source src="https://nofilter-shared.netlify.app/cafe-scene-1.mp4" type="video/mp4"></video>
+      </figure>
+      <figure class="impact-cell" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" onerror="this.closest('.impact-cell').classList.add('is-empty');"><source src="https://nofilter-shared.netlify.app/cafe-scene-2.mp4" type="video/mp4"></video>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<script>
+/* LIVE IMPACT COUNTER — café section.
+   Split-flap mechanic ported from the NoFilter in-café board engine (Vestaboard
+   fork): spool-cycling digits, falling-leaf flip, click per land. NO backend —
+   the count is simulated in discrete per-cup jumps so it reads as live in a pitch.
+   Targets are placeholders; swap per prospect. */
+(function(){
+  var IMPACT_TARGET = 1042;    // PER-PROSPECT SWAP: annual $ contribution estimate (school-scale)
+  var GUEST_TARGET  = 250;    // EDIT PER TARGET — community headcount (was UWCSEA 2500)
+  var CUP_VALUE     = 0.42;    // $ of the 10% per cup (derived; placeholder, verify w/ Sinan)
+  var FAST = 34, FINAL = 320;  // ms per spool step / final land (from board engine)
+  var SPOOL = "0123456789";
+  var tilesEl = document.getElementById('impactCounter');
+  var guestEl = document.getElementById('guestCount');
+  var wrap = document.querySelector('.cafe-counter');
+  if(!tilesEl || !wrap) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function fmt(n){ return Math.round(n).toLocaleString('en-GB'); }
+
+  // ---- audio: short synthesised flap click (no asset dependency) ----
+  var actx = null, muted = false;
+  function ensureCtx(){
+    try{
+      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+      if(actx.state === 'suspended' && actx.resume) actx.resume();
+    }catch(e){}
+  }
+  function click(){
+    if(reduce || muted) return;
+    ensureCtx();
+    if(!actx) return;
+    try{
+      var dur = 0.03, n = actx.sampleRate*dur;
+      var buf = actx.createBuffer(1, n, actx.sampleRate), d = buf.getChannelData(0);
+      for(var i=0;i<n;i++){ var t=i/actx.sampleRate; d[i]=(Math.random()*2-1)*Math.exp(-t/0.004); }
+      var src = actx.createBufferSource(); src.buffer = buf;
+      var hp = actx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=4200;
+      var g = actx.createGain(); g.gain.value=0.22;
+      src.connect(hp); hp.connect(g); g.connect(actx.destination);
+      src.start();
+    }catch(e){}
+  }
+  // arm audio on first gesture AND on scroll (autoplay policy; scroll may or may
+  // not count as a gesture depending on browser, so we cover both). click and
+  // pointerup are the gestures browsers most reliably honour for unlocking audio.
+  function arm(){ ensureCtx(); }
+  ['click','pointerup','pointerdown','keydown','touchstart','touchend','wheel','scroll'].forEach(function(ev){
+    window.addEventListener(ev, arm, {capture:true, passive:true});
+  });
+
+  // mute toggle
+  var muteBtn = document.getElementById('cafeMute');
+  if(muteBtn){
+    muteBtn.addEventListener('click', function(){
+      muted = !muted;
+      muteBtn.setAttribute('aria-pressed', muted ? 'true':'false');
+      var label = muteBtn.querySelector('.cafe-mute-label');
+      var icon = muteBtn.querySelector('.cafe-mute-icon');
+      if(label) label.textContent = muted ? 'Sound off' : 'Sound on';
+      if(icon) icon.innerHTML = muted ? '&#128263;' : '&#9834;';
+      if(!muted) ensureCtx();
+    });
+  }
+
+  // ---- build one split-flap cell ----
+  function makeCell(ch){
+    if(ch === ' '){
+      // blank leading flap — a dark empty cell (no digit), matches the cell frame
+      var b = document.createElement('span'); b.className='cf-cell cf-blank'; b.dataset.val=' '; return b;
+    }
+    if(!/[0-9]/.test(ch)){
+      var s = document.createElement('span'); s.className='cf-sep'; s.textContent=ch; return s;
+    }
+    var c = document.createElement('span');
+    c.className='cf-cell'; c.dataset.val=ch;
+    c.innerHTML =
+      '<span class="cf-half cf-top"><span>'+ch+'</span></span>'+
+      '<span class="cf-half cf-bot"><span>'+ch+'</span></span>'+
+      '<span class="cf-leaf"><span>'+ch+'</span></span>';
+    return c;
+  }
+
+  // ---- flip one cell from its current digit to target, cycling the spool ----
+  function flipCell(cell, target){
+    var cur = cell.dataset.val;
+    if(cur === target) return;
+    var top = cell.querySelector('.cf-top span');
+    var bot = cell.querySelector('.cf-bot span');
+    var leaf = cell.querySelector('.cf-leaf');
+    var leafTxt = leaf.querySelector('span');
+    if(reduce){ top.textContent=target; bot.textContent=target; leafTxt.textContent=target; cell.dataset.val=target; return; }
+
+    // build the path of digits from cur -> target going up the spool
+    var oi = SPOOL.indexOf(cur), ni = SPOOL.indexOf(target);
+    if(oi < 0) oi = 0;
+    var steps = ni - oi; if(steps < 0) steps += SPOOL.length;
+    if(steps === 0){ top.textContent=target; bot.textContent=target; leafTxt.textContent=target; cell.dataset.val=target; return; }
+    var path = [];
+    for(var k=1;k<=steps;k++) path.push(SPOOL[(oi+k)%SPOOL.length]);
+
+    var t = 0;
+    path.forEach(function(ch, i){
+      var isLast = (i === path.length-1);
+      var prev = (i===0) ? cur : path[i-1];
+      var dur = isLast ? FINAL : FAST;
+      setTimeout(function(){
+        // top half shows new immediately (revealed as leaf falls)
+        top.textContent = ch;
+        // leaf shows the PREVIOUS digit and folds away
+        leafTxt.textContent = prev;
+        leaf.style.opacity = '1';
+        if(leaf._a) try{ leaf._a.cancel(); }catch(e){}
+        leaf._a = leaf.animate(
+          [{transform:'rotateX(0deg)'},{transform:'rotateX(-90deg)'}],
+          {duration:dur, easing:'cubic-bezier(0.4,0,0.7,1)', fill:'forwards'}
+        );
+        if(isLast || i%2===0) click();
+        // halfway: bottom half swaps to new
+        setTimeout(function(){ bot.textContent = ch; }, dur*0.5);
+        // end: settle leaf hidden, store value
+        setTimeout(function(){ leaf.style.opacity='0'; if(leaf._a) try{ leaf._a.cancel(); }catch(e){} leafTxt.textContent=ch; }, dur);
+      }, t);
+      t += dur;
+    });
+    cell.dataset.val = target;
+  }
+
+  var lastStr = null;
+  function blankMask(s){ return s.replace(/[0-9]/g,'#'); } // pattern of blanks vs digits
+  function render(str){
+    if(lastStr === null || lastStr.length !== str.length || blankMask(lastStr) !== blankMask(str)){
+      tilesEl.innerHTML='';
+      for(var i=0;i<str.length;i++) tilesEl.appendChild(makeCell(str[i]));
+    } else {
+      var cells = tilesEl.children;
+      for(var j=0;j<str.length;j++){
+        if(/[0-9]/.test(str[j])) flipCell(cells[j], str[j]);
+      }
+    }
+    lastStr = str;
+  }
+
+  function setImpact(v){
+    // 5-cell display, no commas, space-padded so the leading cell stays blank
+    var s = String(Math.round(v));
+    while(s.length < 5) s = ' ' + s;
+    render(s);
+  }
+
+  // initial
+  setImpact(reduce ? IMPACT_TARGET : 0);
+  if(guestEl) guestEl.textContent = reduce ? fmt(GUEST_TARGET) : '0';
+
+  var current = 0;
+  // count-up reveal in throttled steps (not per-frame) so flips don't pile up.
+  function countUp(done){
+    if(reduce){ current=IMPACT_TARGET; setImpact(current); if(guestEl) guestEl.textContent=fmt(GUEST_TARGET); if(done) done(); return; }
+    var start=null, dur=2600, lastPaint=0, paintEvery=90; // ms between flips
+    function ease(t){ return 1-Math.pow(1-t,3); }
+    function step(ts){
+      if(start===null) start=ts;
+      var p=Math.min(1,(ts-start)/dur), e=ease(p);
+      if(ts-lastPaint >= paintEvery || p>=1){
+        lastPaint = ts;
+        current = IMPACT_TARGET*e;
+        setImpact(current);
+        if(guestEl) guestEl.textContent = fmt(GUEST_TARGET*e);
+      }
+      if(p<1) requestAnimationFrame(step);
+      else { current=IMPACT_TARGET; setImpact(current); if(guestEl) guestEl.textContent=fmt(GUEST_TARGET); if(done) done(); }
+    }
+    requestAnimationFrame(step);
+  }
+
+  // simulated café: a cup lands every few seconds; count jumps by one cup's value.
+  function startCups(){
+    if(reduce) return;
+    function nextCup(){
+      var wait = 2500 + Math.random()*4000; // a cup every 2.5–6.5s
+      setTimeout(function(){
+        current += CUP_VALUE;
+        setImpact(current);
+        nextCup();
+      }, wait);
+    }
+    nextCup();
+  }
+
+  var fired=false;
+  function go(){ if(fired) return; fired=true; countUp(startCups); }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ go(); io.disconnect(); } }); }, {threshold:0.4});
+    io.observe(wrap);
+  } else { go(); }
+
+  // cup-meets-counter response: counter pulses orange when cup is closest (~3s).
+  // Driven by JS inline styles (NOT a CSS @keyframes animation) so it fires even
+  // when the OS has 'Reduce Motion' enabled, which silently suppresses CSS animations.
+  var featVid = document.querySelector('.impact-cell--feature video');
+  if(featVid){
+    var pulsedThisLoop=false;
+    var PULSE_AT=2.5; // seconds — cup closest to counter (felt 0.5s late at 3.0)
+    var flapEls = wrap.querySelectorAll('.cafe-flap-prefix, .cf-cell');
+    var baseBg = '#1A1815';
+    var baseShadow = '0 10px 30px rgba(0,0,0,0.18)';
+    function pulse(){
+      // bloom — stronger: deeper warm bg + brighter orange glow/ring + digit warmth
+      wrap.style.transition='background-color .14s ease, box-shadow .14s ease';
+      wrap.style.background='#5a3415';
+      wrap.style.boxShadow='0 12px 60px rgba(238,77,23,0.85), 0 0 0 4px rgba(238,77,23,0.9)';
+      flapEls.forEach(function(e){ e.style.transition='color .14s ease, text-shadow .14s ease'; e.style.color='#ffb98c'; e.style.textShadow='0 0 18px rgba(238,77,23,0.7)'; });
+      setTimeout(function(){
+        wrap.style.transition='background-color .6s ease, box-shadow .6s ease';
+        wrap.style.background=baseBg;
+        wrap.style.boxShadow=baseShadow;
+        flapEls.forEach(function(e){ e.style.transition='color .6s ease, text-shadow .6s ease'; e.style.color=''; e.style.textShadow=''; });
+      }, 320);
+    }
+    function check(){
+      var t = featVid.currentTime;
+      if(t >= PULSE_AT && t < PULSE_AT+0.4 && !pulsedThisLoop){ pulsedThisLoop=true; pulse(); }
+      if(t < 1.0) pulsedThisLoop=false;
+    }
+    featVid.addEventListener('timeupdate', check);
+    featVid.addEventListener('seeked', check);
+    featVid.addEventListener('loadedmetadata', function(){ featVid.play().catch(function(){}); });
+    featVid.play().catch(function(){});
+  }
+})();
+</script>
+<!-- ═══ end impact partial ═══ -->

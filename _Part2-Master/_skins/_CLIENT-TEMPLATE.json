@@ -1,0 +1,16 @@
+{
+  "TARGET_NAME": "",
+  "COLOPHON_CODE": "",
+  "TARGET_SIGNATORY": "",
+  "TARGET_SIGNATORY_FIRST": "",
+  "TARGET_CONTACT_EMAIL": "",
+  "TARGET_BILLING_ENTITY": "",
+  "FORM_NAME": "",
+  "COUNTER_SRC": "",
+  "COBRAND_MACHINE": "",
+  "COBRAND_CARDS": "",
+  "COBRAND_CUP": "",
+  "COBRAND_BAG": "",
+  "SUPPLY_TERM": "",
+  "_README": "Copy per client; fill from the intake. Market values come from _presets/<MARKET>.json. Deploy-time tokens (machine rates, CONTRACT_URL, PART2_URL) are filled at deploy."
+}
