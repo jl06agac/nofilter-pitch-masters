@@ -1,0 +1,89 @@
+<script id="nf-paginate">
+/* ===================================================================
+   SELF-PACKING TERMS PAGES — runs after nf-contract-sync on load.
+   Distributes clauses across the terms pages so each page's two
+   balanced columns are filled without overflow. Adds or removes terms
+   pages as needed, then renumbers tags, header ranges, footers and
+   screen labels. Idempotent; leaves the static layout in place if
+   anything unexpected is found.
+   =================================================================== */
+(function () {
+  function pad(n){ return (n<10?'0':'')+n; }
+  function termsPages(){ return [].slice.call(document.querySelectorAll('section.page'))
+    .filter(function(s){ return /Terms/i.test(s.getAttribute('data-screen-label')||''); }); }
+  function spills(pg){ var b=pg.querySelector('.clauses'); return b ? (b.scrollWidth - b.clientWidth) > 2 : false; }
+
+  function run(){
+    if (document.body.getAttribute('data-nf-packed')) return;
+    var pages = termsPages(); if (pages.length < 1) return;
+    var clauses = [];
+    pages.forEach(function(p){ [].forEach.call(p.querySelectorAll('.clause'), function(c){ clauses.push(c); }); });
+    if (clauses.length < 2) return;
+
+    var first = pages[0], tpl = pages[1] || pages[0];
+    var blank = tpl.cloneNode(true);
+    [].forEach.call(blank.querySelectorAll('.clause-group'), function(g,i){ if(i>0) g.remove(); });
+    blank.querySelector('.clauses').innerHTML = '';
+    if (!blank.querySelector('.terms__head .h span')) {
+      var h = blank.querySelector('.terms__head .h'); if (h) h.innerHTML = 'contract <em>terms</em> <span style="opacity:.45;">/ 2.</span>';
+    }
+    pages.slice(1).forEach(function(p){ p.remove(); });
+    [].forEach.call(first.querySelectorAll('.clause-group'), function(g,i){ if(i>0) g.remove(); });
+    var box = first.querySelector('.clauses'); box.innerHTML = '';
+
+    var cur = first, out = [first];
+    function fill(list){
+      // list: array of arrays of clause elements, one per page
+      while (out.length < list.length) { var n = blank.cloneNode(true); out[out.length-1].parentNode.insertBefore(n, out[out.length-1].nextSibling); out.push(n); }
+      while (out.length > list.length) { var r = out.pop(); r.remove(); }
+      out.forEach(function(p, i){ var b = p.querySelector('.clauses'); b.innerHTML = ''; list[i].forEach(function(c){ b.appendChild(c); }); });
+    }
+    // 1. greedy pass to learn how many pages are needed
+    var greedy = [[]];
+    for (var i = 0; i < clauses.length; i++) {
+      greedy[greedy.length-1].push(clauses[i]); fill(greedy);
+      if (spills(out[out.length-1]) && greedy[greedy.length-1].length > 1) { greedy[greedy.length-1].pop(); greedy.push([clauses[i]]); fill(greedy); }
+    }
+    var N = greedy.length;
+    // 2. spread evenly across N pages by text length, keeping order
+    var lens = clauses.map(function(c){ return (c.textContent||'').length; }), total = lens.reduce(function(a,b){return a+b;},0);
+    var even = [], acc = 0, k = 0; even[0] = [];
+    for (var j = 0; j < clauses.length; j++) {
+      if (k < N-1 && acc + lens[j]/2 > (k+1) * total / N) { k++; even[k] = []; }
+      even[k].push(clauses[j]); acc += lens[j];
+    }
+    while (even.length < N) even.push([]);
+    even = even.filter(function(a){ return a.length; });
+    fill(even);
+    // 3. repair any spill by nudging the last clause of a full page forward
+    for (var guard = 0; guard < 40; guard++) {
+      var moved = false;
+      for (var p = 0; p < even.length; p++) {
+        if (spills(out[p]) && even[p].length > 1) {
+          var last = even[p].pop(); if (!even[p+1]) even[p+1] = []; even[p+1].unshift(last); fill(even); moved = true; break;
+        }
+      }
+      if (!moved) break;
+    }
+    // labels
+    out.forEach(function(p, i){
+      var ns = [].slice.call(p.querySelectorAll('.clause__num')).map(function(n){ return n.textContent.replace('CL. ','').trim(); });
+      var tag = p.querySelector('.tag'); if (tag) tag.innerHTML = 'clauses · ' + ns[0] + '—' + ns[ns.length-1];
+      var meta = p.querySelector('.terms__head .meta');
+      if (meta) meta.innerHTML = 'CL. ' + ns[0] + ' — CL. ' + ns[ns.length-1] + '<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF ' + (meta.textContent.split('LAWS OF ')[1] || '');
+      var sub = p.querySelector('.terms__head .h span'); if (sub) sub.textContent = '/ ' + (i+1) + '.';
+      var rail = p.querySelector('.rail--top .rail__group span:last-child');
+      if (rail) rail.textContent = '02 · TERMS & CONDITIONS' + (i ? ' · CONT.' : '');
+      p.setAttribute('data-screen-label', pad(i+3) + ' Terms' + (i ? ' cont.' + (i>1 ? ' ' + i : '') : ''));
+    });
+    var all = [].slice.call(document.querySelectorAll('section.page')), tot = all.length;
+    all.forEach(function(s, i){
+      var sp = s.querySelectorAll('.rail--bottom .rail__group span'); if (sp.length) sp[sp.length-1].textContent = pad(i+1) + ' / ' + pad(tot);
+      var lab = s.getAttribute('data-screen-label') || ''; s.setAttribute('data-screen-label', pad(i+1) + lab.replace(/^\d\d/, ''));
+    });
+    document.body.setAttribute('data-nf-packed', out.length);
+  }
+  function go(){ (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function(){ setTimeout(run, 60); }); }
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+})();
+</script>

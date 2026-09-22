@@ -1,0 +1,13 @@
+{
+  "PARTNER_NAME": "Lyreco",
+  "MARKET": "Singapore and Malaysia",
+  "DELIVERY_POINT": "Lyreco's warehouse at 71 Woodlands Industrial Park E9, #02-12, Singapore 757048",
+  "_NOTE": "Partner overlay. Merged over SG-WHOLESALE.json at build. Anything here overrides the shared card; prices deliberately are not listed, so two resellers in the same market cannot drift apart.",
+  "LOGO": "lyreco.png",
+  "SIGNATORY": "Name and title",
+  "REBATE_EARNED_BY": "the placement and catalogue inclusion we agree",
+  "PARTNER_LEGAL": "Lyreco (Singapore) Pte Ltd",
+  "DELIVERY_SHORT": "your Woodlands warehouse",
+  "TERRITORY_NOTE": " Onward movement into Malaysia and any import formalities are yours.",
+  "LOGO_HEIGHT_MM": 14.5
+}

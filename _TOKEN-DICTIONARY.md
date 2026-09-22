@@ -46,6 +46,8 @@ A build is: **neutral master → apply MARKET preset → fill CLIENT tokens → 
 | `[[PRICE_FLOOR]]` / `[[PRICE_DEFAULT]]` / `[[PRICE_CEILING]]` | coffee /kg band | 45 / 48 / 55 | 145 / 155 / 165 (set; transacted ≈140) | TBD |
 | `[[RATE_THRESHOLD]]` | price where full rate applies | 46 | market | market |
 | `[[RATE_LOW]]` / `[[RATE_FULL]]` | conservation rate below / at threshold | 0.05 / 0.10 | 0.05 / 0.10 | 0.05 / 0.10 |
+| `[[RATE_RUNG_MID]]` / `[[RATE_RUNG_FULL]]` | contract Cl. 05 price rungs: 5% below MID, 7.5% from MID to below FULL, 10% at/above FULL (whole-price bands, per Alex) | 48 / 51 | 155 / 165 | TBD |
+| `[[DATA_PROTECTION_LAW]]` | Cl. 15 named data-protection statute | the Personal Data Protection Act 2012 of Singapore | Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data | TBD |
 | `[[SUPPLY_TERM]]` | coffee supply term | 2-year | — | — |
 | `[[RATE_CM*_*MO]]` / `[[PURCHASE_CM*]]` | machine rental/purchase rates (all 4 machines × 24/36-mo + purchase) | full card in master fallbacks (SGD) | full card in `UAE.json` (AED) — **estimates except** `RATE_CM8_36MO` = 1,211.89 (real C8 + fridge, 3-yr, Sprinklr Gulf). Replace estimates with actuals when known | TBD |
 
@@ -81,3 +83,10 @@ Also: Part 1 `[[CUR_SYMBOL]]` stays (valid symbol token); **add `[[PART2_URL]]`*
 2. **UAE entity — RESOLVED:** NoFilter LLC · Sharjah Media City (Shams), UAE · Trade Licence 2540001.01 · VAT TRN **pending FTA** · `[[NF_CONTACT_EMAIL]]` = alex@nofilter.ae · signatory Alexander Graham Allen Clark (MD). **Finance partner still TBD.**
 3. **London:** entity, address, contact, price band — all future/stub.
 4. **Governing law (set, no solicitor review):** SG = Singapore; **UAE = the laws of the United Arab Emirates** (federal), tax = VAT. Basic boilerplate per Alex's instruction — no solicitor review gate. London governing law is set when the UK entity lands.
+
+
+## Part 3 contract — added 18 Sep 2026
+
+- Cl. 05 moved from the two-band `RATE_THRESHOLD` model to three whole-price rungs (`RATE_RUNG_MID` / `RATE_RUNG_FULL`). A flat-rate skin (e.g. Eastspring) must now override `RATE_RUNG_MID` and `RATE_RUNG_FULL` above the client's price so only the 5% band applies.
+- New standard clauses 15 Confidentiality & Data Protection and 16 Supplier Indemnity (uncapped; no lease indemnity — Alex declined a lease back-to-back as a standard term). De-installation & Collection is now Cl. 17 (was 15).
+- Terms pages use balanced two-column flow (`column-fill: balance`), one clause block per page. After any clause is added, deleted or rewritten, run `_tools/nf-repack.mjs` on the stamped file to redistribute clauses across pages and verify no column overflows.

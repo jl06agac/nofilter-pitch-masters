@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>NoFilter &times; Kumpulan — Wholesale Supply Agreement</title>
+<style>
+@font-face{font-family:Anton;src:url(f/anton.woff2) format('woff2');font-weight:400}
+@font-face{font-family:Archivo;src:url(f/archivo400.woff2) format('woff2');font-weight:400}
+@font-face{font-family:Archivo;src:url(f/archivo600.woff2) format('woff2');font-weight:600}
+@font-face{font-family:Plex;src:url(f/plex400.woff2) format('woff2');font-weight:400}
+@font-face{font-family:Plex;src:url(f/plex600.woff2) format('woff2');font-weight:600}
+
+:root{--ink:#2A2B2A;--orange:#0E29A1;--parch:#FFE8C3;--forest:#1B3A2D;
+       --rule:#d9d3c6;--dim:#6d6f6b}
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Archivo,sans-serif;color:var(--ink);background:#fff;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:210mm;height:297mm;display:flex;flex-direction:column;overflow:hidden;
+       page-break-after:always}
+.page:last-child{page-break-after:auto}
+
+/* fixed band so a partner lockup of any shape cannot change the page height */
+.head{background:var(--orange);height:25.4mm;flex:none;padding:0 12mm;display:flex;
+       align-items:center;justify-content:space-between;gap:10mm}
+.lock{display:flex;align-items:center;gap:6mm}
+.lock img.nf{height:9mm;display:block}
+.lock img.ly{height:16mm;display:block}
+.lock .x{font-family:Archivo,sans-serif;font-weight:600;font-size:13pt;color:#fff;opacity:.85}
+.meta{font-family:Plex,monospace;font-size:7pt;letter-spacing:.14em;text-transform:uppercase;
+       color:#fff;text-align:right;line-height:1.7}
+
+.intro{padding:6mm 12mm 4mm}
+.kicker{font-family:Plex,monospace;font-size:6.8pt;letter-spacing:.2em;text-transform:uppercase;
+         color:var(--dim);margin-bottom:2.5mm}
+h1{font-family:Anton,sans-serif;font-weight:400;font-size:22.5pt;line-height:1.02;
+    text-transform:uppercase;margin-bottom:3mm}
+h1 em{font-style:normal;color:var(--orange)}
+.lede{font-size:9pt;line-height:1.48;max-width:152mm;color:#3a3b39}
+
+.rows{padding:0 12mm;flex:1}
+.row{display:grid;grid-template-columns:24mm 1fr 34mm;gap:6mm;align-items:start;
+      padding:5.4mm 0;border-top:.4mm solid var(--rule)}
+.row:first-child{border-top:.7mm solid var(--ink)}
+.shot{position:relative;width:24mm}
+.bag{width:24mm;height:34mm;object-fit:cover;display:block}
+.flag{position:absolute;left:0;bottom:0;background:var(--orange);color:#fff;
+       font-family:Plex,monospace;font-weight:600;font-size:6pt;letter-spacing:.12em;
+       text-transform:uppercase;padding:1mm 1.8mm}
+
+.nm{font-family:Anton,sans-serif;font-size:13pt;line-height:1;text-transform:uppercase;
+     margin-bottom:1.4mm}
+.where{font-family:Plex,monospace;font-size:6.5pt;letter-spacing:.08em;text-transform:uppercase;
+        color:var(--dim);line-height:1.7;margin-bottom:2.2mm}
+.where b{color:var(--ink);font-weight:600}
+.blurb{font-size:8.1pt;line-height:1.4;color:#3a3b39;margin-bottom:2.2mm;max-width:96mm}
+.chips{display:flex;gap:1.6mm;flex-wrap:wrap}
+.chip{font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.07em;text-transform:uppercase;
+       border:.35mm solid var(--ink);padding:.8mm 1.8mm;border-radius:.8mm}
+/* credentials are solid rather than outlined, so they separate from flavour by
+   fill and not by colour */
+.chip.cert{background:var(--ink);color:#fff;font-weight:600}
+
+/* profile scales read as filled/empty blocks, never by colour alone */
+.prof{font-family:Plex,monospace;font-size:6.2pt;letter-spacing:.1em;text-transform:uppercase;
+       color:var(--dim)}
+.prof div{display:flex;align-items:center;justify-content:space-between;gap:2mm;margin-bottom:1.5mm}
+.pips{display:flex;gap:.9mm}
+.pip{width:2.5mm;height:2.5mm;border:.35mm solid var(--ink);border-radius:.4mm}
+.pip.on{background:var(--ink)}
+.coord{font-family:Plex,monospace;font-size:6pt;letter-spacing:.06em;color:var(--dim);
+        margin-top:2mm;padding-top:1.8mm;border-top:.35mm solid var(--rule);line-height:1.6}
+
+.foot{padding:4mm 12mm;display:flex;justify-content:space-between;align-items:baseline;
+       border-top:.7mm solid var(--ink);font-family:Plex,monospace;font-size:7pt;
+       letter-spacing:.1em;text-transform:uppercase}
+.foot span{color:var(--dim)}
+.foot b{font-weight:600}
+
+/* ---------------- page two ---------------- */
+.p2{display:flex;flex-direction:column;flex:1}
+.p2 .upper{height:168mm;display:grid;grid-template-columns:100mm 1fr}
+.p2 .lower{flex:1;padding:9mm 12mm 0 10mm;display:grid;grid-template-columns:1fr 1fr;
+            gap:0 9mm;align-content:start}
+.p2 .next{margin:0 12mm 7mm 10mm;background:var(--parch);padding:5.5mm 6mm;
+           display:flex;justify-content:space-between;align-items:flex-end;gap:8mm}
+.p2 .next h3{font-family:Anton,sans-serif;font-weight:400;font-size:11pt;
+              text-transform:uppercase;margin-bottom:2mm}
+.p2 .next p{font-size:8.2pt;line-height:1.45;max-width:112mm;color:#3a3b39}
+.p2 .next .who{font-family:Plex,monospace;font-size:6.8pt;letter-spacing:.1em;
+                text-transform:uppercase;color:var(--forest);text-align:right;
+                line-height:1.9;white-space:nowrap}
+.p2 .art{background:#efeae1;position:relative;overflow:hidden}
+.p2 .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+              object-position:52% 46%}
+.p2 .side{padding:12mm 12mm 0 10mm;display:flex;flex-direction:column}
+.sealgrid{display:grid;grid-template-columns:repeat(2,34mm);gap:5mm;margin-bottom:5mm}
+.sealgrid img{width:34mm;height:34mm;display:block}
+.sealcap{font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.11em;
+          text-transform:uppercase;color:var(--dim);margin-bottom:8mm;
+          max-width:76mm;line-height:1.7}
+.sealT{font-family:Plex,monospace;font-size:12.5px;font-weight:600;letter-spacing:.16em;
+        fill:#fff}
+h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
+    text-transform:uppercase;margin-bottom:3.5mm}
+.p2 .para{font-size:8.6pt;line-height:1.5;color:#3a3b39;margin-bottom:6mm}
+.bl{border-top:.4mm solid var(--rule);padding:4.6mm 0}
+.bl:first-of-type{border-top:.7mm solid var(--ink)}
+.bl b{display:block;font-family:Plex,monospace;font-size:6.6pt;letter-spacing:.11em;
+       text-transform:uppercase;color:var(--forest);margin-bottom:1.1mm;font-weight:600}
+.bl p{font-size:8.4pt;line-height:1.45;color:#3a3b39}
+.p2 .tail{grid-column:1 / -1;margin-top:6mm;font-family:Plex,monospace;font-size:6.6pt;
+           letter-spacing:.1em;text-transform:uppercase;color:var(--dim);line-height:1.9}
+
+/* ---------------- page three: the offer ---------------- */
+.p3{display:flex;flex-direction:column;flex:1;padding:0;min-height:0;overflow:hidden}
+.p3 .intro{padding:6mm 12mm 4mm}
+.ptab{margin:0 12mm 3.5mm;border-top:.7mm solid var(--ink)}
+.ptab .hr,.ptab .tr{display:grid;grid-template-columns:44mm 26mm 30mm 1fr;gap:4mm;align-items:baseline}
+.ptab .hr{font-family:Plex,monospace;font-size:6.2pt;letter-spacing:.11em;text-transform:uppercase;
+          color:var(--dim);padding:2.2mm 0 1.8mm;border-bottom:.35mm solid var(--rule)}
+.ptab .tr{padding:3.4mm 0;border-bottom:.35mm solid var(--rule)}
+/* the best rung is marked by fill and weight, never by hue */
+/* the band is painted behind the row rather than widening it, so every column stays on the same
+   grid and the right-hand figures line up across all three rungs */
+.ptab .tr{position:relative}
+.ptab .tr.best::before{content:"";position:absolute;top:0;bottom:0;left:0;right:0;
+                       background:var(--parch)}
+.ptab .tr.best>*{position:relative}
+.ptab .band{font-family:Plex,monospace;font-size:7.4pt;letter-spacing:.06em;text-transform:uppercase;
+            font-weight:600}
+.ptab .amt{font-family:Anton,sans-serif;font-size:14pt;line-height:1}
+.ptab .amt small{font-family:Plex,monospace;font-size:6pt;letter-spacing:.1em;color:var(--dim);
+                 margin-right:1.2mm;vertical-align:.9mm}
+.ptab .net{font-family:Archivo,sans-serif;font-size:10.5pt;font-weight:600}
+.ptab .mar{font-family:Plex,monospace;font-size:7pt;letter-spacing:.05em;color:var(--dim);
+           text-align:right}
+.ptab .mar b{color:var(--ink);font-weight:600;font-size:8pt}
+.ptabnote{margin:0 12mm 5mm;font-family:Plex,monospace;font-size:6.2pt;letter-spacing:.09em;
+          text-transform:uppercase;color:var(--dim);line-height:1.8}
+
+.cards{margin:0 12mm 5mm;display:grid;grid-template-columns:repeat(3,1fr);gap:6mm}
+.card{border-top:.7mm solid var(--ink);padding-top:3.2mm}
+.card b{display:block;font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.11em;
+        text-transform:uppercase;color:var(--forest);margin-bottom:1.6mm;font-weight:600}
+.card .big{font-family:Anton,sans-serif;font-size:15pt;line-height:1;margin-bottom:1.8mm}
+.card p{font-size:7.7pt;line-height:1.45;color:#3a3b39}
+
+.terms{margin:auto 12mm 6mm;display:grid;grid-template-columns:1fr 1fr;gap:0 9mm;align-content:start}
+.tm{border-top:.4mm solid var(--rule);padding:2.1mm 0}
+.tm:nth-of-type(1),.tm:nth-of-type(2){border-top:.7mm solid var(--ink)}
+.tm b{display:block;font-family:Plex,monospace;font-size:6.3pt;letter-spacing:.11em;
+      text-transform:uppercase;color:var(--dim);margin-bottom:.9mm;font-weight:600}
+.tm p{font-size:8pt;line-height:1.42;color:#3a3b39}
+
+/* the closing band repeats page two's, pushed to the foot of the page */
+.p3 .next{margin:auto 12mm 3mm;background:var(--parch);padding:3.8mm 6mm;display:flex;
+          justify-content:space-between;align-items:flex-end;gap:8mm}
+.p3 .next h3{font-family:Anton,sans-serif;font-weight:400;font-size:11pt;
+             text-transform:uppercase;margin-bottom:2mm}
+.p3 .next p{font-size:8.2pt;line-height:1.45;max-width:112mm;color:#3a3b39}
+/* ---------------- page four: acceptance ---------------- */
+.p4{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
+.p4 .intro{padding:7mm 12mm 5mm}
+.recap{margin:0 12mm;border-top:.7mm solid var(--ink)}
+.recap .rr{display:grid;grid-template-columns:46mm 1fr;gap:7mm;padding:4.2mm 0;
+           border-bottom:.35mm solid var(--rule)}
+.recap .rk{font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.11em;text-transform:uppercase;
+           color:var(--dim);font-weight:600;line-height:1.5}
+.recap .rv{font-size:8.4pt;line-height:1.45;color:#3a3b39}
+.recap .rv b{font-weight:600;color:var(--ink)}
+.signbox{margin:auto 12mm 9mm;display:grid;grid-template-columns:1fr 1fr;gap:11mm}
+.sb{border:.5mm solid var(--ink);padding:6mm 7mm 7mm}
+.sb h4{font-family:Anton,sans-serif;font-weight:400;font-size:11pt;text-transform:uppercase;
+       margin-bottom:11mm}
+.sl{margin-bottom:9mm}
+.sl:last-child{margin-bottom:0}
+.sl .rule{border-bottom:.35mm solid var(--ink);height:12mm}
+.sl span{display:block;margin-top:2mm;font-family:Plex,monospace;font-size:6.2pt;
+         letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.p3 .next .who{font-family:Plex,monospace;font-size:6.8pt;letter-spacing:.1em;
+               text-transform:uppercase;color:var(--forest);text-align:right;
+               line-height:1.9;white-space:nowrap}
+
+</style></head>
+<body>
+
+<!-- ============ page 1 ============ -->
+<div class="page">
+  <div class="head">
+    <div class="lock">
+      <img class="nf" src="wordmark.png" alt="NoFilter">
+      <span class="x">&times;</span>
+      <img class="ly" src="kumpulan.svg" alt="Kumpulan">
+    </div>
+    <div class="meta">Partner brief<br>Origins and supply<br>September 2026</div>
+  </div>
+
+  <div class="intro">
+    <div class="kicker">Conservation coffee &middot; Indonesia and Myanmar</div>
+    <h1>Coffee grown on the edge of forests<br>that are <em>still standing</em>.</h1>
+    <p class="lede">NoFilter buys from smallholders farming under canopy in the buffer zones of
+    threatened forest, and pays a contracted share of every sale through to the conservation NGO
+    holding that boundary. Three Sumatran origins are available for supply now. A fourth, from the
+    Arakan Mountains in Myanmar, is possible, but supply there is limited and may run out.</p>
+  </div>
+
+  <div class="rows">
+  <div class="row">
+    <div class="shot"><img class="bag" src="ph-batang-toru.jpg" alt="Batang Toru"></div>
+    <div>
+      <div class="nm">Batang Toru</div>
+      <div class="where">Sipirok, South Tapanuli &middot; North Sumatra<br>Forest <b>Batang Toru ecosystem</b> &middot; Partner <b>PRCF Indonesia &middot; SRI</b><br>Process <b>Wet-hulled (giling basah)</b></div>
+      <p class="blurb">The buffer at the edge of Batang Toru, the only place the Tapanuli orangutan lives. Shade-grown, with farmers paid to keep the forest edge where it is.</p>
+      <div class="chips"><span class="chip">Dark chocolate</span><span class="chip">Red plum</span><span class="chip">Cedar</span></div>
+    </div>
+    <div class="prof">
+      <div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+      <div class="coord">1&deg;38&prime;18&Prime;N<br>99&deg;15&prime;56&Prime;E</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="shot"><img class="bag" src="ph-batang-gadis.jpg" alt="Batang Gadis"></div>
+    <div>
+      <div class="nm">Batang Gadis</div>
+      <div class="where">Ulu Pungkut, Mandailing Natal &middot; North Sumatra<br>Forest <b>Batang Gadis National Park buffer</b> &middot; Partner <b>SRI &middot; Komanja</b><br>Process <b>Wet-hulled (giling basah)</b></div>
+      <p class="blurb">The frontier of Batang Gadis National Park, where community-led agroforestry holds a hard line against clearing at the park's edge.</p>
+      <div class="chips"><span class="chip">Brown sugar</span><span class="chip">Orange</span><span class="chip">Almond</span></div>
+    </div>
+    <div class="prof">
+      <div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+      <div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div class="coord">0&deg;31&prime;50&Prime;N<br>99&deg;46&prime;28&Prime;E</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="shot"><img class="bag" src="ph-gayo-lues.jpg" alt="Gayo Lues"></div>
+    <div>
+      <div class="nm">Gayo Lues</div>
+      <div class="where">Agusen, Blangkejeren &middot; Aceh<br>Forest <b>Leuser Ecosystem edge</b> &middot; Partner <b>OIC</b><br>Process <b>Wet-hulled, the Gayo way</b></div>
+      <p class="blurb">High-grown on the edge of the Leuser Ecosystem, one of the last landscapes where elephant, tiger, rhinoceros and orangutan still share ground.</p>
+      <div class="chips"><span class="chip">Syrupy</span><span class="chip">Dried fig</span><span class="chip">Cinnamon</span></div>
+    </div>
+    <div class="prof">
+      <div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></span></div>
+      <div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div class="coord">3&deg;55&prime;N<br>97&deg;22&prime;E</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="shot"><img class="bag" src="ph-arakan.jpg" alt="Arakan Mountains"><span class="flag">Low stock</span></div>
+    <div>
+      <div class="nm">Arakan Mountains</div>
+      <div class="where">Pauk Sa, Magway Region &middot; Myanmar<br>Forest <b>Mann Wildlife Sanctuary, co-managed</b> &middot; Partner <b>ACCA &middot; Fauna &amp; Flora</b><br>Process <b>Honey</b></div>
+      <p class="blurb">The Asho Chin highlands, where ACCA and Fauna &amp; Flora Myanmar keep the Mann Wildlife Sanctuary intact. Available subject to supply, which is limited.</p>
+      <div class="chips"><span class="chip">Stone fruits</span><span class="chip">Candied nuts</span><span class="chip">Milk chocolate</span><span class="chip cert">Certified Wildlife Friendly</span><span class="chip cert">PGS Organic</span></div>
+    </div>
+    <div class="prof">
+      <div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+      <div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+      <div class="coord">19&deg;48&prime;N<br>94&deg;20&prime;30&Prime;E</div>
+    </div>
+  </div>
+  </div>
+
+  <div class="foot">
+    <span><b>NoFilter Pte. Ltd.</b> &middot; Singapore</span>
+    <span>alex@nofilter.sg</span>
+    <span>nofilter.sg&nbsp;&nbsp;/&nbsp;&nbsp;nofilter.ae</span>
+  </div>
+</div>
+
+<!-- ============ page 2 ============ -->
+<div class="page">
+  <div class="p2">
+    <div class="upper">
+      <div class="art"><img src="hero-bag.png" alt="NoFilter 1 kg bag"></div>
+      <div class="side">
+        <div class="sealgrid"><img src="seals/nf-seal-batang-toru.svg" alt="Batang Toru seal"><img src="seals/nf-seal-batang-gadis.svg" alt="Batang Gadis seal"><img src="seals/nf-seal-gayo-lues.svg" alt="Gayo Lues seal"><img src="seals/nf-seal-arakan-mountains.svg" alt="Arakan Mountains seal"></div>
+        <div class="sealcap">Every listing carries its own seal, in the colour reserved to that
+        origin, so a bag, carton or sample says which coffee it is before it is opened.</div>
+        <h2>Built to sell<br>on its story.</h2>
+        <p class="para">Most coffee on a workplace shelf is bought where it is cheapest to grow,
+        and cheap usually means cleared ground. This range is the opposite proposition, and it
+        comes with the evidence to say so out loud.</p>
+      </div>
+    </div>
+    <div class="lower">
+      <div class="bl"><b>Contracted, not charitable</b><p>The conservation share is written into the supply contract and shown on every invoice, so it can be audited rather than taken on trust.</p></div><div class="bl"><b>Mapped to a boundary</b><p>Every lot ties to a named forest boundary with coordinates and a named NGO partner, held on NoFilter's public verification map.</p></div><div class="bl"><b>Documented for reporting</b><p>Chain of custody documentation is available for customers carrying Scope 3 or sustainable procurement obligations.</p></div><div class="bl"><b>Range and formats</b><p>Four single-origin roasts with genuinely different cup profiles, supplied in 1 kg whole bean. Trade pricing, volumes and terms are set out overleaf.</p></div>
+    </div>
+    <div class="next">
+      <div>
+        <h3>Next step</h3>
+        <p>Trade pricing and terms are overleaf and hold for twelve months. The call is to agree
+        which of the four origins earn a listing first, and when you want the first delivery.</p>
+      </div>
+      <div class="who">Prepared for Kumpulan<br>September 2026<br>alex@nofilter.sg</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span><b>NoFilter Pte. Ltd.</b> &middot; Singapore</span>
+    <span>alex@nofilter.sg</span>
+    <span>nofilter.sg&nbsp;&nbsp;/&nbsp;&nbsp;nofilter.ae</span>
+  </div>
+</div>
+
+
+<!-- ============ page 3: the offer ============ -->
+<div class="page">
+  <div class="p3">
+    <div class="head">
+      <div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
+        <span class="x">&times;</span><img class="ly" src="kumpulan.svg" alt="Kumpulan"></div>
+      <div class="meta">WHOLESALE OFFER<br>SINGAPORE<br>VALID TO 30 SEPTEMBER 2027</div>
+    </div>
+
+    <div class="intro">
+      <div class="kicker">TRADE PRICING &middot; 1 KG, WHOLE BEAN &middot; ALL FOUR ORIGINS AT ONE PRICE</div>
+      <h1>A price that leaves room<br>for <em>both of us</em>.</h1>
+      <p class="lede">These prices hold for twelve months, delivered to your Changi warehouse. They
+      are set so that a listing at the recommended shelf price returns you a normal trade margin without
+      NoFilter cutting the share that goes back to the forest. In the first year the rate is settled on
+      what you actually buy rather than on a forecast: pass a threshold and we credit the difference back
+      across everything you have bought, so there is nothing to commit to up front.</p>
+    </div>
+
+    <div class="ptab">
+      <div class="hr"><span>Annual volume bought</span><span>Per kg</span><span>Net of rebate</span><span style="text-align:right">Your margin at SGD&nbsp;58&ndash;61</span></div>
+      <div class="tr">
+        <span class="band">30 to 1,499 kg</span>
+        <span class="amt"><small>SGD</small>44.50</span>
+        <span class="net">SGD 42.27</span>
+        <span class="mar"><b>27.1% to 30.7%</b></span>
+      </div><div class="tr">
+        <span class="band">1,500 to 2,999 kg</span>
+        <span class="amt"><small>SGD</small>43.50</span>
+        <span class="net">SGD 41.32</span>
+        <span class="mar"><b>28.8% to 32.3%</b></span>
+      </div><div class="tr best">
+        <span class="band">3,000 kg and above</span>
+        <span class="amt"><small>SGD</small>42.50</span>
+        <span class="net">SGD 40.38</span>
+        <span class="mar"><b>30.4% to 33.8%</b></span>
+      </div>
+    </div>
+    <div class="ptabnote">First year invoiced at the entry rate, with any tier credit applied at twelve
+      months, see tier review &middot; minimum order 30 kg &middot; delivery included</div>
+
+    <div class="cards">
+      <div class="card"><b>Marketing rebate</b>
+        <div class="big">5%</div>
+        <p>Of invoiced value, paid twice yearly in arrears, by credit note, against the placement and promotion we agree. Calculated on invoiced value as adjusted for the volume tier.</p></div>
+      <div class="card"><b>To the forest, per kilo</b>
+        <div class="big">SGD&nbsp;2.25</div>
+        <p>The same on every tier, contracted and shown on the invoice. Your customer gets a figure for
+        their own reporting, and you get a listing that answers a procurement question instead of raising
+        one.</p></div>
+      <div class="card"><b>Recommended shelf price</b>
+        <div class="big">SGD&nbsp;58&ndash;61</div>
+        <p>A recommendation, not a condition; the price you set is yours. The margins shown in the
+        table are calculated against this band.</p></div>
+    </div>
+
+    <div class="terms">
+      <div class="tm"><b>Format</b><p>1 kg, whole bean. All four origins at the same price, ordered in any mix.</p></div>
+      <div class="tm"><b>Minimum order</b><p>30 kg per delivery, any combination of origins.</p></div>
+      <div class="tm"><b>Tier review</b><p>Year one is invoiced at the entry rate. Pass a threshold over the twelve months and the better rate applies to everything bought, with the difference credited. From year two the tier is set in advance on the preceding year.</p></div>
+      <div class="tm"><b>Delivery</b><p>Included, to Kumpulan's warehouse at 25 Changi North Rise, Singapore 498778. Title and risk pass on delivery.</p></div>
+      <div class="tm"><b>Territory</b><p>Singapore, non-exclusive.</p></div>
+      <div class="tm"><b>Roasting and delivery</b><p>Roasted to order. Orders placed by 17:00 Friday are roasted the following Tuesday to Thursday and delivered to your warehouse on the Friday or the Monday after. Anything later falls into the next week&rsquo;s roast.</p></div>
+      <div class="tm"><b>Payment</b><p>Coffee is invoiced on delivery, payable 30 days from invoice.</p></div>
+      <div class="tm"><b>Price validity</b><p>Twelve months to 30 September 2027, adjustable on 30 days&rsquo; notice only if landed green coffee moves more than 10%.</p></div>
+      <div class="tm"><b>Stock</b><p>Rotation is yours once delivered and the roast date is printed on every bag. Coffee is not returnable on age.</p></div>
+      <div class="tm"><b>Conservation claims</b><p>Approved wording is supplied and may not be varied without our written agreement.</p></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span><b>NoFilter Pte. Ltd.</b> &middot; Singapore</span>
+    <span>alex@nofilter.sg</span>
+    <span>nofilter.sg&nbsp;&nbsp;/&nbsp;&nbsp;nofilter.ae</span>
+  </div>
+</div>
+
+
+<!-- ============ page 4: acceptance ============ -->
+<div class="page">
+  <div class="p4">
+    <div class="head">
+      <div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
+        <span class="x">&times;</span><img class="ly" src="kumpulan.svg" alt="Kumpulan"></div>
+      <div class="meta">ACCEPTANCE<br>SINGAPORE<br>VALID TO 30 SEPTEMBER 2027</div>
+    </div>
+
+    <div class="intro">
+      <div class="kicker">SIGN AND RETURN &middot; ONE PAGE</div>
+      <h1>Agreed and <em>accepted</em>.</h1>
+      <p class="lede">These four pages are the supply agreement. Signing this page puts the pricing and
+      terms set out overleaf into effect for the validity period and replaces anything discussed before
+      it. Nothing here commits Kumpulan to a volume.</p>
+    </div>
+
+    <div class="recap">
+      <div class="rr"><div class="rk">Trade price</div><div class="rv"><b>SGD 44.50, 43.50 and 42.50 per kg</b>, by annual volume bought, with any year-one tier credit applied at twelve months</div></div>
+      <div class="rr"><div class="rk">Marketing rebate</div><div class="rv"><b>5%</b> of invoiced value, paid twice yearly in arrears, by credit note</div></div>
+      <div class="rr"><div class="rk">To the forest</div><div class="rv"><b>SGD 2.25 per kilogram</b>, the same on every tier, contracted and shown on the invoice</div></div>
+      <div class="rr"><div class="rk">Territory</div><div class="rv">Singapore, non-exclusive</div></div>
+      <div class="rr"><div class="rk">Term and notice</div><div class="rv">Runs to 30 September 2027. Either party may end it earlier on <b>60 days&rsquo; written notice</b>, with orders already accepted honoured</div></div>
+      <div class="rr"><div class="rk">Governing law</div><div class="rv">Singapore law, with the courts of Singapore having exclusive jurisdiction</div></div>
+    </div>
+
+    <div class="signbox">
+      <div class="sb">
+        <h4>For NoFilter Pte. Ltd.</h4>
+        <div class="sl"><div class="rule"></div><span>Signature</span></div>
+        <div class="sl"><div class="rule"></div><span>Alexander Clark, Managing Director</span></div>
+        <div class="sl"><div class="rule"></div><span>Date</span></div>
+      </div>
+      <div class="sb">
+        <h4>For Kumpulan Development (S) Pte Ltd</h4>
+        <div class="sl"><div class="rule"></div><span>Signature</span></div>
+        <div class="sl"><div class="rule"></div><span>Alvin Wong, Business Development Manager</span></div>
+        <div class="sl"><div class="rule"></div><span>Date</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span><b>NoFilter Pte. Ltd.</b> &middot; Singapore</span>
+    <span>alex@nofilter.sg</span>
+    <span>nofilter.sg&nbsp;&nbsp;/&nbsp;&nbsp;nofilter.ae</span>
+  </div>
+</div>
+
+</body></html>

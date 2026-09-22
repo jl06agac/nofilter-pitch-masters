@@ -143,3 +143,22 @@ Same model as Parts 1 & 2: `index.html` + a small client `assets/`; heavy media 
 Singapore Part 3, 30 Jun 2026. Reads Part 2's schema-v2 (fleet) handoff. The old Configurator
 lineage (standalone Configurator, static `-Contract.html` / `-Contract-WIP.html`, v1 donor) was
 retired and deleted 2026-07-03.*
+
+
+## Terms pages pack themselves (added 18 Sep 2026)
+
+The clause area is a balanced two-column flow (`column-fill: balance`, one clause block per
+terms page). A `nf-paginate` script embedded after `nf-contract-sync` runs on load, after
+fonts are ready: it works out how many terms pages the clauses need, spreads them evenly
+across those pages by text length, adds or removes terms pages, and renumbers tags, header
+ranges, footers and screen labels. So:
+
+- Adding, deleting or rewriting a clause in the master or a stamped file needs no manual
+  page shuffling. Open the file; it packs itself. Export to PDF from the open tab.
+- Do not hand-place clauses across pages. Whatever static split the file carries is only
+  the no-JS fallback.
+- The source copy of the script is `_partials/nf-paginate.html`. If you change it, paste the
+  same block into the master.
+- Standard clauses are now 01-17. Cl. 15 Confidentiality and 16 Supplier Indemnity are new;
+  De-installation & Collection moved from Cl. 15 to Cl. 17. New tokens: `RATE_RUNG_MID`,
+  `RATE_RUNG_FULL`, `DATA_PROTECTION_LAW` (all three presets updated).

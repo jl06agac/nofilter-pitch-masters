@@ -1,0 +1,16 @@
+{
+  "PARTNER_NAME": "Kumpulan",
+  "MARKET": "Singapore",
+  "DELIVERY_POINT": "Kumpulan's warehouse at 25 Changi North Rise, Singapore 498778",
+  "_NOTE": "Kumpulan Development (S) Pte. Ltd. Reseller; supplies Blackstone at Marina Bay Financial Centre. Was buying at 42.99/kg ad hoc (INV-0916, 14 Sep 2026, 24 kg Brazil Sertao). Moves onto the shared ladder so the two SG resellers cannot be quoted different numbers for the same end account.",
+  "LOGO": "kumpulan.svg",
+  "SIGNATORY": "Alvin Wong, Business Development Manager",
+  "REBATE_EARNED_BY": "the placement and promotion we agree",
+  "PARTNER_LEGAL": "Kumpulan Development (S) Pte Ltd",
+  "DELIVERY_SHORT": "your Changi warehouse",
+  "TERRITORY_NOTE": "",
+  "LOGO_HEIGHT_MM": 16,
+  "ACCENT": "#0E29A1",
+  "_NOTE_ACCENT": "Partner brand colour, sampled from their logo. Drives the header band, the accent word in each headline and the stock flag. Remove this key to fall back to NoFilter field orange.",
+  "CONTACT_EMAIL": "alvin@kumpulan.com.sg"
+}

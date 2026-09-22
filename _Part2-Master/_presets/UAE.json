@@ -68,5 +68,10 @@
   "_NOTE_RATE_THRESHOLD": "Set to the floor. Under the ramp there is no 'top of the 5% band' — the rate is exactly 5% AT the floor and rises with every step above it. The token is kept because _skins/Eastspring.json overrides it to 0 to disable the ladder for her flat-5% deal.",
   "TOPUP_MAX": "12.00",
   "TOPUP_STEP": "0.50",
-  "_NOTE_TOPUP": "The optional top-up dial is denominated PER KG from 30 Aug 2026, matching the live site (nofilter.sg) and matching the coffee price directly above it — the unit the contract is in. It was 0-7.5 cents per cup in 0.1 steps, which converts to 0-4.17/kg in increments of 5.6 cents a kilo: a per-kilo commitment the client could neither see nor name. The dial is still 100% pass-through and still converts to cents-per-cup internally, so the 10 / 12 / 15 milestone constants are untouched (see _Locale-Presets.md, which says explicitly not to rescale them). AE is set at ~3x SG rather than at the 3.6725 peg so the dial lands on round half-dirham steps."
+  "_NOTE_TOPUP": "The optional top-up dial is denominated PER KG from 30 Aug 2026, matching the live site (nofilter.sg) and matching the coffee price directly above it — the unit the contract is in. It was 0-7.5 cents per cup in 0.1 steps, which converts to 0-4.17/kg in increments of 5.6 cents a kilo: a per-kilo commitment the client could neither see nor name. The dial is still 100% pass-through and still converts to cents-per-cup internally, so the 10 / 12 / 15 milestone constants are untouched (see _Locale-Presets.md, which says explicitly not to rescale them). AE is set at ~3x SG rather than at the 3.6725 peg so the dial lands on round half-dirham steps.",
+  "FEE_DEINSTALL": "TBD",
+  "FEE_DEINSTALL_MULTI": "TBD",
+  "RATE_RUNG_MID": "155",
+  "RATE_RUNG_FULL": "165",
+  "DATA_PROTECTION_LAW": "Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data"
 }

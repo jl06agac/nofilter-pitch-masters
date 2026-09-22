@@ -32,8 +32,8 @@
   /* ============== TUNABLE — wired to live editor sliders ============== */
   --tune-body-size:        9pt;     /* global body text */
   --tune-body-line:        1.5;     /* line height */
-  --tune-page-padding:     14mm;    /* page edge margins */
-  --tune-block-gap:        5mm;     /* vertical gap between blocks */
+  --tune-page-padding:     11mm;    /* page edge margins */
+  --tune-block-gap:        4mm;     /* vertical gap between blocks */
   --tune-cover-title:      46pt;    /* SUPPLY AGREEMENT 2026/29 */
   --tune-cover-logo-w:     75%;     /* logo width on cover */
   --tune-cover-photo-y:    35%;     /* photo focal point Y */
@@ -42,11 +42,11 @@
   --tune-cover-grad-bot:   0.82;    /* gradient opacity at bottom */
   --tune-section-h:        32pt;    /* "TWO PARTIES" / "ONE MACHINE" headlines */
   --tune-relief-num:       72pt;    /* "01" / "A" / "B" big numerals */
-  --tune-numeral-gap:      12mm;    /* gap between numeral col and body */
+  --tune-numeral-gap:      8mm;    /* gap between numeral col and body */
   --tune-clause-size:      9pt;     /* clause body text on terms page */
   --tune-clause-title:     12pt;    /* clause headers */
   --tune-clause-row-gap:   4mm;     /* vertical gap between clauses */
-  --tune-lots-row-pad:     7px;     /* lots-table row vertical padding */
+  --tune-lots-row-pad:     5px;     /* lots-table row vertical padding */
   --tune-lots-lot-size:    14pt;    /* lots-table lot id text */
   --tune-stats-num:        28pt;    /* origin page stat numbers */
   --tune-impact-h:         36pt;    /* "WHERE THE COFFEE..." headline */
@@ -394,7 +394,7 @@ img { display: block; max-width: 100%; }
 
 /* NEW: clause group with sub-header */
 .clause-group {
-  margin-bottom: 4mm;
+  margin-bottom: 3mm;
 }
 .clause-group:last-child { margin-bottom: 0; }
 .clause-group__head {
@@ -414,14 +414,20 @@ img { display: block; max-width: 100%; }
 }
 
 .clauses {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: block;
+  height: 100%;
+  column-count: 2;
   column-gap: 10mm;
-  row-gap: var(--tune-clause-row-gap);
+  column-fill: balance;
+  overflow: hidden;
   font-size: var(--tune-clause-size);
   line-height: 1.4;
   color: var(--nf-amber-dim);
 }
+.clause-group { display: block; flex: 1 1 0; min-height: 0; }
+.clause { display: block; margin: 0 0 var(--tune-clause-row-gap) 0; break-inside: auto; }
+.clause__num, .clause__title { break-after: avoid-column; break-inside: avoid; }
+.clause p { orphans: 3; widows: 3; }
 .clause__num {
   font-family: var(--font-mono); font-size: 7.5pt;
   font-weight: 500; letter-spacing: 0.22em;
@@ -660,17 +666,17 @@ img { display: block; max-width: 100%; }
    ===================================================================== */
 .annex {
   display: flex; flex-direction: column;
-  gap: 5mm;
+  gap: 2mm;
 }
 .annex__group {
   border-top: 1px solid var(--nf-near-black);
-  padding-top: 4mm;
+  padding-top: 2mm;
 }
-.annex__group:first-child { border-top: 2px solid var(--nf-near-black); padding-top: 5mm; }
+.annex__group:first-child { border-top: 2px solid var(--nf-near-black); padding-top: 4mm; }
 .annex__head {
   display: grid; grid-template-columns: 12mm 1fr;
-  align-items: baseline; gap: 8px;
-  margin-bottom: 3mm;
+  align-items: baseline; gap: 0;
+  margin-bottom: 2mm;
 }
 .annex__tag {
   font-family: var(--font-mono); font-size: 8pt;
@@ -686,10 +692,10 @@ img { display: block; max-width: 100%; }
 .annex__body {
   padding-left: 12mm;
   font-size: 9.5pt;
-  line-height: 1.5;
+  line-height: 1.42;
   color: var(--nf-near-black);
 }
-.annex__body p { margin-bottom: 5px; }
+.annex__body p { margin-bottom: 4px; }
 .annex__body p:last-child { margin-bottom: 0; }
 .annex__body ul {
   list-style: none; padding: 0;
@@ -698,7 +704,7 @@ img { display: block; max-width: 100%; }
 .annex__body li {
   position: relative;
   padding-left: 14px;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   font-size: 9.5pt;
 }
 .annex__body li::before {
@@ -708,8 +714,8 @@ img { display: block; max-width: 100%; }
   background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE1MCAxMTAgNzIwIDgxNSI+PHBhdGggZD0iTSA0MjAuMDAgMTQwLjk5IEMgNDY5Ljk1IDE0MC45NiA1MjAuMDggMTQwLjg4IDU3MC4wMiAxNDAuOTkgQyA1NzEuNDcgMTQxLjA3IDU3Mi43NCAxNDEuMDYgNTczLjgwIDE0Mi4xOSBDIDU3NC42NCAxNDYuMDAgNTc0LjM1IDE1MC4xMSA1NzQuNTIgMTU0LjAwIEMgNTc1LjAwIDE2OC42NiA1NzQuODYgMTgzLjM1IDU3NC4yNiAxOTguMDAgQyA1NzQuMTEgMjEyLjU0IDU3MS40NyAyMjcuMTcgNTY3LjA2IDI0MS4wMSBDIDU2NS4zMCAyNDcuMTYgNTYyLjMzIDI1My42NiA1NjEuNzkgMjYwLjAwIEMgNTYxLjU1IDI2NC4wNSA1NjEuOTcgMjY4LjE4IDU2Mi43NyAyNzIuMTUgQyA1NjQuODggMjgxLjkxIDU2Ny4wNyAyOTEuNjQgNTY5LjY3IDMwMS4yOCBDIDU3Mi40MCAzMTAuMDcgNTc0LjU4IDMxOS4wMiA1NzcuMjkgMzI3LjgzIEMgNTgwLjM4IDMzNi45OSA1NzkuNTEgMzQ3LjI2IDU3Ni4zNiAzNTYuMjkgQyA1NzAuMTQgMzc1LjA1IDU2My44NyAzOTMuODYgNTU3LjU2IDQxMi42MCBDIDU1MS4yNiA0MzEuMDggNTQ1LjI4IDQ0OS44OCA1MzguMDIgNDY3Ljk5IEMgNTM3LjIxIDQ3MC4yNiA1MzcuMDAgNDcyLjYxIDUzNi45OSA0NzUuMDAgQyA1MzYuOTggNDg0LjY3IDUzNy4wNCA0OTQuMzMgNTM2Ljk3IDUwNC4wMCBDIDUzNy4wMCA1MDUuODQgNTM2Ljk0IDUwNy41NiA1MzcuNzMgNTA5LjI3IEMgNTQ1LjkxIDUyNy40NCA1NTIuMzYgNTQ2LjcwIDU1OS42OSA1NjUuMjkgQyA1NjYuNjggNTgzLjU3IDU3My44MSA2MDEuODMgNTgwLjg2IDYyMC4wOSBDIDU4NS4zMSA2MzIuNDQgNTg1LjAyIDY0NC4xOCA1ODYuNjggNjU3LjAxIEMgNTg4LjE2IDY3NC4wMiA1OTAuMjQgNjkwLjk2IDU5MS41NSA3MDcuOTkgQyA1OTIuNTEgNzE0LjUwIDU5MS41MiA3MjAuNzQgNTkwLjQ3IDcyNy4xNyBDIDU4OS4wOSA3MzUuNDMgNTg4LjE3IDc0My43NCA1ODYuOTMgNzUyLjAzIEMgNTg1LjU1IDc2MS4yMiA1ODMuOTggNzcwLjcyIDU4My4zMCA3ODAuMDAgQyA1ODMuNTcgNzkwLjA0IDU4NS4zNCA4MDAuMTYgNTg2LjUzIDgxMC4xMyBDIDU4OS40MyA4MzYuNDQgNTkyLjQ4IDg2Mi42NSA1OTQuOTggODg5LjAwIEMgNTk1LjA1IDg5MC44OSA1OTUuMzYgODkyLjQ1IDU5My43MyA4OTMuNzkgQyA1OTAuMjEgODk0LjI5IDU4Ni41NSA4OTQuMDIgNTgzLjAwIDg5NC4wNSBDIDU1OS4zMyA4OTQuMTEgNTM1LjY2IDg5NC4xMSA1MTIuMDAgODk0LjcwIEMgNDg3LjY2IDg5NS4yMCA0NjMuMzQgODk0Ljk0IDQzOS4wMCA4OTUuMTAgQyA0MzcuMDIgODk0Ljk1IDQzMy43OSA4OTUuMzUgNDMyLjM1IDg5My43MyBDIDQzMC42NiA4ODkuMTkgNDMxLjE0IDg4My44MiA0MzAuMzYgODc5LjAwIEMgNDI4Ljg5IDg1Ny4zMSA0MjYuODIgODM1LjY1IDQyNC45NCA4MTMuOTkgQyA0MjQuNDIgODA0LjEzIDQyMi4xMSA3OTMuODEgNDIzLjI0IDc4NC4wMSBDIDQyNy4zMiA3NTcuNDIgNDMxLjI1IDczMC44NCA0MzUuMzkgNzA0LjI2IEMgNDM1Ljk3IDcwMC42NSA0MzcuMTkgNjk3LjY2IDQzNi4yMiA2OTQuMDAgQyA0MzIuMDUgNjc0Ljk1IDQyNy4xNiA2NTYuMDMgNDIyLjg5IDYzNy4wMCBDIDQxOS43OCA2MjQuNjkgNDE3LjI1IDYxMi4yNyA0MTMuOTYgNjAwLjAxIEMgMzM5Ljk1IDU5OS45MiAyNjYuMDEgNjAwLjI3IDE5Mi4wMCA1OTkuMjEgQyAxODkuMjkgNTk5LjEzIDE4Ni45MiA1OTguOTcgMTg1Ljc1IDU5Ni4xNiBDIDE4NC4wMyA1OTEuMTMgMTg0LjEyIDU4NS4yNyAxODMuNTIgNTgwLjAxIEMgMTgyLjgyIDU3NC4wMCAxODMuMDMgNTY4LjAzIDE4Mi43OSA1NjIuMDAgQyAxODIuMzcgNTUwLjY3IDE4Mi4wNyA1MzkuMzQgMTgyLjAwIDUyOC4wMCBDIDE4MS45OSA0OTQuMDAgMTgyLjAwIDQ2MC4wMCAxODIuMDAgNDI2LjAwIEMgMTgyLjA5IDQyMS4zNCAxODIuMTIgNDE2LjU4IDE4Mi44OSA0MTEuOTcgQyAxODMuMDQgNDA5Ljc3IDE4NC45MiA0MDguMjkgMTg2Ljk2IDQwNy44OCBDIDE5MS4yMyA0MDcuMTkgMTk1LjcwIDQwNy40NSAyMDAuMDEgNDA3LjM1IEMgMjcwLjM0IDQwNy4xNSAzNDAuNjcgNDA3LjU3IDQxMS4wMCA0MDcuMDggQyA0MTAuNzggMzY5LjM4IDQxMC42NiAzMzEuNzAgNDExLjA5IDI5NC4wMCBDIDQxMS4zOSAyODYuOTkgNDEyLjEwIDI4MC4wMyA0MTEuOTkgMjczLjAwIEMgNDExLjc4IDI2My42MyA0MTMuMTIgMjU0LjM3IDQxMi45NyAyNDUuMDAgQyA0MTIuOTIgMjI0LjMzIDQxMy40NCAyMDMuNjcgNDEzLjc0IDE4My4wMCBDIDQxMy45NCAxNjkuNDAgNDEzLjUxIDE1NS43NCA0MTQuMTMgMTQyLjE1IEMgNDE2LjExIDE0MS4yNyA0MTcuODMgMTQwLjk3IDQyMC4wMCAxNDAuOTkgWiIgZmlsbD0iI0ZGNzEyMiIgLz48cGF0aCBkPSJNIDU5Ni43OCAzODQuMTYgQyA1OTkuODUgMzg1LjI5IDYwMC41NiAzODguNDcgNjAxLjc5IDM5MS4xNiBDIDYwNC4wOSAzOTYuNTggNjA1Ljg4IDQwMi4yNiA2MDguNTQgNDA3LjUyIEMgNjIxLjY3IDQwNy4wMSA2MzQuODYgNDA3LjM1IDY0OC4wMCA0MDcuMjggQyA3MDUuNjcgNDA3LjQxIDc2My4zNCA0MDcuMzMgODIxLjAwIDQwNy42NCBDIDgyNy4wMCA0MDcuOTAgODMyLjI2IDQwNy4wNiA4MzcuOTYgNDA5LjA0IEMgODM4LjU1IDQxMS4wMCA4MzkuMTAgNDEyLjkzIDgzOS4xMCA0MTUuMDAgQyA4MzkuMzEgNDI2LjY2IDgzOS4xOSA0MzguMzIgODM5LjIzIDQ1MC4wMCBDIDgzOS4yMyA0OTYuMDAgODM5LjMwIDU0Mi4wMCA4MzkuMTEgNTg4LjAwIEMgODM5LjAzIDU5MC45MiA4MzkuMjYgNTk0LjM0IDgzOC4xOSA1OTcuMDkgQyA4MzcuNTEgNTk4Ljg4IDgzNi4wMiA2MDAuMTUgODM0LjAzIDYwMC4wMSBDIDgxMS40NyA2MDAuMjMgNzg4LjU2IDYwMC4yNiA3NjYuMDAgNjAwLjMxIEMgNzEzLjMzIDYwMC4xOCA2NjAuNjYgNjAwLjQ4IDYwOC4wMCA2MDAuMDkgQyA2MDYuNDQgNjAwLjA1IDYwNC44MiA2MDAuMDggNjAzLjI4IDU5OS44MCBDIDYwMS43MiA1OTguODAgNjAxLjA1IDU5Ny4zMCA2MDAuMzQgNTk1LjY4IEMgNTk3LjkyIDU4OS43NSA1OTUuMzAgNTgzLjkyIDU5My4wNSA1NzcuOTIgQyA1ODcuMTAgNTYyLjQ2IDU4MC4zNiA1NDcuMzUgNTczLjg5IDUzMi4xMSBDIDU3MS43NCA1MjcuMzMgNTY5LjE0IDUyMi43MCA1NjcuMjQgNTE3LjgyIEMgNTY1LjM1IDUxMy4yNCA1NjYuMTcgNTA4LjA2IDU2NS43OSA1MDMuMDAgQyA1NjUuMDkgNDkzLjkyIDU2NS4wNyA0ODQuOTQgNTYzLjE4IDQ3NS45OSBDIDU2Mi4yMSA0NzEuMjggNTYyLjQxIDQ2Ny41OCA1NjQuMTEgNDYzLjA4IEMgNTczLjMwIDQzNy42MSA1ODIuNjkgNDEyLjQ1IDU5Mi4xMCAzODcuMDkgQyA1OTIuODQgMzg1LjIxIDU5NC41OCAzODMuMjYgNTk2Ljc4IDM4NC4xNiBaIiBmaWxsPSIjRkY3MTIyIiAvPjwvc3ZnPg==") no-repeat center / contain;
 }
 .annex__note {
-  margin-top: 4mm;
-  padding: 6px 10px;
+  margin-top: 3mm;
+  padding: 5px 10px;
   border-left: 2px solid var(--nf-orange);
   background: rgba(255,113,34,0.06);
   font-size: 8.5pt;
@@ -719,8 +725,8 @@ img { display: block; max-width: 100%; }
 .annex__rates {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 8mm;
-  margin: 4mm 0 2mm;
-  padding: 4mm 0;
+  margin: 3mm 0 1mm;
+  padding: 3mm 0;
   border-top: 1px dashed rgba(42,43,42,0.3);
   border-bottom: 1px dashed rgba(42,43,42,0.3);
 }
@@ -762,7 +768,7 @@ img { display: block; max-width: 100%; }
 }
 .sig__head {
   border-bottom: 1px solid rgba(42,43,42,0.4);
-  padding-bottom: 6mm; margin-bottom: 14mm;
+  padding-bottom: 6mm; margin-bottom: 8mm;
   display: grid; grid-template-columns: 1fr auto;
   align-items: end; gap: 24px;
 }
@@ -780,12 +786,12 @@ img { display: block; max-width: 100%; }
 
 .sig__intro {
   font-size: 10.5pt; line-height: 1.6; color: #3D3E3D;
-  max-width: 140mm; margin-bottom: 16mm;
+  max-width: 140mm; margin-bottom: 8mm;
 }
 
 .sig__blocks {
   display: grid; grid-template-columns: 1fr 1fr; gap: 14mm;
-  margin-bottom: 14mm;
+  margin-bottom: 6mm;
 }
 .sig__block .role {
   font-family: var(--font-mono); font-size: 7.5pt;
@@ -840,7 +846,7 @@ img { display: block; max-width: 100%; }
 }
 
 .sig__footer {
-  margin-top: 14mm; padding-top: 8mm;
+  margin-top: 10mm; padding-top: 6mm;
   border-top: 6px solid var(--nf-near-black);
   display: grid; grid-template-columns: auto 1fr auto; align-items: center;
   gap: 18px;
@@ -983,7 +989,7 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>NOFILTER · A CONSERVATION-LED COFFEE COMPANY</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>01 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>01 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
@@ -1030,27 +1036,27 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>02 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>02 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
-     PAGE 03 — TERMS
+     PAGE 03 &mdash; TERMS
      ===================================================================== -->
 <section class="page page--dark grain" data-screen-label="03 Terms">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SECTION</span>
-<span>02 · TERMS &amp; CONDITIONS</span>
+<span>02 &middot; TERMS &amp; CONDITIONS</span>
 </div>
 </div>
 <div class="terms">
 <div class="terms__head">
 <div class="h">contract <em>terms</em></div>
-<div class="meta">CL. 01 — CL. 08<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF [[GOVERNING_JURISDICTION_UC]]</div>
+<div class="meta">CL. 01 &mdash; CL. 08<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF [[GOVERNING_JURISDICTION_UC]]</div>
 </div>
 <div class="clause-group">
 <div class="clause-group__head">
-<span class="tag">operative · 01—04</span>
+<span class="tag">clauses &middot; 01&mdash;08</span>
 <span class="rule"></span>
 </div>
 <div class="clauses">
@@ -1067,25 +1073,17 @@ img { display: block; max-width: 100%; }
 <div class="clause">
 <div class="clause__num">CL. 03</div>
 <div class="clause__title">Service &amp; Maintenance</div>
-<p>The Supplier provides bi-annual preventative maintenance and calibration as part of this rental agreement, and bears the cost of all spare parts changes, save where the fault is caused by Customer negligence. The Customer shall purchase and apply daily cleaning materials at its own cost. Response time for callouts: twenty-four (24) hours.</p>
+<p>The Supplier provides bi-annual preventative maintenance and calibration as part of this rental agreement, and bears the cost of all spare parts changes, save where the fault is caused by Customer negligence. The Customer shall purchase and apply daily cleaning materials at its own cost, using manufacturer-approved products; these are available from the Supplier at the rates in <b>Schedule B</b>. The Supplier shall respond to reported faults within twenty-four (24) hours of the request.</p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 04</div>
 <div class="clause__title">Consumables Supply</div>
 <p>The Supplier supplies coffee beans, cocoa powder, and other consumables on demand, drawn from the menu in <b>Schedule B</b>. The Customer may add or remove items from the menu by written notice; pricing is per <b>Schedule B</b>.</p>
 </div>
-</div>
-</div>
-<div class="clause-group">
-<div class="clause-group__head">
-<span class="tag">commercial · 05—08</span>
-<span class="rule"></span>
-</div>
-<div class="clauses">
 <div class="clause">
 <div class="clause__num">CL. 05</div>
 <div class="clause__title">Conservation Contribution</div>
-<p>For each kilogram of conservation coffee purchased <b>and paid for</b> by the Customer, the Supplier contributes a percentage of the purchase value to its NGO conservation partners (identified in <b>Schedule D</b>). The applicable rate is set by the agreed coffee price in <b>Schedule D</b>: five percent (5%) where the price is below [[CURRENCY]] [[RATE_THRESHOLD]]/kg, and ten percent (10%) at or above [[CURRENCY]] [[RATE_THRESHOLD]]/kg. Where the Customer elects a voluntary co-contribution (&ldquo;Top-Up&rdquo;), that amount is passed to the NGO partners in full, in addition to the percentage. Contributions are calculated on volume purchased and paid for, reconciled quarterly (31 March, 30 June, 30 September, 31 December), and paid to the NGO partners within sixty (60) days of each reconciliation date.<span class="ct-cons-elected" style="display:none;"> Based on the agreed coffee price, the applicable conservation rate is <b class="ct-cons-rate" id="ct-cons-rate"></b><span class="ct-topup-wrap" style="display:none;">, with a voluntary Top-Up of <b class="ct-topup" id="ct-topup"></b>/kg</span>.</span></p>
+<p>For each kilogram of conservation coffee purchased <b>and paid for</b> by the Customer, the Supplier contributes a percentage of the purchase value to the NGO conservation partner working in the landscape that coffee was sourced from. The applicable rate is set by the agreed coffee price in <b>Schedule B</b>: five percent (5%) below [[CURRENCY]] [[RATE_RUNG_MID]]/kg, seven and one half percent (7.5%) from [[CURRENCY]] [[RATE_RUNG_MID]]/kg up to but not including [[CURRENCY]] [[RATE_RUNG_FULL]]/kg, and ten percent (10%) at or above [[CURRENCY]] [[RATE_RUNG_FULL]]/kg. Where the Customer elects a voluntary co-contribution (&ldquo;Top-Up&rdquo;), that amount is passed to the NGO partners in full, in addition to the percentage. Contributions are calculated on volume purchased and paid for, reconciled quarterly (31 March, 30 June, 30 September, 31 December), and paid to the NGO partners within sixty (60) days of each reconciliation date.<span class="ct-cons-elected" style="display:none;"> Based on the agreed coffee price, the applicable conservation rate is <b class="ct-cons-rate" id="ct-cons-rate"></b><span class="ct-topup-wrap" style="display:none;">, with a voluntary Top-Up of <b class="ct-topup" id="ct-topup"></b>/kg</span>.</span></p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 06</div>
@@ -1095,15 +1093,16 @@ img { display: block; max-width: 100%; }
 <div class="clause">
 <div class="clause__num">CL. 07</div>
 <div class="clause__title">Order Process</div>
-<p>Consumables orders are placed by email or messaging to the Supplier contact named in this agreement. Coffee orders are fulfilled within five (5) business days assuming that orders are placed prior to the Monday 1200 weekly deadline.</p>
+<p>Consumables orders are placed by email or messaging to the Supplier contact named in this agreement. Coffee is roasted to order on a weekly cycle: orders received by <b>12:00 on Monday</b> ([[PREMISES_CITY]] time) are roasted that week and delivered on the Friday, or the following Monday. Orders received after that cut-off are roasted in the following week&rsquo;s cycle. Other consumables are delivered with the next coffee delivery, or direct by the relevant supplier.</p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 08</div>
 <div class="clause__title">Payment</div>
-<p>Equipment rental is invoiced monthly in advance by <b>[[FINANCE_PARTNER]]</b> (the financing partner under <b>Cl. 10</b>). Consumables are invoiced in arrears by the Supplier. Payment terms: Net 30 days.</p>
+<p>Equipment rental is invoiced monthly in advance by <b>[[FINANCE_PARTNER]]</b> (the financing partner under <b>Cl. 10</b>) and is payable on the due date stated in that invoice. Consumables are invoiced monthly in arrears by the Supplier on Net 30 day terms.</p>
 </div>
 </div>
 </div>
+
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
@@ -1111,53 +1110,45 @@ img { display: block; max-width: 100%; }
 </div>
 </section>
 <!-- =====================================================================
-     PAGE 04 — TERMS (cont.) · GOVERNANCE (CL 09—12)
+     PAGE 04 &mdash; TERMS
      ===================================================================== -->
 <section class="page page--dark grain" data-screen-label="04 Terms cont.">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SECTION</span>
-<span>02 · TERMS &amp; CONDITIONS · CONT.</span>
+<span>02 &middot; TERMS &amp; CONDITIONS &middot; CONT.</span>
 </div>
 </div>
 <div class="terms">
 <div class="terms__head">
-<div class="h">contract <em>terms</em> <span style="opacity:.45;">/ 2.</span></div>
-<div class="meta">CL. 09 — CL. 14<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF [[GOVERNING_JURISDICTION_UC]]</div>
+<div class="h">contract <em>terms</em> <span style="opacity:.45;">/ 2.</span></div>
+<div class="meta">CL. 09 &mdash; CL. 15<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF [[GOVERNING_JURISDICTION_UC]]</div>
 </div>
 <div class="clause-group">
 <div class="clause-group__head">
-<span class="tag">commercial · 09</span>
+<span class="tag">clauses &middot; 09&mdash;15</span>
 <span class="rule"></span>
 </div>
 <div class="clauses">
 <div class="clause">
 <div class="clause__num">CL. 09</div>
 <div class="clause__title">Term &amp; Renewal</div>
-<p>The term is <span class="ct-term-months">[[TERM_MONTHS]]</span> months, running from <b class="ct-term-start">[[TERM_START]]</b> to <b class="ct-term-end">[[TERM_END]]</b>. Renewal is by mutual written agreement no later than sixty (60) days before expiry. In the absence of agreement, the equipment is collected by the Supplier within ten (10) business days of contract expiry.</p>
+<p>The term is <span class="ct-term-months">[[TERM_MONTHS]]</span> months, running from <b class="ct-term-start">[[TERM_START]]</b> to <b class="ct-term-end">[[TERM_END]]</b>. The Customer shall notify the Supplier in writing, no later than sixty (60) days before expiry, whether it wishes to renew the programme with the equipment then installed. Renewal is by mutual written agreement between the Customer and the Supplier. Any renewed term is contracted with, and all equipment rental under it invoiced by and paid to, the Supplier directly; the financing partner has no role in a renewed term. In the absence of agreement, the equipment is collected by the Supplier in accordance with <b>Cl. 17</b>.</p>
 </div>
-</div>
-</div>
-<div class="clause-group">
-<div class="clause-group__head">
-<span class="tag">governance · 10—14</span>
-<span class="rule"></span>
-</div>
-<div class="clauses">
 <div class="clause">
 <div class="clause__num">CL. 10</div>
 <div class="clause__title">Financing Partner</div>
-<p>The equipment rental component is financed through <b>[[FINANCE_PARTNER]]</b>. The Customer pays [[FINANCE_PARTNER]] directly for equipment rental and may need to onboard [[FINANCE_PARTNER]] as a payee in its accounts payable system. The Supplier remains the Customer's sole point of contact and is operationally and legally responsible for all matters relating to the equipment, service, coffee quality, and consumables.</p>
+<p>The equipment rental component is financed through <b>[[FINANCE_PARTNER]]</b>. During the initial term the Customer pays [[FINANCE_PARTNER]] directly for equipment rental and may need to onboard [[FINANCE_PARTNER]] as a payee in its accounts payable system. The Supplier remains the Customer's sole point of contact and is operationally and legally responsible for all matters relating to the equipment, service, coffee quality, and consumables.</p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 11</div>
 <div class="clause__title">Title &amp; Risk</div>
-<p>Title to the equipment remains with the Supplier or [[FINANCE_PARTNER]] throughout the term. The Supplier bears risk of loss or damage to the equipment in normal use. Damage from misuse or negligence is for the Customer's account at cost.</p>
+<p>Title to the equipment remains with the Supplier or [[FINANCE_PARTNER]] throughout the term. The Supplier bears risk of loss or damage to the equipment in normal use. Damage from misuse or negligence is for the Customer's account at reasonable and documented cost.</p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 12</div>
 <div class="clause__title">Termination</div>
-<p>Either party may terminate for material breach not cured within thirty (30) days of written notice. The Supplier may also terminate on non-payment exceeding sixty (60) days. On termination, the Customer permits collection of equipment within ten (10) business days.</p>
+<p>Either party may terminate for material breach not cured within thirty (30) days of written notice. The Supplier may also terminate on non-payment exceeding sixty (60) days. Neither party may terminate for convenience during the term. On termination, the Customer permits collection of equipment within ten (10) business days subject to reasonable coordination with Customer and site access requirements. Collection is otherwise in accordance with <b>Cl. 17</b>.</p>
 </div>
 <div class="clause">
 <div class="clause__num">CL. 13</div>
@@ -1169,18 +1160,67 @@ img { display: block; max-width: 100%; }
 <div class="clause__title">[[TAX_LABEL]]</div>
 <p>All amounts payable under this agreement, including those set out in <b>Schedule A</b> and <b>Schedule B</b>, are exclusive of [[TAX_LABEL_LONG]]. [[TAX_LABEL]] will be added to invoices at the prevailing rate.</p>
 </div>
+<div class="clause">
+<div class="clause__num">CL. 15</div>
+<div class="clause__title">Confidentiality &amp; Data Protection</div>
+<p>Each party shall keep confidential all non-public information disclosed by the other party and shall use it solely for the purposes of this agreement. This does not restrict disclosure to the financing partner under <b>Cl. 10</b>, or any disclosure that partner is required or permitted to make under the Lease. The Supplier may identify the Customer as a client and use its name and logo in marketing material with the Customer's prior written approval, not to be unreasonably withheld. Each party shall comply with [[DATA_PROTECTION_LAW]] and all other applicable data protection laws.</p>
 </div>
 </div>
+</div>
+
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>04 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>04 / 10</span></div>
+</div>
+</section>
+<!-- =====================================================================
+     PAGE 05 &mdash; TERMS
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="05 Terms cont. 2">
+<div class="rail rail--top">
+<div class="rail__group">
+<span class="orange">SECTION</span>
+<span>02 &middot; TERMS &amp; CONDITIONS &middot; CONT.</span>
+</div>
+</div>
+<div class="terms">
+<div class="terms__head">
+<div class="h">contract <em>terms</em> <span style="opacity:.45;">/ 3.</span></div>
+<div class="meta">CL. 16 &mdash; CL. 17<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF [[GOVERNING_JURISDICTION_UC]]</div>
+</div>
+<div class="clause-group">
+<div class="clause-group__head">
+<span class="tag">clauses &middot; 16&mdash;17</span>
+<span class="rule"></span>
+</div>
+<div class="clauses">
+<div class="clause">
+<div class="clause__num">CL. 16</div>
+<div class="clause__title">Supplier Indemnity</div>
+<p>The Supplier shall indemnify and hold harmless the Customer against third-party claims arising from defective equipment, defective consumables, or the Supplier's negligence, wilful misconduct or breach of this agreement. This indemnity does not extend to loss caused by the Customer's own negligence, misuse of the equipment, or failure to follow the Supplier's operating and cleaning instructions. Neither party is liable for indirect or consequential loss.</p>
+</div>
+
+
+<div class="clause">
+<div class="clause__num">CL. 17</div>
+<div class="clause__title">De-installation &amp; Collection</div>
+<p>On expiry without renewal, or on termination, the Supplier de-installs and collects the equipment. The Customer provides access within the collection period set out in <b>Cl. 09</b> or <b>Cl. 12</b>, including any permit to work, loading bay or service lift booking its building requires, and isolates power and water at the service point. De-installation and collection are charged per machine at the rate in <b>Schedule A</b>, invoiced with the final month's consumables. What the visit covers is set out in <b>Schedule C</b>. The fee is waived where the agreement is renewed, where the equipment is replaced under a new term, and where the Customer terminates for the Supplier's material breach. Where collection is prevented for more than ten (10) business days beyond the collection period, equipment rental continues to accrue until the equipment is collected. Risk in the equipment passes to the Supplier when it leaves the Customer's premises.</p>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>05 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
      PAGE 04 — SCHEDULE A · EQUIPMENT &amp; SERVICE (cream relief)
      ===================================================================== -->
-<section class="page page--cream" data-screen-label="05 Schedule A">
+<section class="page page--cream" data-screen-label="06 Schedule A">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SCHEDULE A</span>
@@ -1229,7 +1269,7 @@ img { display: block; max-width: 100%; }
 <div class="lots__row lots__row--4col">
 <div>
 <div class="origin">Digital Impact Counter</div>
-<div class="gps" style="text-transform:none; letter-spacing:0;">5-digit live counter · NGO impact display</div>
+<div class="gps" style="text-transform:none; letter-spacing:0;">Live counter · NGO impact display</div>
 </div>
 <div class="gps ct-term-months-cell">[[TERM_MONTHS_N]] months</div>
 <div>1</div>
@@ -1250,12 +1290,15 @@ img { display: block; max-width: 100%; }
           The monthly rate is fixed at [[CURRENCY]] 369.99 for the term.
           Daily cleaning materials and consumables are billed separately under <b>Schedule B</b>.
         </div>
+<div class="note" id="ct-schedA-note-deinstall">
+          De-installation and collection at end of term: [[CURRENCY]] [[FEE_DEINSTALL]] per machine, or [[CURRENCY]] [[FEE_DEINSTALL_MULTI]] per machine where more than one machine is collected from the same site on the same visit. Charged on expiry without renewal or on early termination, waived on renewal or replacement. Per <b>Cl. 17</b>.
+        </div>
 </div>
 <div class="payment-band payment-band--two grain">
 <div class="cell">
 <span class="l">Monthly · in advance</span>
 <span class="v" id="ct-schedA-rate-band">$ 369.99</span>
-<small>Equipment service · Net 30</small>
+<small>Per Cl. 08</small>
 </div>
 <div class="cell">
 <span class="l">Consumables · in arrears</span>
@@ -1267,13 +1310,13 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>05 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>06 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
      PAGE 05 — SCHEDULE B · CONSUMABLES (cream relief)
      ===================================================================== -->
-<section class="page page--cream" data-screen-label="06 Schedule B">
+<section class="page page--cream" data-screen-label="07 Schedule B">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SCHEDULE B</span>
@@ -1359,8 +1402,8 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="cell">
 <span class="l">fulfilment</span>
-<span class="v">5 days</span>
-<small>From order receipt · Cl. 07</small>
+<span class="v">Fri / Mon</span>
+<small>Mon 12:00 cut-off · Cl. 07</small>
 </div>
 <div class="cell">
 <span class="l">Billing cycle</span>
@@ -1372,7 +1415,7 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>06 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>07 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
@@ -1380,7 +1423,7 @@ img { display: block; max-width: 100%; }
      Pulled from prior contract: installation specs, servicing schedule,
      callout fees, response time. Binding alongside Schedules A & B.
      ===================================================================== -->
-<section class="page page--cream" data-screen-label="07 Schedule C">
+<section class="page page--cream" data-screen-label="08 Schedule C">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SCHEDULE C</span>
@@ -1437,18 +1480,28 @@ img { display: block; max-width: 100%; }
 <p>The Supplier shall endeavour to rectify reported faults within twenty-four (24) hours of the request. Where a machine is not fixable on-site, the Supplier shall provide a replacement machine of equivalent capacity by the next working day following the failure date.</p>
 </div>
 </div>
+<div class="annex__group">
+<div class="annex__head">
+<span class="annex__tag">C.4</span>
+<span class="annex__title">De-installation &amp; collection</span>
+</div>
+<div class="annex__body">
+<p>The fee in <b>Schedule A</b> covers one visit in working hours with ground floor or service lift access: decommissioning, draining and flushing, disconnection and removal of the Supplier's hoses and fittings, and closing the Customer's isolation valve so the service point is left safe.</p>
+<p>Capping or altering water and drainage services is plumbing work and remains the Customer's, per <b>Cl. 02</b>, as are carpentry and electrical works, making good, and storage where the site is not ready. A visit aborted for access reasons is charged at the <b>C.2</b> rates.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>07 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>08 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
      PAGE 07 — SIGNATURES (quiet)
      ===================================================================== -->
-<section class="page page--cream" data-screen-label="08 Signatures">
+<section class="page page--cream" data-screen-label="09 Signatures">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">SECTION</span>
@@ -1467,11 +1520,12 @@ img { display: block; max-width: 100%; }
       By signing below, each party confirms it has read this agreement in full,
       including <b>Schedule A</b> (equipment &amp; service), <b>Schedule B</b>
       (consumables menu), <b>Schedule C</b> (operational annex), and accepts the obligations set out in clauses 01
-      through 13.
+      through 17.
     </p>
 <div class="sig__blocks">
 <div class="sig__block">
 <div class="role">For the Supplier · 01</div>
+
 <div class="name">NoFilter Pte. Ltd.</div>
 <div class="sig__line"><span class="lab">Signature</span></div>
 <div class="sig__row">
@@ -1529,14 +1583,14 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>08 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>09 / 10</span></div>
 </div>
 </section>
 <!-- =====================================================================
      PAGE 09 — ADDENDUM · SERVICING SCHEDULE
      Pre-determined bi-annual service dates across the 36-month term.
      ===================================================================== -->
-<section class="page page--cream" data-screen-label="09 Addendum">
+<section class="page page--cream" data-screen-label="10 Addendum">
 <div class="rail rail--top">
 <div class="rail__group">
 <span class="orange">ADDENDUM</span>
@@ -1587,7 +1641,7 @@ img { display: block; max-width: 100%; }
 </div>
 <div class="rail rail--bottom">
 <div class="rail__group"><span>WORKPLACE COFFEE AGREEMENT</span></div>
-<div class="rail__group"><span class="orange">PAGE</span><span>09 / 09</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>10 / 10</span></div>
 </div>
 </section>
 <script id="nf-contract-sync">
@@ -1682,7 +1736,7 @@ img { display: block; max-width: 100%; }
     var equipSummary = fleet.map(fleetLine).join(' · ');
 
     /* ---- 2. machine name + equipment summary (Schedule A) ---- */
-    ctSetText(document.getElementById('ct-equip-summary'), equipSummary);
+    if (equipSummary) ctSetText(document.getElementById('ct-equip-summary'), equipSummary);
 
     if (fleet.length === 1) {
       /* single machine: fill the single Schedule A machine slot the donor did */
@@ -1801,7 +1855,9 @@ img { display: block; max-width: 100%; }
       var anyPicked = Object.keys(pickedKeys).length > 0;
       document.querySelectorAll('.lots__row[data-origin-row]').forEach(function (row) {
         var name = row.getAttribute('data-origin-row');
-        var show = anyPicked ? rowIsPicked(name) : true;
+        /* Open menu: every origin row is shown regardless of the Part 2 pick;
+           the pick only drives the live price. */
+        var show = true;
         row.style.display = show ? '' : 'none';
         if (show && cp != null && !isNaN(cp)) {
           var pr = row.querySelector('.price');
@@ -1851,6 +1907,95 @@ img { display: block; max-width: 100%; }
     document.addEventListener('DOMContentLoaded', ready);
   else ready();
   window.addEventListener('beforeprint', fit);
+})();
+</script>
+<script id="nf-paginate">
+/* ===================================================================
+   SELF-PACKING TERMS PAGES — runs after nf-contract-sync on load.
+   Distributes clauses across the terms pages so each page's two
+   balanced columns are filled without overflow. Adds or removes terms
+   pages as needed, then renumbers tags, header ranges, footers and
+   screen labels. Idempotent; leaves the static layout in place if
+   anything unexpected is found.
+   =================================================================== */
+(function () {
+  function pad(n){ return (n<10?'0':'')+n; }
+  function termsPages(){ return [].slice.call(document.querySelectorAll('section.page'))
+    .filter(function(s){ return /Terms/i.test(s.getAttribute('data-screen-label')||''); }); }
+  function spills(pg){ var b=pg.querySelector('.clauses'); return b ? (b.scrollWidth - b.clientWidth) > 2 : false; }
+
+  function run(){
+    if (document.body.getAttribute('data-nf-packed')) return;
+    var pages = termsPages(); if (pages.length < 1) return;
+    var clauses = [];
+    pages.forEach(function(p){ [].forEach.call(p.querySelectorAll('.clause'), function(c){ clauses.push(c); }); });
+    if (clauses.length < 2) return;
+
+    var first = pages[0], tpl = pages[1] || pages[0];
+    var blank = tpl.cloneNode(true);
+    [].forEach.call(blank.querySelectorAll('.clause-group'), function(g,i){ if(i>0) g.remove(); });
+    blank.querySelector('.clauses').innerHTML = '';
+    if (!blank.querySelector('.terms__head .h span')) {
+      var h = blank.querySelector('.terms__head .h'); if (h) h.innerHTML = 'contract <em>terms</em> <span style="opacity:.45;">/ 2.</span>';
+    }
+    pages.slice(1).forEach(function(p){ p.remove(); });
+    [].forEach.call(first.querySelectorAll('.clause-group'), function(g,i){ if(i>0) g.remove(); });
+    var box = first.querySelector('.clauses'); box.innerHTML = '';
+
+    var cur = first, out = [first];
+    function fill(list){
+      // list: array of arrays of clause elements, one per page
+      while (out.length < list.length) { var n = blank.cloneNode(true); out[out.length-1].parentNode.insertBefore(n, out[out.length-1].nextSibling); out.push(n); }
+      while (out.length > list.length) { var r = out.pop(); r.remove(); }
+      out.forEach(function(p, i){ var b = p.querySelector('.clauses'); b.innerHTML = ''; list[i].forEach(function(c){ b.appendChild(c); }); });
+    }
+    // 1. greedy pass to learn how many pages are needed
+    var greedy = [[]];
+    for (var i = 0; i < clauses.length; i++) {
+      greedy[greedy.length-1].push(clauses[i]); fill(greedy);
+      if (spills(out[out.length-1]) && greedy[greedy.length-1].length > 1) { greedy[greedy.length-1].pop(); greedy.push([clauses[i]]); fill(greedy); }
+    }
+    var N = greedy.length;
+    // 2. spread evenly across N pages by text length, keeping order
+    var lens = clauses.map(function(c){ return (c.textContent||'').length; }), total = lens.reduce(function(a,b){return a+b;},0);
+    var even = [], acc = 0, k = 0; even[0] = [];
+    for (var j = 0; j < clauses.length; j++) {
+      if (k < N-1 && acc + lens[j]/2 > (k+1) * total / N) { k++; even[k] = []; }
+      even[k].push(clauses[j]); acc += lens[j];
+    }
+    while (even.length < N) even.push([]);
+    even = even.filter(function(a){ return a.length; });
+    fill(even);
+    // 3. repair any spill by nudging the last clause of a full page forward
+    for (var guard = 0; guard < 40; guard++) {
+      var moved = false;
+      for (var p = 0; p < even.length; p++) {
+        if (spills(out[p]) && even[p].length > 1) {
+          var last = even[p].pop(); if (!even[p+1]) even[p+1] = []; even[p+1].unshift(last); fill(even); moved = true; break;
+        }
+      }
+      if (!moved) break;
+    }
+    // labels
+    out.forEach(function(p, i){
+      var ns = [].slice.call(p.querySelectorAll('.clause__num')).map(function(n){ return n.textContent.replace('CL. ','').trim(); });
+      var tag = p.querySelector('.tag'); if (tag) tag.innerHTML = 'clauses · ' + ns[0] + '—' + ns[ns.length-1];
+      var meta = p.querySelector('.terms__head .meta');
+      if (meta) meta.innerHTML = 'CL. ' + ns[0] + ' — CL. ' + ns[ns.length-1] + '<br/><b>BINDING</b> · GOVERNED BY THE LAWS OF ' + (meta.textContent.split('LAWS OF ')[1] || '');
+      var sub = p.querySelector('.terms__head .h span'); if (sub) sub.textContent = '/ ' + (i+1) + '.';
+      var rail = p.querySelector('.rail--top .rail__group span:last-child');
+      if (rail) rail.textContent = '02 · TERMS & CONDITIONS' + (i ? ' · CONT.' : '');
+      p.setAttribute('data-screen-label', pad(i+3) + ' Terms' + (i ? ' cont.' + (i>1 ? ' ' + i : '') : ''));
+    });
+    var all = [].slice.call(document.querySelectorAll('section.page')), tot = all.length;
+    all.forEach(function(s, i){
+      var sp = s.querySelectorAll('.rail--bottom .rail__group span'); if (sp.length) sp[sp.length-1].textContent = pad(i+1) + ' / ' + pad(tot);
+      var lab = s.getAttribute('data-screen-label') || ''; s.setAttribute('data-screen-label', pad(i+1) + lab.replace(/^\d\d/, ''));
+    });
+    document.body.setAttribute('data-nf-packed', out.length);
+  }
+  function go(){ (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function(){ setTimeout(run, 60); }); }
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
 })();
 </script>
 </body></html>

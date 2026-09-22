@@ -1,0 +1,57 @@
+{
+  "_NOTE": "Wholesale / reseller rate card, Singapore. Source of truth for every partner brief and trade quote. Set 17 Sep 2026 by Alex against the costing calculator: cost base SGD 27.63/roasted kg at a 6.00 green-kg roast fee, blended freight 0.59/kg carrying 30 kg minimum drops. Every rung nets 30%+ after rebate and contribution. Do not type these numbers into a client file: read them from here.",
+  "_RULE": "net = list - (rebate% x list) - contribution per kg - cost, measured against cash received (list x (1 - rebate%)). Must not fall below MIN_NET_PCT. build_brief.py asserts this on every build.",
+  "CURRENCY": "SGD",
+  "VALID_FROM": "2026-09-17",
+  "VALID_TO_TEXT": "30 September 2027",
+  "TIERS": [
+    {
+      "band": "30 to 1,499 kg",
+      "min_kg": 30,
+      "list": 44.5,
+      "cost": 27.2125
+    },
+    {
+      "band": "1,500 to 2,999 kg",
+      "min_kg": 1500,
+      "list": 43.5,
+      "cost": 26.5875
+    },
+    {
+      "band": "3,000 kg and above",
+      "min_kg": 3000,
+      "list": 42.5,
+      "cost": 25.9625
+    }
+  ],
+  "REBATE_PCT": 5,
+  "REBATE_BASIS": "invoiced value as adjusted for the volume tier",
+  "REBATE_FREQUENCY": "twice yearly in arrears, by credit note",
+  "RRP_LOW": 58,
+  "RRP_HIGH": 61,
+  "MOQ_KG": 30,
+  "PAYMENT_DAYS": 30,
+  "GREEN_TRIGGER_PCT": 10,
+  "FORMAT": "1 kg, whole bean",
+  "TIER_BASIS_Y1": "retrospective: invoiced at the entry rate, the better rate applied to all volume bought and the difference credited at twelve months",
+  "TIER_BASIS_Y2": "set in advance on the preceding twelve months, reviewed at each rebate date",
+  "TIER_DOWNWARD": "a fall to a lower band takes effect at the next review and is never clawed back",
+  "_NOTE_SETTLEMENT": "Settle the volume tier FIRST, then calculate the 5% rebate and the conservation share on the adjusted value. Calculating either on the provisional entry price costs 0.1 to 0.4 of a margin point and pays the forest on money that was refunded.",
+  "_NOTE_ENTRY_BAND": "Entry band starts at the minimum order, not at an annual floor. There is no minimum annual volume: a floor would be a commitment, and year one is deliberately measured rather than committed.",
+  "ORDER_CUTOFF": "17:00 Friday",
+  "ROAST_DAYS": "Tuesday to Thursday",
+  "DELIVERY_DAYS": "the Friday or the Monday after",
+  "_NOTE_CYCLE": "Friday 17:00 cut-off sits ahead of Compound's Monday noon weekly cut-off, so a Lyreco order always makes the same week's roast plan. Do not move the cut-off later without checking that against the roaster.",
+  "CONTRIB_PER_KG": 2.25,
+  "CONTRIB_BASIS": "flat amount per kilogram, identical on every tier, not a percentage of price",
+  "_NOTE_CONTRIB": "Flat 2.25 chosen 17 Sep 2026 so it matches the figure published on nofilter.sg, can be printed in a partner catalogue without qualification, and can never be overstated as the tier falls. At the top tier it is 5.3% of price rather than 5%, which the rungs absorb.",
+  "MIN_NET_PCT": 30,
+  "NF_ENTITY_NAME": "NoFilter Pte. Ltd.",
+  "NF_SIGNATORY": "Alexander Clark, Managing Director",
+  "INVOICING": "invoiced on delivery",
+  "IS_THE_AGREEMENT": true,
+  "TERM_NOTICE_DAYS": 60,
+  "GOVERNING_LAW": "Singapore law, with the courts of Singapore having exclusive jurisdiction",
+  "_NOTE_AGREEMENT": "This document IS the supply agreement; nothing separate follows. Any clause the parties need must be on these pages. Currently carried: price, rebate, contribution, format, territory, delivery, roasting cycle, payment, price validity, stock, claims, term and notice, governing law.",
+  "_NOTE_PARTNERS": "Partner identity lives in partners/<name>.json and is merged over this card at build time. This file carries price and terms only, so every SG reseller is quoted from the same numbers."
+}

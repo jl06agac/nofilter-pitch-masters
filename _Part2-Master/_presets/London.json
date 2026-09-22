@@ -22,5 +22,10 @@
   "RATE_LOW": "TBD",
   "RATE_FULL": "TBD",
   "COFFEE_PRICE_PER_KG": "TBD",
-  "_NOTE": "London stub — fill when the UK entity exists."
+  "_NOTE": "London stub — fill when the UK entity exists.",
+  "FEE_DEINSTALL": "TBD",
+  "FEE_DEINSTALL_MULTI": "TBD",
+  "RATE_RUNG_MID": "TBD",
+  "RATE_RUNG_FULL": "TBD",
+  "DATA_PROTECTION_LAW": "TBD"
 }
