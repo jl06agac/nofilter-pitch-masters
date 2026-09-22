@@ -162,3 +162,9 @@ ranges, footers and screen labels. So:
 - Standard clauses are now 01-17. Cl. 15 Confidentiality and 16 Supplier Indemnity are new;
   De-installation & Collection moved from Cl. 15 to Cl. 17. New tokens: `RATE_RUNG_MID`,
   `RATE_RUNG_FULL`, `DATA_PROTECTION_LAW` (all three presets updated).
+
+- **22 Sep 2026 — ladder reset.** Cl. 05 no longer names three bands. It reads: 5% at
+  `[[PRICE_FLOOR]]`/kg, rising in direct proportion to the agreed price to 10% at
+  `[[RATE_RUNG_FULL]]`/kg (nearest quarter of one percent), and 10% at or above it.
+  `RATE_RUNG_MID` is no longer used by the contract (kept in presets as the 7.5%
+  midpoint). Source of truth: `Business-docs/COFFEE-LADDER.md`. No solicitor review.
