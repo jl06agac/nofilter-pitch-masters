@@ -34,7 +34,7 @@ locale concern (set from the column above), their *placement* is per-part.
 | Part 2 | `[[CURRENCY]]` on all figures | `SGD` | `AED` |
 | Part 2 | retail-cup metric | **removed** (was `CUP_RETAIL`) — see slider note below | same |
 | Part 2 | `IMPACT_TARGET` / contribution figures | derive in `[[CURRENCY]]` | derive in AED |
-| Part 3 | contract rate card (machines, coffees, services) | the SGD card already in the file | **AED card** — coffee band 147/155/165 (default `155`; transacted ≈140 — see the ladder note below); remaining machine/service prices TBD |
+| Part 3 | contract rate card (machines, coffees, services) | the SGD card already in the file | **AED card** — coffee floor 150 / opener 165 (default `165`; transacted ≈140 — see the ladder note below); remaining machine/service prices TBD |
 
 ---
 
@@ -57,31 +57,32 @@ nfCupC (contribution, sub-unit/cup) = price/kg × RATE(price) × 18/1000 × 100
 > | | 5% | 7.5% | full 10% | slider ends |
 > |---|---|---|---|---|
 > | 🇸🇬 SGD | 45.00 | 48.00 | 51.00 | 55.00 |
-> | 🇦🇪 AED | 147.00 | 155.00 | 165.00 | 165.00 |
+> | 🇦🇪 AED | 150.00 | 157.50 | 165.00 | 165.00 |
 >
 > The practical consequence: at the **default** price the rate is 7.5%, not 10%. So the old
 > AED headline of `7.6 ¢`/`AED 0.28` per cup, quoted at the 155 default, overstated by a third
 > — the correct figures are `5.7 ¢`/`AED 0.21` there, and `8.1 ¢`/`AED 0.30` at the full rate.
 > **Always compute a client's per-cup figure at THEIR rate.**
 >
-> **The rate RAMPS between the rungs; it does not step.** Updated 30 Aug 2026. Between the
-> figures above the rate rises continuously, quantised to a quarter of a point — so a client at
-> SGD 49.25 is on 8.5%, not 7.5%, and at AED 151.00 is on 6.25%, not 5%. It lands on exactly
-> 5 / 7.5 / 10 at the three rungs, so every published figure stays true, and it never leaves the
-> 5–10% promise.
+> **The ladder was reset 22 Sep 2026 (see `Business-docs/COFFEE-LADDER.md`, the source of truth).**
+> Two named points per market, and the rate RAMPS between them, quantised to a quarter of a point:
 >
-> | | 5.00% | some in-between values | 10.00% |
+> | | Floor · 5% | Opener · 10% | Ceiling (flat 10%) |
 > |---|---|---|---|
-> | 🇸🇬 SGD | 45.00 | 46.00 → 5.75% · 47.00 → 6.75% · 49.00 → 8.25% · 50.00 → 9.25% | 51.00 |
-> | 🇦🇪 AED | 147.00 | 149 → 5.75% · 151 → 6.25% · 153 → 7% · 157 → 8% · 161 → 9% | 165.00 |
+> | 🇸🇬 SGD | 46.00 | 51.00 | 60.00 |
+> | 🇦🇪 AED | 150.00 | 165.00 | 200.00 |
 >
-> **Why it ramps.** The rate applies to the whole price, so a 2.5-point step at a threshold cost
-> NoFilter `price × 0.025` at the crossing — more than the price step earned. A client paying
-> MORE therefore left NoFilter with LESS, which Alex ruled out. Ramping spreads that same rise so
-> every step earns more than it costs. The forest also does better everywhere: at no price does
-> it receive less than the old bands gave, and across the range it receives **8.2% more (SG)** and
-> **17.8% more (AED)**. `tools/ladder_gate.py` re-derives all of this from the costing model on
-> every site build and fails the build if it stops holding.
+> `PRICE_DEFAULT` = the opener; the floor is a concession. Between the two points the rate is
+> `5% + 5% × (price − floor) ÷ (opener − floor)`; at and above the opener it is a flat 10% to the
+> ceiling, so every step above the opener is 90% NoFilter's. `RATE_MID_STEP` / `RATE_RUNG_MID` are
+> the 7.5% midpoint, informational only. `rateForPrice()` in the Part 2 master and the Package
+> Sheet implements exactly this; the website still carries the old three whole-price bands
+> (deliberately untouched 22 Sep) and needs its own patch.
+>
+> **Why it ramps.** The rate applies to the whole price, so any step at a threshold cost
+> NoFilter `price × step` at the crossing, more than the price step earned. A client paying
+> MORE therefore left NoFilter with LESS, which Alex ruled out. Ramping means NoFilter's take
+> rises at every price.
 >
 > **Milestones still fire.** The 10 / 12 / 15 constants are untouched: the full-rate headline is
 > 9.2 ¢ (SGD) and 8.1 ¢ (USD), both inside the 7–12 range. A client at the entry rung sits at
@@ -189,8 +190,8 @@ The Part 3 contract is tokenised. Locale-driven values:
 ## Notes
 
 - **Singapore** values are the ones already living in the existing pitches (the Sprinklr/UWCSEA
-  builds): SGD, `48.00`/kg coffee (band 45/48/51, slider to 55), `alex@nofilter.sg`. (CUP_RETAIL was removed from the master — no retail-cup metric.)
-- **UAE**: AED band 147/155/165 (transacted ≈140 from real invoices — Sprinklr Gulf sits BELOW the floor; override in a client skin), `alex@nofilter.ae`; entity NoFilter LLC · Sharjah Media City (Shams) · TL 2540001.01 · VAT TRN pending FTA. No CUP_RETAIL. **Machine rate card = a full set of estimates in `UAE.json`** (all 4 machines × 24/36-mo rental + purchase), scaled from the SG card by the C8 anchor ratio (~2.42×) as render-clean placeholders. The **only real figure is `RATE_CM8_36MO` = AED 1,211.89/mo** (CaféMatic 8 + fridge, 3-yr lease, from the Sprinklr Gulf deal, USD 329.99/mo × 3.6725 peg). Replace the estimates with actuals when known; finance partner still TBD.
+  builds): SGD, `48.00`/kg coffee (floor 46, opener 51, slider to 60; 22 Sep 2026), `alex@nofilter.sg`. (CUP_RETAIL was removed from the master — no retail-cup metric.)
+- **UAE**: AED floor 150 / opener 165 / ceiling 200 (22 Sep 2026; transacted ≈140 from real invoices — Sprinklr Gulf sits BELOW the floor; override in a client skin), `alex@nofilter.ae`; entity NoFilter LLC · Sharjah Media City (Shams) · TL 2540001.01 · VAT TRN pending FTA. No CUP_RETAIL. **Machine rate card = a full set of estimates in `UAE.json`** (all 4 machines × 24/36-mo rental + purchase), scaled from the SG card by the C8 anchor ratio (~2.42×) as render-clean placeholders. The **only real figure is `RATE_CM8_36MO` = AED 1,211.89/mo** (CaféMatic 8 + fridge, 3-yr lease, from the Sprinklr Gulf deal, USD 329.99/mo × 3.6725 peg). Replace the estimates with actuals when known; finance partner still TBD.
 - The Part 3 contract's pricing math is **display-only currency** (`[[CURRENCY]]` labels);
   the rate-card *numbers* are the locale values above. Swapping locale = swap the number set,
   not the code.

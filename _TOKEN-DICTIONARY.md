@@ -43,7 +43,7 @@ A build is: **neutral master → apply MARKET preset → fill CLIENT tokens → 
 ## Layer 3 · DEAL / COMMERCIAL tokens (per deal; SG canon = v133)
 | Canonical token | Meaning | SG canon (v133) | UAE | London |
 |---|---|---|---|---|
-| `[[PRICE_FLOOR]]` / `[[PRICE_DEFAULT]]` / `[[PRICE_CEILING]]` | coffee /kg band | 45 / 48 / 55 | 145 / 155 / 165 (set; transacted ≈140) | TBD |
+| `[[PRICE_FLOOR]]` / `[[PRICE_DEFAULT]]` / `[[PRICE_CEILING]]` | coffee /kg: floor (5%), opener (10%), ceiling. Rate ramps floor→opener, flat 10% above. See `Business-docs/COFFEE-LADDER.md` | 46 / 51 / 60 | 150 / 165 / 200 (22 Sep 2026) | TBD |
 | `[[RATE_THRESHOLD]]` | price where full rate applies | 46 | market | market |
 | `[[RATE_LOW]]` / `[[RATE_FULL]]` | conservation rate below / at threshold | 0.05 / 0.10 | 0.05 / 0.10 | 0.05 / 0.10 |
 | `[[RATE_RUNG_MID]]` / `[[RATE_RUNG_FULL]]` | contract Cl. 05 price rungs: 5% below MID, 7.5% from MID to below FULL, 10% at/above FULL (whole-price bands, per Alex) | 48 / 51 | 155 / 165 | TBD |

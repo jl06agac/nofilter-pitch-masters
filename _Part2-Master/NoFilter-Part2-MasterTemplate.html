@@ -774,10 +774,8 @@ input[type=number]:focus{outline:2px solid var(--or);outline-offset:-1px;backgro
 .mprice-mark-lab{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-family:var(--font-m);font-size:9px;
   letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;transition:color .3s;}
 .mprice-track.at-full .mprice-mark-lab{color:var(--ad);}
-/* three-step ladder ticks, same thumb-travel correction as the band (f·100% + (15 − f·30)px):
-   7.5% at [[CURRENCY]] 47 → f=0.5 → 50%; full 10% at [[CURRENCY]] 49 → f=0.7 → 70% − 6px. */
-.mprice-mark--mid{left:50% !important;}
-.mprice-mark--full{left:calc(70% - 6px) !important;}
+/* ladder ticks: positioned at init from the slider's data-mid / data-full (see nfPlaceTicks),
+   same thumb-travel correction as the band (f·100% + (15 − f·30)px). No literals here. */
 /* the mid tick reads as a quieter waypoint than the full-10% tick */
 .mprice-mark--mid{opacity:.72;}
 .mprice-track.at-full .mprice-mark--mid{opacity:.5;}
@@ -4329,7 +4327,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
     <div class="nw-num" id="nwnum"><span class="nw-fv" id="nwfv">5 → 10%</span></div>
     <div class="nw-h" style="font-size:clamp(28px,3.4vw,50px)"><span class="nw-ln"><i>The rate is yours to set.</i></span></div>
     <p class="nw-sub" style="color:rgba(255,255,255,.82)">The contribution moves from profit to coffee sales value &mdash; a figure that sits on your invoices, so the calculation is clear and traceable. [[CONTRIB_LADDER]]</p>
-    <p class="nw-sub" style="color:rgba(255,255,255,.62);font-size:.86em;margin-top:14px">The tiers exist for a reason: below the top price, the margin tightens once farmers, NGO work, landing and roasting are paid. 5% keeps the account within reach, 7.5% is the middle rung, and 10% puts the full contribution behind it.</p>
+    <p class="nw-sub" style="color:rgba(255,255,255,.62);font-size:.86em;margin-top:14px">The rate exists for a reason: below the standard price, the margin tightens once farmers, NGO work, landing and roasting are paid. 5% keeps the account within reach, and the share rises with every step in price until the standard price puts the full 10% behind it.</p>
   </div>
   <div class="nw-cue" style="color:rgba(255,255,255,.6)">Keep going<svg viewBox="0 0 16 22" stroke-width="1.5" stroke="rgba(255,255,255,.6)"><path d="M8 1v18M2 13l6 6 6-6"/></svg></div>
 </section>
@@ -4766,7 +4764,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
             <span class="mprice-band-lab">new accounts open here</span>
             <span class="mprice-mark mprice-mark--mid" id="mPriceMarkMid"><span class="mprice-mark-lab">7.5%</span></span>
             <span class="mprice-mark mprice-mark--full" id="mPriceMark"><span class="mprice-mark-lab">full 10%</span></span>
-            <input type="range" id="wholePrice" class="scale-range thumb-pulse" value="42.00" min="42" max="52" step="0.25">
+            <input type="range" id="wholePrice" class="scale-range thumb-pulse" value="[[PRICE_DEFAULT]]" min="[[PRICE_FLOOR]]" max="[[PRICE_CEILING]]" step="0.25" data-mid="[[RATE_MID_STEP]]" data-full="[[RATE_HI_STEP]]">
           </div>
           <div class="morph-ends"><span>[[CURRENCY]] 42</span><span>[[CURRENCY]] 52</span></div>
         </div>
@@ -4851,8 +4849,8 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
     <div class="q-sheet-head" hidden>Quote · ex-GST · live</div>
     <div class="q-group">Coffee &amp; contribution · where it leads</div>
     <div class="q-line">
-      <div class="q-lab">Conservation coffee <span class="q-sub" id="qCoffeeSub">[[CURRENCY]] 42.00 / kg · 5% to conservation</span></div>
-      <div class="q-val" id="qCoffeeLine">[[CURRENCY]] 42.00<span class="q-unit"> /kg</span></div>
+      <div class="q-lab">Conservation coffee <span class="q-sub" id="qCoffeeSub">[[CURRENCY]] [[PRICE_DEFAULT]].00 / kg · 10% to conservation</span></div>
+      <div class="q-val" id="qCoffeeLine">[[CURRENCY]] [[PRICE_DEFAULT]].00<span class="q-unit"> /kg</span></div>
     </div>
     <div class="q-line" id="qTopUpRow" hidden>
       <div class="q-lab">Sustainability top-up <span class="q-sub" id="qTopUpSub">from sustainability budget · pass-through to NGO in full</span></div>
@@ -5079,20 +5077,21 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
                              //  which flatters the figure because volume is rising.)
   const HOT_DRINKS = COFFEE_CUPS; // drives annual NGO + roasted-volume figures
   const DOSE_G     = 18;       // grams per cup
-  // Conservation rate as a three-step ladder: 5% of the sale up to [[CURRENCY]] 46, 7.5% from
-  // [[CURRENCY]] 47, and the full 10% from [[CURRENCY]] 49. The lower tiers exist so a customer who cannot
-  // reach the top price climbs in graduated steps rather than facing a single cliff; below
-  // the top the margin genuinely tightens once farmers, NGO, landing and roasting are paid,
-  // which is why the share steps up rather than starting at 10%. Thresholds are never named
-  // on screen.
-  const RATE_LO      = 0.05;   // 42–46: entry tier
-  const RATE_MID     = 0.075;  // 47–48: middle tier
-  const RATE_HI      = 0.10;   // 49+:   full tier
-  const RATE_MID_STEP = [[RATE_MID_STEP]];    // price at which 7.5% begins
-  const RATE_HI_STEP  = [[RATE_HI_STEP]];    // price at which the full 10% begins
+  // Conservation rate, 22 Sep 2026 (Business-docs/COFFEE-LADDER.md): two points. 5% at the
+  // floor, the full 10% at the opener, and the rate RAMPS between them, quantised to a quarter
+  // of a point, so a client paying more never leaves NoFilter with less. Flat 10% above the
+  // opener to the ceiling. Thresholds are never named on screen.
+  const RATE_LO      = [[RATE_LOW]];       // rate at the floor
+  const RATE_HI      = [[RATE_FULL]];      // rate at the opener and above
+  const RATE_LO_AT   = [[PRICE_FLOOR]];    // floor: 5% here
+  const RATE_HI_STEP = [[RATE_HI_STEP]];   // opener: the full 10% from here
+  const RATE_MID_STEP = [[RATE_MID_STEP]]; // informational midpoint (7.5%); not a step
   const RATE_STEP  = RATE_HI_STEP;  // legacy alias: the "full 10%" threshold
   function rateForPrice(p){
-    return p >= RATE_HI_STEP ? RATE_HI : (p >= RATE_MID_STEP ? RATE_MID : RATE_LO);
+    if(p >= RATE_HI_STEP) return RATE_HI;
+    if(p <= RATE_LO_AT)   return RATE_LO;
+    var r = RATE_LO + (RATE_HI - RATE_LO) * (p - RATE_LO_AT) / (RATE_HI_STEP - RATE_LO_AT);
+    return Math.round(r * 400) / 400;   // quarter-point quantisation
   }
   const STRETCH_C  = 12.0;     // reachable "going further" milestone (NoFilter + top-up)
 
@@ -5119,7 +5118,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
     const ngoPerKg     = price * rate;
     const cupsPerKg    = 1000/DOSE_G;
 
-    if($('rateNow'))      $('rateNow').textContent      = (rate*100).toFixed(rate*100 % 1 === 0 ? 0 : 1);
+    if($('rateNow'))      $('rateNow').textContent      = (rate*100).toFixed(rate*100 % 1 === 0 ? 0 : (rate*100*10 % 1 === 0 ? 1 : 2));
 
     if($('perCupCoffee')) $('perCupCoffee').textContent = f2(coffeePerCup);
     if($('ngoCents'))     $('ngoCents').textContent     = nfCupC.toFixed(1);
@@ -5237,7 +5236,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
           }
         }
       });
-      var pct=Math.round(rateForPrice(price)*100);
+      var pct=(function(r){r=r*100; return (Math.round(r*4)/4).toString();})(rateForPrice(price));
       // the coffee dossiers' seal reads this; set only once the reader has moved
       // the dial, so an untouched builder still shows the 5–10 range
       if(window.__nfPriceTouched) window.__nfContribPct=pct;
@@ -5567,7 +5566,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
     slider.addEventListener('input',function(){primed=true;window.__nfPriceTouched=true;dismissNudge();compute();});
     if($('topUp')) $('topUp').addEventListener('input',function(){primed=true;dismissNudge();compute();});
     if($('volCups')) $('volCups').addEventListener('input',function(){compute();});
-    $('whoReset') && $('whoReset').addEventListener('click',()=>{slider.value='46.00';if($('topUp'))$('topUp').value='0';prevTier=-1;prevTrackTier=-1;primed=false;compute();});
+    $('whoReset') && $('whoReset').addEventListener('click',()=>{slider.value='[[PRICE_DEFAULT]]';if($('topUp'))$('topUp').value='0';prevTier=-1;prevTrackTier=-1;primed=false;compute();});
 
     // reveal band: show the two notes on hover/drag anywhere in the price panel; highlight the live tier note
     (function(){
@@ -5583,11 +5582,22 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
       window.addEventListener('pointerup',function(){clearTimeout(hideT);});
       function tier(){
         var lands=$('noteLands'); if(!lands) return;
-        lands.classList.toggle('live', (+slider.value) < 46);
+        lands.classList.toggle('live', (+slider.value) < RATE_HI_STEP);
       }
       slider.addEventListener('input',tier); tier();
     })();
 
+    // ladder ticks from the preset: 7.5% midpoint and the full-10% opener
+    (function nfPlaceTicks(){
+      var mn=+slider.min, mx=+slider.max; if(!(mx>mn)) return;
+      function put(id, price){
+        var el=$(id); if(!el||!price) return;
+        var f=Math.max(0,Math.min(1,(price-mn)/(mx-mn)));
+        el.style.setProperty('left','calc('+(f*100).toFixed(2)+'% + '+(15-f*30).toFixed(1)+'px)','important');
+      }
+      put('mPriceMarkMid', +slider.dataset.mid);
+      put('mPriceMark',    +slider.dataset.full);
+    })();
     compute();
     // reposition the bubble once layout has settled, and on resize
     requestAnimationFrame(compute);
@@ -5772,35 +5782,33 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
           ps.style.setProperty('--pp', psw>40 ? (pfrac*(psw-30)+15).toFixed(0)+'px' : (pfrac*100).toFixed(1)+'%');
           var fr=Math.round(232+(238-232)*pfrac), fg=Math.round(184+(77-184)*pfrac), fb=Math.round(75+(23-75)*pfrac);
           ps.style.setProperty('--pfill','rgb('+fr+','+fg+','+fb+')');
-          // Three-step ladder: 5% up to 46, 7.5% from 47, full 10% from 49.
-          var rateNow = d.price>=49?0.10:(d.price>=47?0.075:0.05);
-          var atFull = d.price>=49;
-          var atMid  = d.price>=47 && d.price<49;
+          // Ladder (22 Sep 2026): the rate ramps from 5% at the floor to the full 10% at the
+          // opener (RATE_HI_STEP) and is flat above it. The midpoint is a waypoint, not a step.
+          var rateNow = rateForPrice(d.price);
+          var atFull = d.price>=RATE_HI_STEP;
+          var atMid  = d.price>=RATE_MID_STEP && d.price<RATE_HI_STEP;
           if(track) track.classList.toggle('at-full', atFull);
           if(enc){
             enc.classList.toggle('at-full', atFull);
             enc.classList.toggle('at-mid', atMid);
             if(atFull){
-              var dCup=0.10*DOSE/1000*100;            /* ¢/cup per extra [[CURRENCY]] 1/kg at full 10% */
+              var dCup=RATE_HI*DOSE/1000*100;          /* ¢/cup per extra [[CURRENCY]] 1/kg at full 10% */
               var dYr=Math.round(dCup/100*d.vol);     /* [[CURRENCY]]/yr at the chosen cup volume */
               enc.textContent='\u2713 Full 10% \u00b7 each extra [[CURRENCY]] 1 \u2248 +'+dCup.toFixed(1).replace(/\.0$/,'')+'\u00a2 a cup, ~[[CURRENCY]] '+dYr+'/yr more to the forests';
             }
             else {
-              // Name the next rung on the ladder and what crossing to it is worth, so each
-              // dollar reads as a climb: 5% → 7.5% at 47, 7.5% → full 10% at 49.
-              var nextPrice = atMid ? 49 : 47;
-              var nextRate  = atMid ? 0.10 : 0.075;
+              // Name the opener and what reaching it is worth, so each dollar reads as a climb.
+              var nextPrice = RATE_HI_STEP;
               var away=(nextPrice-d.price);
-              var gainCup=(nextPrice*nextRate - d.price*rateNow)*DOSE/1000*100;   /* extra ¢/cup at the next step */
+              var gainCup=(nextPrice*RATE_HI - d.price*rateNow)*DOSE/1000*100;   /* extra ¢/cup at the opener */
               var gainYr=Math.round(gainCup/100*d.vol);                            /* extra [[CURRENCY]]/yr at her volume */
-              var label = atMid ? 'the full 10%' : '7.5%';
-              enc.textContent='[[CURRENCY]] '+away.toFixed(2)+' more steps up to '+label+' — about +'
+              enc.textContent='[[CURRENCY]] '+away.toFixed(2)+' more steps up to the full 10% — about +'
                 +gainCup.toFixed(1).replace(/\.0$/,'')+'¢ a cup, and ~[[CURRENCY]] '+gainYr.toLocaleString('[[LOCALE_TAG]]')
                 +'/yr more to the forests →';
             }
           }
-          // celebration burst on every upward tier crossing: into 7.5% at 47 (smaller burst)
-          // and into the full 10% at 49 (the big one). Anchored to the VISIBLE dial thumb —
+          // celebration burst on every upward tier crossing: past the 7.5% midpoint (smaller burst)
+          // and into the full 10% at the opener (the big one). Anchored to the VISIBLE dial thumb —
           // the native slider is display:none in uni mode, so bursting from it lands off-screen.
           var pTier = atFull ? 2 : (atMid ? 1 : 0);
           if(mPrimed && mPricePrevTier>=0 && pTier>mPricePrevTier && typeof window.nfCelebrateAt==='function'){
@@ -7837,7 +7845,7 @@ setInterval(function(){
         zone.style.left=x+'px'; zone.style.width=(w-x)+'px';
         labR.style.left=w+'px'; labR.textContent='[[CURRENCY]] '+PMAX;
         labL.textContent='[[CURRENCY]] '+PMIN;
-        var m=((49-PMIN)/(PMAX-PMIN))*w; mk.style.left=m+'px'; mkl.style.left=m+'px';
+        var FULL=+pS.dataset.full||PMAX; var m=((FULL-PMIN)/(PMAX-PMIN))*w; mk.style.left=m+'px'; mkl.style.left=m+'px';
         mk.style.opacity=1; mkl.style.opacity=1;
       } else {
         var xp=PIN_FRAC*w, xt=xp+(topup()/TMAX)*(1-PIN_FRAC)*w;

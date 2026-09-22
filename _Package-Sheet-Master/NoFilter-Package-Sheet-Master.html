@@ -3113,11 +3113,17 @@ input[type=number]:focus{outline:2px solid var(--or);outline-offset:-1px;backgro
   // below it the margin genuinely tightens once farmers, NGO, landing and roasting
   // are paid, which is why the share steps down. The threshold price is never
   // named on screen.
-  const RATE_LO    = [[RATE_LOW]];     // rate below the standard price
-  const RATE_HI    = [[RATE_FULL]];     // rate at the standard price and above
-  const RATE_STEP  = [[RATE_THRESHOLD]];       // standard price where the full 10% applies
+  const RATE_LO      = [[RATE_LOW]];       // rate at the floor
+  const RATE_HI      = [[RATE_FULL]];      // rate at the opener and above
+  const RATE_LO_AT   = [[PRICE_FLOOR]];    // floor: 5% here
+  const RATE_HI_STEP = [[RATE_HI_STEP]];   // opener: the full 10% from here
+  const RATE_STEP  = RATE_HI_STEP;         // legacy alias
+  // 22 Sep 2026: ramps between floor and opener, quarter-point quantised; flat 10% above.
   function rateForPrice(p){
-    return p >= RATE_STEP ? RATE_HI : RATE_LO;
+    if(p >= RATE_HI_STEP) return RATE_HI;
+    if(p <= RATE_LO_AT)   return RATE_LO;
+    var r = RATE_LO + (RATE_HI - RATE_LO) * (p - RATE_LO_AT) / (RATE_HI_STEP - RATE_LO_AT);
+    return Math.round(r * 400) / 400;
   }
   const STRETCH_C  = 12.0;     // reachable "going further" milestone (NoFilter + top-up)
 
