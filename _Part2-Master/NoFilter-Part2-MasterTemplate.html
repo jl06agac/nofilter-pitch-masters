@@ -4327,7 +4327,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
     <div class="nw-num" id="nwnum"><span class="nw-fv" id="nwfv">5 → 10%</span></div>
     <div class="nw-h" style="font-size:clamp(28px,3.4vw,50px)"><span class="nw-ln"><i>The rate is yours to set.</i></span></div>
     <p class="nw-sub" style="color:rgba(255,255,255,.82)">The contribution moves from profit to coffee sales value &mdash; a figure that sits on your invoices, so the calculation is clear and traceable. [[CONTRIB_LADDER]]</p>
-    <p class="nw-sub" style="color:rgba(255,255,255,.62);font-size:.86em;margin-top:14px">The rate exists for a reason: below the standard price, the margin tightens once farmers, NGO work, landing and roasting are paid. 5% keeps the account within reach, and the share rises with every step in price until the standard price puts the full 10% behind it.</p>
+    <p class="nw-sub" style="color:rgba(255,255,255,.62);font-size:.86em;margin-top:14px">The rate exists for a reason: below the standard price, the margin tightens once farmers, NGO work, landing and roasting are paid. 5% keeps the account within reach; the standard price puts the full 10% behind it.</p>
   </div>
   <div class="nw-cue" style="color:rgba(255,255,255,.6)">Keep going<svg viewBox="0 0 16 22" stroke-width="1.5" stroke="rgba(255,255,255,.6)"><path d="M8 1v18M2 13l6 6 6-6"/></svg></div>
 </section>
@@ -5078,9 +5078,8 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
   const HOT_DRINKS = COFFEE_CUPS; // drives annual NGO + roasted-volume figures
   const DOSE_G     = 18;       // grams per cup
   // Conservation rate, 22 Sep 2026 (Business-docs/COFFEE-LADDER.md): two points. 5% at the
-  // floor, the full 10% at the opener, and the rate RAMPS between them, quantised to a quarter
-  // of a point, so a client paying more never leaves NoFilter with less. Flat 10% above the
-  // opener to the ceiling. Thresholds are never named on screen.
+  // floor and below the opener, the full 10% at the opener and above it. One step, at the
+  // opener: 165 / 51 is where the forest gets the full share. Thresholds are never named on screen.
   const RATE_LO      = [[RATE_LOW]];       // rate at the floor
   const RATE_HI      = [[RATE_FULL]];      // rate at the opener and above
   const RATE_LO_AT   = [[PRICE_FLOOR]];    // floor: 5% here
@@ -5088,10 +5087,8 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
   const RATE_MID_STEP = [[RATE_MID_STEP]]; // informational midpoint (7.5%); not a step
   const RATE_STEP  = RATE_HI_STEP;  // legacy alias: the "full 10%" threshold
   function rateForPrice(p){
-    if(p >= RATE_HI_STEP) return RATE_HI;
-    if(p <= RATE_LO_AT)   return RATE_LO;
-    var r = RATE_LO + (RATE_HI - RATE_LO) * (p - RATE_LO_AT) / (RATE_HI_STEP - RATE_LO_AT);
-    return Math.round(r * 400) / 400;   // quarter-point quantisation
+    /* 23 Sep 2026: one step at the opener. 5% below it, 10% at and above it. */
+    return p >= RATE_HI_STEP ? RATE_HI : RATE_LO;   // quarter-point quantisation
   }
   const STRETCH_C  = 12.0;     // reachable "going further" milestone (NoFilter + top-up)
 
@@ -5595,7 +5592,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
         var f=Math.max(0,Math.min(1,(price-mn)/(mx-mn)));
         el.style.setProperty('left','calc('+(f*100).toFixed(2)+'% + '+(15-f*30).toFixed(1)+'px)','important');
       }
-      put('mPriceMarkMid', +slider.dataset.mid);
+      var _mid=$('mPriceMarkMid'); if(_mid) _mid.style.display='none';   /* 23 Sep: two points, two marks */
       put('mPriceMark',    +slider.dataset.full);
     })();
     compute();
@@ -5786,7 +5783,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
           // opener (RATE_HI_STEP) and is flat above it. The midpoint is a waypoint, not a step.
           var rateNow = rateForPrice(d.price);
           var atFull = d.price>=RATE_HI_STEP;
-          var atMid  = d.price>=RATE_MID_STEP && d.price<RATE_HI_STEP;
+          var atMid  = false;   /* 23 Sep: no mid tier */
           if(track) track.classList.toggle('at-full', atFull);
           if(enc){
             enc.classList.toggle('at-full', atFull);

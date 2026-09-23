@@ -3118,12 +3118,9 @@ input[type=number]:focus{outline:2px solid var(--or);outline-offset:-1px;backgro
   const RATE_LO_AT   = [[PRICE_FLOOR]];    // floor: 5% here
   const RATE_HI_STEP = [[RATE_HI_STEP]];   // opener: the full 10% from here
   const RATE_STEP  = RATE_HI_STEP;         // legacy alias
-  // 22 Sep 2026: ramps between floor and opener, quarter-point quantised; flat 10% above.
   function rateForPrice(p){
-    if(p >= RATE_HI_STEP) return RATE_HI;
-    if(p <= RATE_LO_AT)   return RATE_LO;
-    var r = RATE_LO + (RATE_HI - RATE_LO) * (p - RATE_LO_AT) / (RATE_HI_STEP - RATE_LO_AT);
-    return Math.round(r * 400) / 400;
+    /* 23 Sep 2026: one step at the opener. 5% below it, 10% at and above it. */
+    return p >= RATE_HI_STEP ? RATE_HI : RATE_LO;
   }
   const STRETCH_C  = 12.0;     // reachable "going further" milestone (NoFilter + top-up)
 

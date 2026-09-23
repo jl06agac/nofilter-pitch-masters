@@ -57,5 +57,5 @@
   "RATE_RUNG_MID": "48.50",
   "RATE_RUNG_FULL": "51",
   "DATA_PROTECTION_LAW": "the Personal Data Protection Act 2012 of Singapore",
-  "_NOTE_LADDER_2026_09_22": "Ladder reset 22 Sep 2026 (Business-docs/COFFEE-LADDER.md is the source of truth). Two points: PRICE_FLOOR at RATE_LOW (5%), RATE_HI_STEP at RATE_FULL (10%); the rate RAMPS between them, quantised to a quarter point, and is flat 10% from RATE_HI_STEP to PRICE_CEILING. PRICE_DEFAULT is the opener (= RATE_HI_STEP); the floor is a concession. RATE_MID_STEP / RATE_RUNG_MID are the midpoint (7.5%) and are informational only; rateForPrice() no longer steps on them."
+  "_NOTE_LADDER_2026_09_22": "Ladder reset 22-23 Sep 2026 (Business-docs/COFFEE-LADDER.md). Two points: PRICE_FLOOR at RATE_LOW (5%) and RATE_HI_STEP at RATE_FULL (10%). ONE STEP at the opener: 5% below it, 10% at and above it, up to PRICE_CEILING. PRICE_DEFAULT is the opener. RATE_MID_STEP / RATE_RUNG_MID are informational only; nothing steps on them."
 }

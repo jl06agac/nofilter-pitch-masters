@@ -65,16 +65,15 @@ nfCupC (contribution, sub-unit/cup) = price/kg × RATE(price) × 18/1000 × 100
 > **Always compute a client's per-cup figure at THEIR rate.**
 >
 > **The ladder was reset 22 Sep 2026 (see `Business-docs/COFFEE-LADDER.md`, the source of truth).**
-> Two named points per market, and the rate RAMPS between them, quantised to a quarter of a point:
+> Two named points per market and ONE STEP between them: 5% below the opener, 10% at and above it (23 Sep, replacing the 22 Sep ramp):
 >
 > | | Floor · 5% | Opener · 10% | Ceiling (flat 10%) |
 > |---|---|---|---|
 > | 🇸🇬 SGD | 46.00 | 51.00 | 60.00 |
 > | 🇦🇪 AED | 150.00 | 165.00 | 200.00 |
+> | 🇬🇧 GBP | 39.00 | 43.00 | 52.00 |
 >
-> `PRICE_DEFAULT` = the opener; the floor is a concession. Between the two points the rate is
-> `5% + 5% × (price − floor) ÷ (opener − floor)`; at and above the opener it is a flat 10% to the
-> ceiling, so every step above the opener is 90% NoFilter's. `RATE_MID_STEP` / `RATE_RUNG_MID` are
+> `PRICE_DEFAULT` = the opener; the floor is a concession. Below the opener every step is 95% NoFilter's, above it 90%; the opener is the one point where the rate changes. `RATE_MID_STEP` / `RATE_RUNG_MID` are
 > the 7.5% midpoint, informational only. `rateForPrice()` in the Part 2 master and the Package
 > Sheet implements exactly this; the website still carries the old three whole-price bands
 > (deliberately untouched 22 Sep) and needs its own patch.
