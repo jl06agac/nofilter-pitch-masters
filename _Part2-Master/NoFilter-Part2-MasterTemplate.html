@@ -5779,8 +5779,7 @@ footer.nf-colophon{background:var(--nb);color:rgba(255,232,195,.72);padding:clam
           ps.style.setProperty('--pp', psw>40 ? (pfrac*(psw-30)+15).toFixed(0)+'px' : (pfrac*100).toFixed(1)+'%');
           var fr=Math.round(232+(238-232)*pfrac), fg=Math.round(184+(77-184)*pfrac), fb=Math.round(75+(23-75)*pfrac);
           ps.style.setProperty('--pfill','rgb('+fr+','+fg+','+fb+')');
-          // Ladder (22 Sep 2026): the rate ramps from 5% at the floor to the full 10% at the
-          // opener (RATE_HI_STEP) and is flat above it. The midpoint is a waypoint, not a step.
+          // Ladder (23 Sep 2026): 5% below the opener (RATE_HI_STEP), 10% at and above it.
           var rateNow = rateForPrice(d.price);
           var atFull = d.price>=RATE_HI_STEP;
           var atMid  = false;   /* 23 Sep: no mid tier */

@@ -78,10 +78,11 @@ nfCupC (contribution, sub-unit/cup) = price/kg × RATE(price) × 18/1000 × 100
 > Sheet implements exactly this; the website still carries the old three whole-price bands
 > (deliberately untouched 22 Sep) and needs its own patch.
 >
-> **Why it ramps.** The rate applies to the whole price, so any step at a threshold cost
-> NoFilter `price × step` at the crossing, more than the price step earned. A client paying
-> MORE therefore left NoFilter with LESS, which Alex ruled out. Ramping means NoFilter's take
-> rises at every price.
+> **Why one step, not a ramp.** A ramp between the points gave the forest half of every
+> dirham a client added and NoFilter the other half; Alex: "ramping up the price translated
+> into no extra margin for me". With one step, every step below the opener is 95% NoFilter's
+> and every step above it 90%. The step at the opener is the device: it is where the client
+> is told the forest gets the full share, and it is accepted that 164.50 keeps more than 165.
 >
 > **Milestones still fire.** The 10 / 12 / 15 constants are untouched: the full-rate headline is
 > 9.2 ¢ (SGD) and 8.1 ¢ (USD), both inside the 7–12 range. A client at the entry rung sits at
