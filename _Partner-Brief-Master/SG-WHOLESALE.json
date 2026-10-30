@@ -29,6 +29,14 @@
   "REBATE_FREQUENCY": "twice yearly in arrears, by credit note",
   "RRP_LOW": 58,
   "RRP_HIGH": 61,
+  "_NOTE_RETAIL": "Household (B2C) prices and the 250 g bag. Read only for a partner whose file sets \"RETAIL_PACK\": true (Talula, 6 Oct 2026); Lyreco and Kumpulan are 1 kg to businesses and never see these. RETAIL_RRP_1KG and RETAIL_RRP_250G are NoFilter's own public shop prices, tax inclusive, as recorded in Tools/NF-Ops/config/public-knowledge-approved-sg.json (80 and 24). The website master carries 25 as its fallback for 250 g; settle which is right.",
+  "RETAIL_RRP_1KG": 80,
+  "RETAIL_RRP_250G": 24,
+  "RETAIL_250G": {
+    "trade": 14.0,
+    "pack_extra": 1.0,
+    "_NOTE": "PROPOSED by Claude 6 Oct 2026, NOT yet confirmed by Alex. Alex's direction: retail can carry more margin for the partner than the corporate kilo. 14.00 leaves the partner 10.00 a bag (41.7%) at the 24 shelf price. pack_extra is an ALLOWANCE of 1.00 a bag for the smaller bag, sticker and packing, not a costed figure; replace it from the costing calculator. On that allowance the bag nets NoFilter about 40%."
+  },
   "MOQ_KG": 30,
   "PAYMENT_DAYS": 30,
   "GREEN_TRIGGER_PCT": 10,

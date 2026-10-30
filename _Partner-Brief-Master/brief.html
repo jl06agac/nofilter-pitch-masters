@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>NoFilter &times; Kumpulan — Wholesale Supply Agreement</title>
+<title>NoFilter &times; Talula Farms — Wholesale Supply Agreement</title>
 <style>
 @font-face{font-family:Anton;src:url(f/anton.woff2) format('woff2');font-weight:400}
 @font-face{font-family:Archivo;src:url(f/archivo400.woff2) format('woff2');font-weight:400}
@@ -8,7 +8,7 @@
 @font-face{font-family:Plex;src:url(f/plex400.woff2) format('woff2');font-weight:400}
 @font-face{font-family:Plex;src:url(f/plex600.woff2) format('woff2');font-weight:600}
 
-:root{--ink:#2A2B2A;--orange:#0E29A1;--parch:#FFE8C3;--forest:#1B3A2D;
+:root{--ink:#2A2B2A;--orange:#F27126;--parch:#FFE8C3;--forest:#1B3A2D;
        --rule:#d9d3c6;--dim:#6d6f6b}
 @page{size:A4;margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -23,7 +23,7 @@ body{font-family:Archivo,sans-serif;color:var(--ink);background:#fff;
        align-items:center;justify-content:space-between;gap:10mm}
 .lock{display:flex;align-items:center;gap:6mm}
 .lock img.nf{height:9mm;display:block}
-.lock img.ly{height:16mm;display:block}
+.lock img.ly{height:18mm;display:block}
 .lock .x{font-family:Archivo,sans-serif;font-weight:600;font-size:13pt;color:#fff;opacity:.85}
 .meta{font-family:Plex,monospace;font-size:7pt;letter-spacing:.14em;text-transform:uppercase;
        color:#fff;text-align:right;line-height:1.7}
@@ -90,18 +90,18 @@ h1 em{font-style:normal;color:var(--orange)}
                 line-height:1.9;white-space:nowrap}
 .p2 .art{background:#efeae1;position:relative;overflow:hidden}
 .p2 .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-              object-position:52% 46%}
+              object-position:50% 50%}
 .p2 .side{padding:12mm 12mm 0 10mm;display:flex;flex-direction:column}
 .sealgrid{display:grid;grid-template-columns:repeat(2,34mm);gap:5mm;margin-bottom:5mm}
 .sealgrid img{width:34mm;height:34mm;display:block}
 .sealcap{font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.11em;
-          text-transform:uppercase;color:var(--dim);margin-bottom:8mm;
+          text-transform:uppercase;color:var(--dim);margin-bottom:0;
           max-width:76mm;line-height:1.7}
 .sealT{font-family:Plex,monospace;font-size:12.5px;font-weight:600;letter-spacing:.16em;
         fill:#fff}
 h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
     text-transform:uppercase;margin-bottom:3.5mm}
-.p2 .para{font-size:8.6pt;line-height:1.5;color:#3a3b39;margin-bottom:6mm}
+.p2 .para{font-size:8.6pt;line-height:1.5;color:#3a3b39;margin-bottom:9mm}
 .bl{border-top:.4mm solid var(--rule);padding:4.6mm 0}
 .bl:first-of-type{border-top:.7mm solid var(--ink)}
 .bl b{display:block;font-family:Plex,monospace;font-size:6.6pt;letter-spacing:.11em;
@@ -180,8 +180,93 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
                text-transform:uppercase;color:var(--forest);text-align:right;
                line-height:1.9;white-space:nowrap}
 
+/* ---------------- rental page (only for a partner with RENTAL) ---------------- */
+.pr{display:flex;flex-direction:column;flex:1;padding:0;min-height:0;overflow:hidden}
+.pr .intro{padding:6mm 12mm 4mm}
+.mtab{margin:0 12mm 3mm;border-top:.7mm solid var(--ink)}
+.mtab .hr,.mtab .mr{display:grid;grid-template-columns:17mm 1fr 25mm 25mm 30mm 27mm;gap:4mm;align-items:center}
+.mtab .hr{font-family:Plex,monospace;font-size:6.2pt;letter-spacing:.11em;text-transform:uppercase;
+          color:var(--dim);padding:2.2mm 0 1.8mm;border-bottom:.35mm solid var(--rule);align-items:end;
+          line-height:1.5}
+.mtab .hr span.r,.mtab .mr .r{text-align:right}
+.mtab .mr{padding:1.2mm 0;border-bottom:.35mm solid var(--rule)}
+.mtab .ph{width:17mm;height:17mm;object-fit:cover;display:block}
+.mtab .mn{font-family:Anton,sans-serif;font-size:12.5pt;line-height:1;text-transform:uppercase;
+          margin-bottom:1.3mm}
+.mtab .ms{font-family:Plex,monospace;font-size:6.3pt;letter-spacing:.07em;text-transform:uppercase;
+          color:var(--dim);line-height:1.5}
+.mtab .rt{font-family:Archivo,sans-serif;font-size:10.5pt;font-weight:600}
+.mtab .rt small,.mtab .sh small{font-family:Plex,monospace;font-size:6pt;letter-spacing:.1em;
+          color:var(--dim);margin-right:1.2mm;font-weight:400}
+/* the partner's own column is marked by fill and weight, never by hue */
+.mtab .sh{font-family:Anton,sans-serif;font-size:14pt;line-height:1;background:var(--parch);
+          padding:3.2mm 2.5mm;text-align:right}
+.mtab .sh small{vertical-align:.9mm}
+.mtab .tot{font-family:Plex,monospace;font-size:7.6pt;letter-spacing:.05em;font-weight:600}
+.mtabnote{margin:0 12mm 3.5mm;font-family:Plex,monospace;font-size:6.2pt;letter-spacing:.09em;
+          text-transform:uppercase;color:var(--dim);line-height:1.8}
+.pr .cards{margin:0 12mm 4.5mm}
+.pr .terms{margin:auto 12mm 5mm}
+.pr .tm{padding:1.4mm 0}
+.pr .tm p{font-size:7.8pt;line-height:1.4}
+.ptab.norb .hr,.ptab.norb .tr{grid-template-columns:30mm 26mm 1fr}
+.ptab.norb .mar{line-height:1.9}
+.cards.two{grid-template-columns:repeat(2,1fr)}
+
+/* ---------------- cover ---------------- */
+.cv{position:relative;flex:1;background:#1c1f1c;color:#fff;overflow:hidden}
+.cv img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* the shade carries the legibility of the type; contrast is by lightness, not hue */
+.cv .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,
+           rgba(0,0,0,.05) 24%,rgba(0,0,0,.05) 46%,rgba(0,0,0,.72) 70%,rgba(0,0,0,.9) 100%)}
+.cv .top{position:absolute;left:14mm;top:13mm}
+.cv .lock img.nf{height:12mm}
+.cv .lock img.ly{height:24mm}
+.cv .lock .x{font-size:16pt}
+.cv .bot{position:absolute;left:14mm;right:14mm;bottom:11mm}
+.cv .kick{font-family:Plex,monospace;font-weight:600;font-size:7pt;letter-spacing:.2em;
+          text-transform:uppercase;color:#F27126;margin-bottom:3mm}
+.cv h1{font-family:Anton,sans-serif;font-weight:400;font-size:43pt;line-height:1;text-transform:uppercase;
+       margin-bottom:3mm;color:#fff}
+.cv .sub{font-family:Anton,sans-serif;font-size:18pt;line-height:1;text-transform:uppercase;
+         color:#F27126;margin-bottom:8mm}
+.cv .who{font-size:9pt;line-height:1.75;margin-bottom:5mm}
+.cv .rule{border-top:.35mm solid rgba(255,255,255,.75);padding-top:3mm;display:flex;
+          justify-content:space-between;font-family:Plex,monospace;font-size:6.6pt;letter-spacing:.12em;
+          text-transform:uppercase}
+.duo{margin:0 12mm 3mm;display:grid;grid-template-columns:1fr 1fr;gap:8mm}
+.pp{border-top:.7mm solid var(--ink);padding-top:3mm}
+.pk{font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.11em;text-transform:uppercase;color:var(--forest);font-weight:600}
+.pb{font-family:Anton,sans-serif;font-size:21pt;line-height:1;margin:1.6mm 0 1.4mm;text-transform:uppercase}
+.pw{font-size:8pt;line-height:1.4;color:#3a3b39;margin-bottom:2mm}
+.pl{display:flex;justify-content:space-between;align-items:center;padding:2.3mm 0;border-top:.35mm solid var(--rule);font-size:8.4pt}
+.pl b{font-family:Archivo,sans-serif;font-size:11pt;font-weight:600;white-space:nowrap}
+.pl.keep{background:var(--parch);border-top:none;padding:2.8mm 3mm;margin-top:.6mm}
+.pl.keep span{font-weight:600}
+.pl.keep i{display:block;font-style:normal;font-weight:400;font-family:Plex,monospace;font-size:6.4pt;letter-spacing:.05em;color:var(--dim);margin-top:.8mm}
+.pl.keep b{font-family:Anton,sans-serif;font-size:15pt;font-weight:400}
+.pf{font-size:7.3pt;line-height:1.45;color:#3a3b39;margin-top:2.2mm}
+.p3 .duo ~ .cards{margin-top:1.5mm}
+
 </style></head>
 <body>
+
+<!-- ============ cover ============ -->
+<div class="page">
+  <div class="cv">
+    <img class="bg" src="cover-photo.jpg" alt="">
+    <div class="shade"></div>
+    <div class="top"><div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
+      <span class="x">&times;</span><img class="ly" src="talula.png" alt="Talula Farms"></div></div>
+    <div class="bot">
+      <div class="kick">Partner proposal &middot; Singapore</div>
+      <h1>Conservation coffee<br>for Talula Farms.</h1>
+      <div class="sub">Wholesale &amp; introductions</div>
+      <div class="who">For: Mo Melwani &amp; Nicky Ong<br>Prepared by NoFilter Pte. Ltd.</div>
+      <div class="rule"><span>October 2026 &nbsp;/&nbsp; Valid to 30 September 2027</span><span>nofilter.sg</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- ============ page 1 ============ -->
 <div class="page">
@@ -189,9 +274,9 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
     <div class="lock">
       <img class="nf" src="wordmark.png" alt="NoFilter">
       <span class="x">&times;</span>
-      <img class="ly" src="kumpulan.svg" alt="Kumpulan">
+      <img class="ly" src="talula.png" alt="Talula Farms">
     </div>
-    <div class="meta">Partner brief<br>Origins and supply<br>September 2026</div>
+    <div class="meta">Partner proposal<br>Origins and supply<br>October 2026</div>
   </div>
 
   <div class="intro">
@@ -277,27 +362,25 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
 <div class="page">
   <div class="p2">
     <div class="upper">
-      <div class="art"><img src="hero-bag.png" alt="NoFilter 1 kg bag"></div>
+      <div class="art"><img src="hero-bag-batang-toru.jpg" alt="NoFilter 1 kg bag, Batang Toru"></div>
       <div class="side">
-        <div class="sealgrid"><img src="seals/nf-seal-batang-toru.svg" alt="Batang Toru seal"><img src="seals/nf-seal-batang-gadis.svg" alt="Batang Gadis seal"><img src="seals/nf-seal-gayo-lues.svg" alt="Gayo Lues seal"><img src="seals/nf-seal-arakan-mountains.svg" alt="Arakan Mountains seal"></div>
-        <div class="sealcap">Every listing carries its own seal, in the colour reserved to that
+        <h1>Built to sell<br>on its <em>story</em>.</h1>
+        <p class="para">You already sell food from small farms that leave the land better than they found it. This is the coffee that belongs beside it: grown by smallholders under forest canopy in Sumatra and Myanmar, roasted to order in Singapore each week, with a contracted share of every kilo going to the NGO protecting that forest, and the coordinates to prove it.</p>
+        <div class="sealgrid"><img src="stickers/batang-toru.png" alt="Batang Toru sticker"><img src="stickers/batang-gadis.png" alt="Batang Gadis sticker"><img src="stickers/gayo-lues.png" alt="Gayo Lues sticker"><img src="stickers/arakan-mountains.png" alt="Arakan Mountains sticker"></div>
+        <div class="sealcap">Every listing carries its own sticker, in the colour reserved to that
         origin, so a bag, carton or sample says which coffee it is before it is opened.</div>
-        <h2>Built to sell<br>on its story.</h2>
-        <p class="para">Most coffee on a workplace shelf is bought where it is cheapest to grow,
-        and cheap usually means cleared ground. This range is the opposite proposition, and it
-        comes with the evidence to say so out loud.</p>
       </div>
     </div>
     <div class="lower">
-      <div class="bl"><b>Contracted, not charitable</b><p>The conservation share is written into the supply contract and shown on every invoice, so it can be audited rather than taken on trust.</p></div><div class="bl"><b>Mapped to a boundary</b><p>Every lot ties to a named forest boundary with coordinates and a named NGO partner, held on NoFilter's public verification map.</p></div><div class="bl"><b>Documented for reporting</b><p>Chain of custody documentation is available for customers carrying Scope 3 or sustainable procurement obligations.</p></div><div class="bl"><b>Range and formats</b><p>Four single-origin roasts with genuinely different cup profiles, supplied in 1 kg whole bean. Trade pricing, volumes and terms are set out overleaf.</p></div>
+      <div class="bl"><b>Contracted, not charitable</b><p>The conservation share is written into the supply contract and shown on every invoice, so it can be audited rather than taken on trust.</p></div><div class="bl"><b>Mapped to a boundary</b><p>Every lot ties to a named forest boundary with coordinates and a named NGO partner, held on NoFilter's public verification map.</p></div><div class="bl"><b>Yours to tell</b><p>Every bag names its origin, its forest and its NGO partner. You get approved wording, product photography and a per-kilo conservation figure for your own impact page and your boxes.</p></div><div class="bl"><b>Range and formats</b><p>Four single-origin roasts with genuinely different cup profiles, in 1 kg and 250 g whole bean. Trade pricing and terms are set out overleaf.</p></div>
     </div>
     <div class="next">
       <div>
         <h3>Next step</h3>
-        <p>Trade pricing and terms are overleaf and hold for twelve months. The call is to agree
+        <p>Trade pricing and terms are overleaf and hold to 30 September 2027. The call is to agree
         which of the four origins earn a listing first, and when you want the first delivery.</p>
       </div>
-      <div class="who">Prepared for Kumpulan<br>September 2026<br>alex@nofilter.sg</div>
+      <div class="who">Prepared for Mo Melwani &amp; Nicky Ong<br>Talula Farms &middot; October 2026<br>alex@nofilter.sg</div>
     </div>
   </div>
 
@@ -314,66 +397,41 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
   <div class="p3">
     <div class="head">
       <div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
-        <span class="x">&times;</span><img class="ly" src="kumpulan.svg" alt="Kumpulan"></div>
+        <span class="x">&times;</span><img class="ly" src="talula.png" alt="Talula Farms"></div>
       <div class="meta">WHOLESALE OFFER<br>SINGAPORE<br>VALID TO 30 SEPTEMBER 2027</div>
     </div>
 
     <div class="intro">
-      <div class="kicker">TRADE PRICING &middot; 1 KG, WHOLE BEAN &middot; ALL FOUR ORIGINS AT ONE PRICE</div>
+      <div class="kicker">TRADE PRICING &middot; 1 KG AND 250 G, WHOLE BEAN &middot; ALL FOUR ORIGINS AT ONE PRICE</div>
       <h1>A price that leaves room<br>for <em>both of us</em>.</h1>
-      <p class="lede">These prices hold for twelve months, delivered to your Changi warehouse. They
-      are set so that a listing at the recommended shelf price returns you a normal trade margin without
-      NoFilter cutting the share that goes back to the forest. In the first year the rate is settled on
-      what you actually buy rather than on a forecast: pass a threshold and we credit the difference back
-      across everything you have bought, so there is nothing to commit to up front.</p>
+      <p class="lede">These prices hold to 30 September 2027, delivered to your Chia Ping Road warehouse. There is nothing to chill, nothing to throw away and no volume to commit to. We review the prices together when the term ends, on what you have bought.</p>
     </div>
 
-    <div class="ptab">
-      <div class="hr"><span>Annual volume bought</span><span>Per kg</span><span>Net of rebate</span><span style="text-align:right">Your margin at SGD&nbsp;58&ndash;61</span></div>
-      <div class="tr">
-        <span class="band">30 to 1,499 kg</span>
-        <span class="amt"><small>SGD</small>44.50</span>
-        <span class="net">SGD 42.27</span>
-        <span class="mar"><b>27.1% to 30.7%</b></span>
-      </div><div class="tr">
-        <span class="band">1,500 to 2,999 kg</span>
-        <span class="amt"><small>SGD</small>43.50</span>
-        <span class="net">SGD 41.32</span>
-        <span class="mar"><b>28.8% to 32.3%</b></span>
-      </div><div class="tr best">
-        <span class="band">3,000 kg and above</span>
-        <span class="amt"><small>SGD</small>42.50</span>
-        <span class="net">SGD 40.38</span>
-        <span class="mar"><b>30.4% to 33.8%</b></span>
-      </div>
-    </div>
-    <div class="ptabnote">First year invoiced at the entry rate, with any tier credit applied at twelve
-      months, see tier review &middot; minimum order 30 kg &middot; delivery included</div>
+    <div class="duo"><div class="pp"><div class="pk">Retail &middot; households</div><div class="pb">250 g bag</div><p class="pw">For private buyers, through your shop and your boxes.</p><div class="pl"><span>You pay NoFilter</span><b>SGD 14.00</b></div><div class="pl"><span>Recommended selling price</span><b>SGD 24</b></div><div class="pl keep"><span>You keep, per bag<i>41.7% margin</i></span><b>SGD 10.00</b></div><p class="pf">The selling price matches nofilter.sg. Retail sale to households is in 250 g bags only.</p></div><div class="pp"><div class="pk">Wholesale &middot; businesses</div><div class="pb">1 kg bag</div><p class="pw">For the offices, hotels and restaurants you already deliver to.</p><div class="pl"><span>You pay NoFilter</span><b>SGD 43.50</b></div><div class="pl"><span>Recommended selling price</span><b>SGD 58&ndash;61</b></div><div class="pl keep"><span>You keep, per kilo<i>25.0% to 28.7% margin</i></span><b>SGD 14.50 to 17.50</b></div><p class="pf">The selling price is a recommendation, not a condition. What you charge your customers is yours to set.</p></div></div>
+    <div class="ptabnote">One price per bag size at any volume &middot; minimum order 30 kg, first order 20 kg &middot; delivery included &middot; all prices exclude GST</div>
 
-    <div class="cards">
-      <div class="card"><b>Marketing rebate</b>
-        <div class="big">5%</div>
-        <p>Of invoiced value, paid twice yearly in arrears, by credit note, against the placement and promotion we agree. Calculated on invoiced value as adjusted for the volume tier.</p></div>
+    <div class="cards two">
+      <div class="card"><b>Introduce a client</b>
+        <div class="big">SGD&nbsp;3.00 a kilo</div>
+        <p>Plus SGD&nbsp;30 to 50 a month per machine, where a business you deliver to
+        takes a machine and its coffee from NoFilter directly. Set out overleaf.</p></div>
       <div class="card"><b>To the forest, per kilo</b>
         <div class="big">SGD&nbsp;2.25</div>
-        <p>The same on every tier, contracted and shown on the invoice. Your customer gets a figure for
+        <p>On every kilo, contracted and shown on the invoice. Your customer gets a figure for
         their own reporting, and you get a listing that answers a procurement question instead of raising
         one.</p></div>
-      <div class="card"><b>Recommended shelf price</b>
-        <div class="big">SGD&nbsp;58&ndash;61</div>
-        <p>A recommendation, not a condition; the price you set is yours. The margins shown in the
-        table are calculated against this band.</p></div>
+      
     </div>
 
     <div class="terms">
-      <div class="tm"><b>Format</b><p>1 kg, whole bean. All four origins at the same price, ordered in any mix.</p></div>
-      <div class="tm"><b>Minimum order</b><p>30 kg per delivery, any combination of origins.</p></div>
-      <div class="tm"><b>Tier review</b><p>Year one is invoiced at the entry rate. Pass a threshold over the twelve months and the better rate applies to everything bought, with the difference credited. From year two the tier is set in advance on the preceding year.</p></div>
-      <div class="tm"><b>Delivery</b><p>Included, to Kumpulan's warehouse at 25 Changi North Rise, Singapore 498778. Title and risk pass on delivery.</p></div>
+      <div class="tm"><b>Format</b><p>1 kg and 250 g, whole bean. All four origins at the same price, ordered in any mix. 1 kg bags are supplied for your business customers; retail sale to households is in 250 g bags.</p></div>
+      <div class="tm"><b>Minimum order</b><p>30 kg per delivery, any combination of origins. Your first order can be 20 kg.</p></div>
+      <div class="tm"><b>Review</b><p>One price per bag size at any volume for this term. We review it together when the term ends, on the volume you have bought.</p></div>
+      <div class="tm"><b>Delivery</b><p>Included, to Talula Farms' warehouse at 20 Chia Ping Road, Singapore 619974. Title and risk pass on delivery.</p></div>
       <div class="tm"><b>Territory</b><p>Singapore, non-exclusive.</p></div>
       <div class="tm"><b>Roasting and delivery</b><p>Roasted to order. Orders placed by 17:00 Friday are roasted the following Tuesday to Thursday and delivered to your warehouse on the Friday or the Monday after. Anything later falls into the next week&rsquo;s roast.</p></div>
       <div class="tm"><b>Payment</b><p>Coffee is invoiced on delivery, payable 30 days from invoice.</p></div>
-      <div class="tm"><b>Price validity</b><p>Twelve months to 30 September 2027, adjustable on 30 days&rsquo; notice only if landed green coffee moves more than 10%.</p></div>
+      <div class="tm"><b>Price validity</b><p>To 30 September 2027, adjustable on 30 days&rsquo; notice only if landed green coffee moves more than 10%.</p></div>
       <div class="tm"><b>Stock</b><p>Rotation is yours once delivered and the roast date is printed on every bag. Coffee is not returnable on age.</p></div>
       <div class="tm"><b>Conservation claims</b><p>Approved wording is supplied and may not be varied without our written agreement.</p></div>
     </div>
@@ -388,27 +446,112 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
 </div>
 
 
+<!-- ============ introductions page: the partner introduces, NoFilter contracts ============ -->
+<div class="page">
+  <div class="pr">
+    <div class="head">
+      <div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
+        <span class="x">&times;</span><img class="ly" src="talula.png" alt="Talula Farms"></div>
+      <div class="meta">INTRODUCTIONS<br>SINGAPORE<br>VALID TO 30 SEPTEMBER 2027</div>
+    </div>
+
+    <div class="intro">
+      <div class="kicker">CLIENT INTRODUCTIONS &middot; MACHINE AND COFFEE &middot; 24 OR 36 MONTHS</div>
+      <h1>Introduce the client.<br>Earn on <em>every kilo</em>.</h1>
+      <p class="lede">Some of the offices, hotels and restaurants you deliver to will want more than bags: a
+      machine on site and coffee on standing supply. Introduce them, and NoFilter contracts with them directly for
+      both, with the machine financed through our leasing partner. You carry no stock, no lease, no
+      credit risk and no servicing, and you earn a fixed amount on every kilo they buy and on every
+      machine they rent, for the length of the client's first agreement.</p>
+    </div>
+
+    <div class="mtab">
+      <div class="hr"><span></span><span>Machine</span><span class="r">Client pays<br>24 months</span><span class="r">Client pays<br>36 months</span><span class="r">Your share<br>per month</span><span class="r">Your share over<br>36 months</span></div>
+      <div class="mr">
+        <img class="ph" src="cm-2.jpg" alt="CaféMatic 2">
+        <div><div class="mn">CaféMatic 2</div><div class="ms">Up to about 50 cups a day</div></div>
+        <span class="rt r"><small>SGD</small>380</span>
+        <span class="rt r"><small>SGD</small>315</span>
+        <span class="sh"><small>SGD</small>30</span>
+        <span class="tot r">SGD 1,080</span>
+      </div><div class="mr">
+        <img class="ph" src="cm-5.jpg" alt="CaféMatic 5">
+        <div><div class="mn">CaféMatic 5</div><div class="ms">Up to about 150 cups a day</div></div>
+        <span class="rt r"><small>SGD</small>545</span>
+        <span class="rt r"><small>SGD</small>425</span>
+        <span class="sh"><small>SGD</small>40</span>
+        <span class="tot r">SGD 1,440</span>
+      </div><div class="mr">
+        <img class="ph" src="cm-6.jpg" alt="CaféMatic 6">
+        <div><div class="mn">CaféMatic 6</div><div class="ms">Up to about 200 cups a day, two bean types</div></div>
+        <span class="rt r"><small>SGD</small>565</span>
+        <span class="rt r"><small>SGD</small>440</span>
+        <span class="sh"><small>SGD</small>40</span>
+        <span class="tot r">SGD 1,440</span>
+      </div><div class="mr">
+        <img class="ph" src="cm-8.jpg" alt="CaféMatic 8">
+        <div><div class="mn">CaféMatic 8</div><div class="ms">Up to about 200 cups a day, the fullest menu</div></div>
+        <span class="rt r"><small>SGD</small>660</span>
+        <span class="rt r"><small>SGD</small>500</span>
+        <span class="sh"><small>SGD</small>50</span>
+        <span class="tot r">SGD 1,800</span>
+      </div>
+    </div>
+    <div class="mtabnote">Rental per machine per month, before GST, at NoFilter&rsquo;s published Singapore
+      rates &middot; your share is the same on either term &middot; a client on one CaféMatic 5 taking
+      30 kg a month earns you SGD 130 a month, or SGD 4,680 over 36 months</div>
+
+    <div class="cards">
+      <div class="card"><b>On the coffee</b>
+        <div class="big">SGD&nbsp;3.00 a kilo</div>
+        <p>On every kilogram NoFilter supplies to a client you introduce, whatever price the client
+        chooses.</p></div>
+      <div class="card"><b>On the machine</b>
+        <div class="big">SGD&nbsp;30&ndash;50 a month</div>
+        <p>A fixed amount by model, shown above, for every month the rental is in place and paid.</p></div>
+      <div class="card"><b>What your client gets</b>
+        <div class="big">One monthly figure</div>
+        <p>The machine, installation, a milk cooler, a co-branded wrap and servicing, with a live
+        impact screen on site. Nothing is quoted separately.</p></div>
+    </div>
+
+    <div class="terms">
+      <div class="tm"><b>Who contracts</b><p>NoFilter contracts with your client directly for the machine and the coffee, on its standard agreement, for 24 or 36 months. The client pays NoFilter or our leasing partner, never you.</p></div>
+      <div class="tm"><b>The client&rsquo;s price</b><p>The client chooses their own coffee price, from SGD 46 to 60 a kilo, and pays the same published machine rates as any NoFilter client. Each agreement is subject to credit approval and to our acceptance of the site.</p></div>
+      <div class="tm"><b>Introductions</b><p>A client is yours once you have named them to us in writing and we have confirmed they are not already a NoFilter account or a live enquiry. Fees on a client already signed continue if this agreement ends.</p></div>
+      <div class="tm"><b>What you earn</b><p>SGD 3.00 on every kilogram of coffee supplied and the monthly amount shown for each machine, for the length of the client's first agreement. Where a client has its own machine and takes coffee only, SGD 2.00 a kilogram for 24 months.</p></div>
+      <div class="tm"><b>When it is paid</b><p>Twice yearly in arrears, with a statement of the kilos supplied and the machines in place. It is paid on what the client has paid us.</p></div>
+      <div class="tm"><b>Two routes</b><p>Where a client contracts with NoFilter, we supply them under this page. Everything else you sell is yours to price and invoice, on the wholesale terms on the previous page.</p></div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span><b>NoFilter Pte. Ltd.</b> &middot; Singapore</span>
+    <span>alex@nofilter.sg</span>
+    <span>nofilter.sg&nbsp;&nbsp;/&nbsp;&nbsp;nofilter.ae</span>
+  </div>
+</div>
+
 <!-- ============ page 4: acceptance ============ -->
 <div class="page">
   <div class="p4">
     <div class="head">
       <div class="lock"><img class="nf" src="wordmark.png" alt="NoFilter">
-        <span class="x">&times;</span><img class="ly" src="kumpulan.svg" alt="Kumpulan"></div>
+        <span class="x">&times;</span><img class="ly" src="talula.png" alt="Talula Farms"></div>
       <div class="meta">ACCEPTANCE<br>SINGAPORE<br>VALID TO 30 SEPTEMBER 2027</div>
     </div>
 
     <div class="intro">
       <div class="kicker">SIGN AND RETURN &middot; ONE PAGE</div>
       <h1>Agreed and <em>accepted</em>.</h1>
-      <p class="lede">These four pages are the supply agreement. Signing this page puts the pricing and
-      terms set out overleaf into effect for the validity period and replaces anything discussed before
-      it. Nothing here commits Kumpulan to a volume.</p>
+      <p class="lede">This proposal becomes the supply agreement when both parties sign this page. Signing puts the pricing and terms in these six pages into effect to 30 September 2027 and replaces anything discussed before it. Nothing here commits Talula Farms to a volume.</p>
     </div>
 
     <div class="recap">
-      <div class="rr"><div class="rk">Trade price</div><div class="rv"><b>SGD 44.50, 43.50 and 42.50 per kg</b>, by annual volume bought, with any year-one tier credit applied at twelve months</div></div>
-      <div class="rr"><div class="rk">Marketing rebate</div><div class="rv"><b>5%</b> of invoiced value, paid twice yearly in arrears, by credit note</div></div>
-      <div class="rr"><div class="rk">To the forest</div><div class="rv"><b>SGD 2.25 per kilogram</b>, the same on every tier, contracted and shown on the invoice</div></div>
+      <div class="rr"><div class="rk">Trade price</div><div class="rv"><b>SGD 43.50 per 1 kg bag for business customers and SGD 14.00 per 250 g bag for retail sale</b>, at any volume, reviewed together when the term ends</div></div>
+      <div class="rr"><div class="rk">To the forest</div><div class="rv"><b>SGD 2.25 per kilogram</b>, on every kilo, contracted and shown on the invoice</div></div>
+      <div class="rr"><div class="rk">Introductions</div><div class="rv"><b>SGD 3.00 per kilogram of coffee and SGD 30 to 50 per machine per month</b>, on every client you introduce who contracts with NoFilter, for the length of the client's first agreement; SGD 2.00 per kilogram for 24 months where the client takes coffee only. Paid twice yearly in arrears, and fees on clients already signed continue if this agreement ends</div></div>
       <div class="rr"><div class="rk">Territory</div><div class="rv">Singapore, non-exclusive</div></div>
       <div class="rr"><div class="rk">Term and notice</div><div class="rv">Runs to 30 September 2027. Either party may end it earlier on <b>60 days&rsquo; written notice</b>, with orders already accepted honoured</div></div>
       <div class="rr"><div class="rk">Governing law</div><div class="rv">Singapore law, with the courts of Singapore having exclusive jurisdiction</div></div>
@@ -422,9 +565,9 @@ h2{font-family:Anton,sans-serif;font-weight:400;font-size:19pt;line-height:1.06;
         <div class="sl"><div class="rule"></div><span>Date</span></div>
       </div>
       <div class="sb">
-        <h4>For Kumpulan Development (S) Pte Ltd</h4>
+        <h4>For Genie Technology Pte. Ltd.</h4>
         <div class="sl"><div class="rule"></div><span>Signature</span></div>
-        <div class="sl"><div class="rule"></div><span>Alvin Wong, Business Development Manager</span></div>
+        <div class="sl"><div class="rule"></div><span>Name and title</span></div>
         <div class="sl"><div class="rule"></div><span>Date</span></div>
       </div>
     </div>

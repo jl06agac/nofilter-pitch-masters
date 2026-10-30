@@ -11,7 +11,7 @@ with sync_playwright() as pw:
                            args=["--no-sandbox"])
     pg = b.new_page(); pg.goto(url); pg.wait_for_timeout(700)
     rows = pg.evaluate("""() => [...document.querySelectorAll('.page')].map((p,i) => {
-        const col = p.querySelector('.p2,.p3,.p4') || p;
+        const col = p.querySelector('.p2,.p3,.p4,.pr') || p;
         const kids = [...p.children], last = kids[kids.length-1];
         return {page:i+1,
                 overrun:+(p.scrollHeight - p.clientHeight).toFixed(1),

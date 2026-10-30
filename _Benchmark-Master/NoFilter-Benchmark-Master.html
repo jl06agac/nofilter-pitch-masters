@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<!-- NoFilter Benchmark master: "[[MARKET_POSSESSIVE]] Benchmark for Sustainable Workplace Coffee".
+     Source of truth for the benchmark brochure. Never edit a stamped copy: edit this, then run
+     build_benchmark.py. Styling is harvested verbatim from the Part 3 contract master (provenance
+     comments below); benchmark-only components are in the second <style> block. -->
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>NoFilter · [[MARKET_POSSESSIVE]] Benchmark for Sustainable Workplace Coffee</title>
+<link rel="icon" type="image/svg+xml" href="assets/nofilter-wordmark-cover.svg"/>
+<style>
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 17-137 (tokens, reset, page, grain, rails, label) ---- */
+:root {
+  --nf-near-black: #2A2B2A;
+  --nf-orange:     #FF7122;
+  --nf-stamp-red:  #FA2B1C;
+  --nf-amber-dim:  #FFE8C3;
+  --nf-cream:      #F4F0E6;
+  --nf-cream-deep: #ECE6D6;
+  --nf-rule-dark:  rgba(255,232,195,0.16);
+  --nf-rule-light: #2A2B2A;
+
+  --font-display: "Big Shoulders Display", "Founders Grotesk Condensed", "Trade Gothic Bold Condensed No. 2", "Helvetica Neue", sans-serif;
+  --font-poster:  "Anton", "Big Shoulders Display", sans-serif;
+  --font-body:    "Archivo", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+
+  /* ============== TUNABLE — wired to live editor sliders ============== */
+  --tune-body-size:        9pt;     /* global body text */
+  --tune-body-line:        1.5;     /* line height */
+  --tune-page-padding:     11mm;    /* page edge margins */
+  --tune-block-gap:        4mm;     /* vertical gap between blocks */
+  --tune-cover-title:      46pt;    /* SUPPLY AGREEMENT 2026/29 */
+  --tune-cover-logo-w:     75%;     /* logo width on cover */
+  --tune-cover-photo-y:    35%;     /* photo focal point Y */
+  --tune-cover-grad-top:   0.45;    /* gradient opacity at top */
+  --tune-cover-grad-mid:   0.10;    /* gradient opacity at middle */
+  --tune-cover-grad-bot:   0.82;    /* gradient opacity at bottom */
+  --tune-section-h:        32pt;    /* "TWO PARTIES" / "ONE MACHINE" headlines */
+  --tune-relief-num:       72pt;    /* "01" / "A" / "B" big numerals */
+  --tune-numeral-gap:      8mm;    /* gap between numeral col and body */
+  --tune-clause-size:      9pt;     /* clause body text on terms page */
+  --tune-clause-title:     12pt;    /* clause headers */
+  --tune-clause-row-gap:   4mm;     /* vertical gap between clauses */
+  --tune-lots-row-pad:     5px;     /* lots-table row vertical padding */
+  --tune-lots-lot-size:    14pt;    /* lots-table lot id text */
+  --tune-stats-num:        28pt;    /* origin page stat numbers */
+  --tune-impact-h:         36pt;    /* "WHERE THE COFFEE..." headline */
+}
+
+/* -------------------- Reset -------------------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #1A1A1A; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--tune-body-size);
+  line-height: var(--tune-body-line);
+  color: var(--nf-near-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 36px 0;
+}
+img { display: block; max-width: 100%; }
+
+/* -------------------- Page (A4) -------------------- */
+.page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 24px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.page--dark  { background: var(--nf-near-black); color: var(--nf-amber-dim); }
+.page--cream { background: var(--nf-cream);      color: var(--nf-near-black); }
+
+/* Grain overlay — only on flat colour fields */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: ""; position: absolute; inset: 0;
+  pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* -------------------- Page chrome (header + footer rails) --------------------
+   Rails are flow-positioned (not absolute). They take real height and content
+   can never overlap them. Top rail sits at the top, bottom rail at the bottom
+   (pushed down by margin-top:auto on the rail itself or flex:1 on content). */
+.rail {
+  flex: 0 0 auto;
+  margin: 0 14mm;
+  padding: 5mm 0 4mm;
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+.rail--top    { padding: 5mm 0 0; }
+.rail--bottom {
+  margin-top: auto; /* pin to bottom of flex column */
+  padding: 4mm 0 5mm;
+  position: relative;
+}
+.rail--bottom::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0;
+  height: 1px; background: currentColor; opacity: 0.35;
+}
+.page--dark  .rail { color: var(--nf-amber-dim); opacity: 0.7; }
+.page--cream .rail { color: var(--nf-near-black); opacity: 0.55; }
+.page--cover .rail { z-index: 5; } /* on top of bg photo */
+.rail .orange { color: var(--nf-orange); opacity: 1; }
+
+.rail__group { display: flex; gap: 18px; }
+
+/* -------------------- Generic display type -------------------- */
+.label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 8pt;
+  color: var(--nf-orange);
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 145-281 (cover) ---- */
+.page--cover {
+  background: var(--nf-near-black);
+  position: relative;
+  isolation: isolate;
+}
+.page--cover .cover__bg {
+  position: absolute; inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.page--cover .cover__bg img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 40% var(--tune-cover-photo-y);
+  display: block;
+}
+/* Dark gradient overlay — light at top so the photo is visible behind logo,
+   heavy at bottom for title block readability. */
+.page--cover .cover__bg::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(42,43,42,var(--tune-cover-grad-top)) 0%,
+      rgba(42,43,42,calc(var(--tune-cover-grad-top) * 0.4)) 18%,
+      rgba(42,43,42,var(--tune-cover-grad-mid)) 50%,
+      rgba(42,43,42,calc(var(--tune-cover-grad-bot) * 0.85)) 78%,
+      rgba(42,43,42,var(--tune-cover-grad-bot)) 100%);
+}
+/* Grain on top of everything */
+.page--cover::after {
+  content: ""; position: absolute; inset: 0;
+  pointer-events: none; opacity: 0.10; mix-blend-mode: overlay;
+  z-index: 2;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.cover {
+  padding: var(--tune-page-padding);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+.cover__head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 24px;
+}
+.cover__head .stamp {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--nf-orange); color: var(--nf-orange);
+  padding: 5px 10px; font-family: var(--font-mono);
+  font-size: 7.5pt; letter-spacing: 0.18em; text-transform: uppercase;
+  white-space: nowrap;
+  background: rgba(42,43,42,0.6); /* readability over photo */
+  backdrop-filter: blur(2px);
+}
+.cover__head .stamp .dot {
+  width: 6px; height: 6px; background: var(--nf-orange);
+}
+
+/* Logo — restrained scale; sits in the upper third over darkest part of overlay */
+.cover__logo {
+  margin-top: 14mm;
+  width: var(--tune-cover-logo-w);
+}
+.cover__logo img { width: 100%; height: auto; display: block; }
+
+.cover__sub {
+  margin-top: auto; /* pushed to bottom of page now that we have a photo */
+  margin-bottom: 4mm;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 28px;
+}
+.cover__sub > * { min-width: 0; } /* FIX: let grid cols honour fr shares; long titles/tokens no longer clip the meta-block */
+.cover__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--tune-cover-title);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--nf-amber-dim);
+  overflow-wrap: anywhere; /* FIX: long single-word client names wrap instead of overflowing the column */
+}
+.cover__title em {
+  font-style: normal; color: var(--nf-orange);
+}
+.cover__meta-block {
+  align-self: end;
+  display: flex; flex-direction: column; gap: 12px;
+  border-left: 2px solid var(--nf-orange); /* FIX: was rule-dark, now hard orange — anchors the block */
+  padding-left: 14px;
+}
+.cover__meta-block .row {
+  display: grid; grid-template-columns: 78px 1fr; gap: 10px; align-items: baseline;
+  font-family: var(--font-mono); font-size: 8.5pt;
+  letter-spacing: 0.06em;
+}
+.cover__meta-block .row .k {
+  color: var(--nf-orange); text-transform: uppercase;
+  font-size: 7.5pt; letter-spacing: 0.18em;
+}
+.cover__meta-block .row .v { color: var(--nf-amber-dim); }
+
+.cover__divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  padding-top: 8mm;
+}
+.cover__divider .hr { height: 6px; background: var(--nf-amber-dim); }
+.cover__divider .plus {
+  color: var(--nf-orange); font-family: var(--font-display); font-weight: 900;
+  font-size: 48pt; line-height: 1; transform: translateY(-4px);
+}
+
+.cover__feet {
+  margin-top: 8mm;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 24px;
+}
+.cover__feet .f-block .l {
+  display: block; color: var(--nf-orange);
+  font-family: var(--font-mono); font-size: 7.5pt;
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;
+}
+.cover__feet .f-block .v {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 13pt; line-height: 1.1;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  color: var(--nf-amber-dim);
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 288-324 (relief shell, numeral, title, lede) ---- */
+.relief {
+  padding: var(--tune-page-padding);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tune-numeral-gap);
+}
+.relief__num {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: var(--tune-relief-num); line-height: 0.85;
+  color: var(--nf-near-black); letter-spacing: -0.03em;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.relief__num small {
+  font-family: var(--font-mono); font-size: 8pt;
+  letter-spacing: 0.22em; color: var(--nf-orange);
+  font-weight: 500;
+  text-transform: uppercase;
+  align-self: baseline;
+  position: relative;
+  top: -0.4em; /* nudge up so it aligns near the cap of the numeral */
+}
+.relief__body { display: flex; flex-direction: column; gap: var(--tune-block-gap); flex: 1 1 auto; min-height: 0; }
+.relief__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--tune-section-h); line-height: 0.9;
+  text-transform: uppercase; letter-spacing: -0.018em;
+}
+.relief__lede {
+  font-size: 11pt; line-height: 1.55; max-width: 160mm;
+  color: #3D3E3D;
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 326-361 (parties (two-column compare)) ---- */
+.parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 2px solid var(--nf-near-black);
+  border-bottom: 2px solid var(--nf-near-black);
+}
+.party {
+  padding: 9mm 8mm 9mm 0;
+  border-right: 1px solid var(--nf-near-black);
+}
+.party + .party { padding-left: 8mm; padding-right: 0; border-right: 0; }
+.party .role {
+  font-family: var(--font-mono); font-size: 7.5pt;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--nf-orange); margin-bottom: 8px;
+}
+.party .name {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 15pt; line-height: 1; text-transform: uppercase;
+  letter-spacing: -0.01em; margin-bottom: 12px;
+}
+.party .meta {
+  font-family: var(--font-mono); font-size: 8pt; line-height: 1.7;
+  letter-spacing: 0.04em; color: #3D3E3D;
+}
+.party .meta b {
+  color: var(--nf-near-black); font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.party .meta .row {
+  display: grid; grid-template-columns: 24mm 1fr; gap: 8px; /* FIX: was 26mm */
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(42,43,42,0.18);
+}
+.party .meta .row:last-child { border-bottom: 0; }
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 452-460 (schedule title + sub) ---- */
+.schedule__title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: var(--tune-section-h); line-height: 0.9; letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+.schedule__sub {
+  font-family: var(--font-mono); font-size: 8pt; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--nf-orange); margin-top: 6px;
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 527-552 (payment band) ---- */
+.payment-band {
+  margin-top: 4mm;
+  background: var(--nf-near-black);
+  color: var(--nf-amber-dim);
+  padding: 8mm 10mm;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+.payment-band--two { grid-template-columns: 1fr 1fr; }
+.payment-band .cell { padding: 0 8mm; border-left: 1px solid var(--nf-rule-dark); }
+.payment-band .cell:first-child { padding-left: 0; border-left: 0; }
+.payment-band .cell .l {
+  display: block; font-family: var(--font-mono); font-size: 7pt;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--nf-orange);
+  margin-bottom: 4px;
+}
+.payment-band .cell .v {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 22pt; line-height: 1; letter-spacing: -0.01em;
+  text-transform: uppercase; color: var(--nf-amber-dim);
+}
+.payment-band .cell small {
+  display: block; margin-top: 6px;
+  font-family: var(--font-mono); font-size: 7.5pt;
+  letter-spacing: 0.06em; color: rgba(255,232,195,0.7);
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 562-590 (impact header) ---- */
+.impact {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+}
+.impact__top {
+  padding: 8mm 14mm 8mm;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: end; gap: 24px;
+}
+.impact__top .h {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: var(--tune-impact-h); line-height: 0.9; letter-spacing: -0.02em;
+  text-transform: uppercase; color: var(--nf-amber-dim);
+  max-width: 130mm;
+}
+.impact__top .h em { font-style: normal; color: var(--nf-orange); }
+.impact__top .h .strike { display: inline-block; position: relative; }
+.impact__top .h .strike::after {
+  content: ""; position: absolute; left: -2%; right: -2%; top: 48%;
+  height: 5px; background: var(--nf-orange);
+}
+.impact__top .num {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 60pt; line-height: 0.85; letter-spacing: -0.03em;
+  color: var(--nf-orange); white-space: nowrap;
+}
+
+/* ---- verbatim from _Part3-Master/NoFilter-Part3-Master-Contract-v2.html, lines 875-899 (print + screen + nf-plus) ---- */
+@media print {
+  @page { size: A4; margin: 0; }
+  html, body { background: #FFF; padding: 0; margin: 0; }
+  .page {
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+}
+
+/* Screen-only: subtle drop shadow so pages float on the dark backdrop. */
+@media screen {
+  .page {
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 24px 60px rgba(0,0,0,0.5);
+  }
+}
+
+
+/* NoFilter proprietary "+" mark — replaces plain typographic pluses */
+.nf-plus { display:inline-block; width:auto; fill:currentColor; }
+.cover__divider .plus { display:flex; align-items:center; justify-content:center; }
+.cover__divider .plus .nf-plus { height:34pt; }
+.relief__num .nf-plus { height:0.78em; align-self:center; }
+</style>
+<style>
+/* =====================================================================
+   BENCHMARK-ONLY COMPONENTS (new, not in Part 3)
+   Built on the Part 3 tokens above. Nothing here overrides a harvested rule.
+   ===================================================================== */
+
+/* Local fonts: the stamped folder carries its own woff2 so the page and the
+   PDF render identically offline. Replaces Part 3's Google Fonts <link>. */
+@font-face { font-family:"Big Shoulders Display"; font-weight:700; src:url("assets/fonts/big-shoulders-display-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family:"Big Shoulders Display"; font-weight:800; src:url("assets/fonts/big-shoulders-display-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family:"Big Shoulders Display"; font-weight:900; src:url("assets/fonts/big-shoulders-display-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family:"Anton"; font-weight:400; src:url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family:"Archivo"; font-weight:400; src:url("assets/fonts/archivo-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family:"Archivo"; font-weight:500; src:url("assets/fonts/archivo-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family:"Archivo"; font-weight:600; src:url("assets/fonts/archivo-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family:"Archivo"; font-weight:700; src:url("assets/fonts/archivo-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family:"IBM Plex Mono"; font-weight:400; src:url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family:"IBM Plex Mono"; font-weight:500; src:url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family:"IBM Plex Mono"; font-weight:600; src:url("assets/fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); }
+
+
+/* ---- Photo mosaic (pages 02, 03, 06, 07, 08) ---- */
+.page--dark .impact__top { padding: 6mm 14mm 6mm; }
+.page--dark .impact__top .h { max-width: 150mm; }
+.mosaic { flex: 1 1 auto; min-height: 0; margin: 0 14mm 4mm; display: grid; gap: 2.5mm; }
+.mosaic--2x2  { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.mosaic--bands { grid-template-rows: repeat(4, 1fr); }
+.mosaic--five { grid-template-columns: 1.15fr 1fr; grid-template-rows: 1.25fr 1fr 1fr;
+  grid-template-areas: "a b" "a c" "d e"; }
+.mosaic--flip { grid-template-areas: "b a" "c a" "e d"; }
+.tile--a { grid-area: a; } .tile--b { grid-area: b; } .tile--c { grid-area: c; }
+.tile--d { grid-area: d; } .tile--e { grid-area: e; }
+.tile { position: relative; overflow: hidden; background: #1F201F; min-height: 0; }
+.tile > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tile::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(42,43,42,0) 40%, rgba(42,43,42,0.55) 70%, rgba(42,43,42,0.92) 100%);
+}
+.tile--cream { background: #F0E3D5; }                  /* machine photographs sit on this */
+.tile--cream::after { background: linear-gradient(180deg, rgba(42,43,42,0) 58%, rgba(42,43,42,0.85) 88%, rgba(42,43,42,0.95) 100%); }
+.tile__cap { position: absolute; left: 5mm; right: 5mm; bottom: 4.5mm; z-index: 2; }
+.tile__k { font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--nf-orange); margin-bottom: 1.5mm; }
+.tile__h { font-family: var(--font-display); font-weight: 900; font-size: 19pt; line-height: 0.92; text-transform: uppercase; letter-spacing: -0.005em; color: var(--nf-amber-dim); }
+.tile__p { font-size: 8.5pt; line-height: 1.4; color: rgba(255,232,195,0.88); margin-top: 1.5mm; max-width: 80mm; }
+.tile--band .tile__h { font-size: 24pt; }
+.tile__coord { position: absolute; right: 5mm; bottom: 4.5mm; z-index: 2; text-align: right;
+  font-family: var(--font-mono); font-size: 7pt; line-height: 1.6; letter-spacing: 0.14em; color: var(--nf-amber-dim); }
+.tile__flag { position: absolute; top: 4mm; right: 4mm; z-index: 2;
+  font-family: var(--font-mono); font-size: 6.5pt; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--nf-orange); color: var(--nf-near-black); padding: 3px 7px; font-weight: 600; }
+
+/* ---- Page 04: bags (cream) ---- */
+.relief--tight { gap: 0; }
+.relief--tight .relief__body { gap: 0; }
+.bags { margin-top: 6mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5mm; }
+.bag__tile { height: 92mm; overflow: hidden; position: relative; }
+/* product photos sit on white; multiply drops the white into the cream page and keeps the shadow */
+.bag__tile img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; mix-blend-mode: multiply; }
+.bag__seal { height: 4px; margin-top: 3mm; }
+.bag__nm { font-family: var(--font-display); font-weight: 900; font-size: 14pt; line-height: 1; text-transform: uppercase; margin-top: 2.5mm; }
+.bag__notes { font-size: 8.5pt; line-height: 1.35; margin-top: 1.5mm; font-weight: 600; min-height: 2.7em; }
+.bag__prof { margin-top: 1.5mm; font-family: var(--font-mono); font-size: 6.8pt; letter-spacing: 0.12em; text-transform: uppercase; color: #3D3E3D; }
+.bag__prof div { display: flex; justify-content: space-between; align-items: center; padding: 1mm 0; border-bottom: 1px dashed rgba(42,43,42,0.2); }
+.pips { display: inline-flex; gap: 2px; }
+.pip { width: 7px; height: 7px; border: 1px solid var(--nf-near-black); display: inline-block; }
+.pip.on { background: var(--nf-near-black); }
+.duo { flex: 1 1 auto; min-height: 30mm; margin-top: 6mm; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5mm; }
+
+/* ---- Page 05: machines (dark) ---- */
+.machines { flex: 1 1 auto; min-height: 0; margin: 0 14mm; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 5mm 5mm; }
+.mach { display: flex; flex-direction: column; min-height: 0; }
+.mach__img { flex: 1 1 auto; min-height: 0; background: #F0E3D5; overflow: hidden; }
+.mach__img img { width: 100%; height: 100%; object-fit: contain; object-position: center 60%; transform: scale(1.18); }
+.mach__for { margin-top: 2.5mm; font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--nf-orange); }
+.mach__nm { font-family: var(--font-display); font-weight: 900; font-size: 18pt; line-height: 1; text-transform: uppercase; color: var(--nf-amber-dim); margin-top: 1mm; }
+.mach__spec { font-family: var(--font-mono); font-size: 7.5pt; letter-spacing: 0.04em; color: rgba(255,232,195,0.75); margin-top: 1mm; }
+.strip { margin: 5mm 14mm 4mm; padding-top: 4mm; border-top: 1px solid var(--nf-rule-dark); display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.strip > div { padding: 0 5mm; border-left: 1px solid var(--nf-rule-dark); }
+.strip > div:first-child { padding-left: 0; border-left: 0; }
+.strip .l { display: block; font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--nf-orange); margin-bottom: 3px; }
+.strip .v { font-family: var(--font-display); font-weight: 900; font-size: 15pt; line-height: 1; text-transform: uppercase; color: var(--nf-amber-dim); }
+
+/* ---- Page 09: close on the cover shell ---- */
+.page--close .cover__bg::after {
+  background: linear-gradient(180deg, rgba(42,43,42,0.82) 0%, rgba(42,43,42,0.55) 38%, rgba(42,43,42,0.35) 55%, rgba(42,43,42,0.9) 80%, rgba(42,43,42,0.96) 100%);
+}
+.close-top { margin-top: 14mm; }
+.close-line { font-family: var(--font-display); font-weight: 900; font-size: 44pt; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; color: var(--nf-amber-dim); }
+.close-line em { font-style: normal; color: var(--nf-orange); }
+.close-line--sm { font-size: 22pt; margin-top: 4mm; }
+.close-intro { margin-top: 6mm; font-size: 10.5pt; line-height: 1.55; color: rgba(255,232,195,0.9); max-width: 125mm; }
+.close-intro b { color: var(--nf-orange); }
+.contacts { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--nf-orange); }
+.contact { padding: 5mm 6mm 5mm 0; }
+.contact + .contact { padding-left: 6mm; border-left: 1px solid var(--nf-rule-dark); }
+.contact .k { font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--nf-orange); }
+.contact .n { font-family: var(--font-display); font-weight: 900; font-size: 16pt; text-transform: uppercase; color: var(--nf-amber-dim); margin: 1.5mm 0 2mm; }
+.contact .r { font-family: var(--font-mono); font-size: 8pt; line-height: 1.7; letter-spacing: 0.04em; color: rgba(255,232,195,0.9); }
+.close-foot { margin-top: 5mm; padding-top: 4mm; border-top: 1px solid var(--nf-rule-dark); }
+.partners-line { font-family: var(--font-mono); font-size: 7.5pt; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,232,195,0.75); }
+.partners-line b { color: var(--nf-orange); font-weight: 600; }
+
+/* Grain: same noise, same 160px tile and opacity as the Part 3 rule, but as a PNG tile.
+   The SVG feTurbulence version rasterises every page in the PDF (+6 MB); this does not. */
+.grain::after, .page--cover::after { background-image: url("assets/grain.png"); background-size: 160px 160px; }
+
+/* ---- Narrative ledes (added 30 Sep: the brochure has to explain itself) ---- */
+.mosaic-lede { margin: 0 14mm 5mm; font-size: 9.5pt; line-height: 1.5; color: rgba(255,232,195,0.85); max-width: 160mm; }
+.relief__lede--sm { font-size: 9.5pt; margin-top: 3mm; }
+.relief__title .orange { color: var(--nf-orange); }
+.relief--who { gap: 0; }
+.relief--who .relief__body { gap: 5mm; }
+.who__photo { flex: 1 1 auto; min-height: 28mm; position: relative; overflow: hidden; }
+.who__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.who__photo .cap { position: absolute; left: 0; bottom: 0; font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--nf-orange); background: var(--nf-near-black); padding: 5px 9px; }
+</style></head>
+<body>
+<!-- =====================================================================
+     PAGE 01 · COVER   (structure verbatim from Part 3 page 01; copy is benchmark)
+     ===================================================================== -->
+<section class="page page--dark page--cover" data-screen-label="01 Cover">
+<div class="cover__bg">
+<img alt="" src="assets/benchmark-cover.jpg"/>
+</div>
+<div class="cover">
+<div class="cover__head">
+<div class="stamp"><span class="dot"></span><span>[[MARKET_NAME_UC]] · WORKPLACE COFFEE</span></div>
+<div class="stamp"><span>EDITION · [[EDITION]]</span></div>
+</div>
+<div class="cover__logo">
+<img alt="NOFIL+ER" src="assets/nofilter-wordmark-cover.svg"/>
+</div>
+<div class="cover__sub">
+<h1 class="cover__title">[[MARKET_POSSESSIVE_UC]]<br/>benchmark for<br/>sustainable<br/>workplace <em>coffee</em></h1>
+<div class="cover__meta-block">
+<div class="row"><span class="k">Coffee</span><span class="v">Four origins, named and mapped</span></div>
+<div class="row"><span class="k">Machines</span><span class="v">Bean-to-cup, fully serviced</span></div>
+<div class="row"><span class="k">Impact</span><span class="v">5 to 10% of every sale to the forest</span></div>
+<div class="row"><span class="k">For</span><span class="v">Offices, hotels &amp; cafés</span></div>
+</div>
+</div>
+<div class="cover__divider">
+<div class="hr"></div>
+<div class="plus"><svg class="nf-plus" viewBox="150 110 720 815" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NoFilter"><path d="M 420.00 140.99 C 469.95 140.96 520.08 140.88 570.02 140.99 C 571.47 141.07 572.74 141.06 573.80 142.19 C 574.64 146.00 574.35 150.11 574.52 154.00 C 575.00 168.66 574.86 183.35 574.26 198.00 C 574.11 212.54 571.47 227.17 567.06 241.01 C 565.30 247.16 562.33 253.66 561.79 260.00 C 561.55 264.05 561.97 268.18 562.77 272.15 C 564.88 281.91 567.07 291.64 569.67 301.28 C 572.40 310.07 574.58 319.02 577.29 327.83 C 580.38 336.99 579.51 347.26 576.36 356.29 C 570.14 375.05 563.87 393.86 557.56 412.60 C 551.26 431.08 545.28 449.88 538.02 467.99 C 537.21 470.26 537.00 472.61 536.99 475.00 C 536.98 484.67 537.04 494.33 536.97 504.00 C 537.00 505.84 536.94 507.56 537.73 509.27 C 545.91 527.44 552.36 546.70 559.69 565.29 C 566.68 583.57 573.81 601.83 580.86 620.09 C 585.31 632.44 585.02 644.18 586.68 657.01 C 588.16 674.02 590.24 690.96 591.55 707.99 C 592.51 714.50 591.52 720.74 590.47 727.17 C 589.09 735.43 588.17 743.74 586.93 752.03 C 585.55 761.22 583.98 770.72 583.30 780.00 C 583.57 790.04 585.34 800.16 586.53 810.13 C 589.43 836.44 592.48 862.65 594.98 889.00 C 595.05 890.89 595.36 892.45 593.73 893.79 C 590.21 894.29 586.55 894.02 583.00 894.05 C 559.33 894.11 535.66 894.11 512.00 894.70 C 487.66 895.20 463.34 894.94 439.00 895.10 C 437.02 894.95 433.79 895.35 432.35 893.73 C 430.66 889.19 431.14 883.82 430.36 879.00 C 428.89 857.31 426.82 835.65 424.94 813.99 C 424.42 804.13 422.11 793.81 423.24 784.01 C 427.32 757.42 431.25 730.84 435.39 704.26 C 435.97 700.65 437.19 697.66 436.22 694.00 C 432.05 674.95 427.16 656.03 422.89 637.00 C 419.78 624.69 417.25 612.27 413.96 600.01 C 339.95 599.92 266.01 600.27 192.00 599.21 C 189.29 599.13 186.92 598.97 185.75 596.16 C 184.03 591.13 184.12 585.27 183.52 580.01 C 182.82 574.00 183.03 568.03 182.79 562.00 C 182.37 550.67 182.07 539.34 182.00 528.00 C 181.99 494.00 182.00 460.00 182.00 426.00 C 182.09 421.34 182.12 416.58 182.89 411.97 C 183.04 409.77 184.92 408.29 186.96 407.88 C 191.23 407.19 195.70 407.45 200.01 407.35 C 270.34 407.15 340.67 407.57 411.00 407.08 C 410.78 369.38 410.66 331.70 411.09 294.00 C 411.39 286.99 412.10 280.03 411.99 273.00 C 411.78 263.63 413.12 254.37 412.97 245.00 C 412.92 224.33 413.44 203.67 413.74 183.00 C 413.94 169.40 413.51 155.74 414.13 142.15 C 416.11 141.27 417.83 140.97 420.00 140.99 Z" fill="currentColor" /><path d="M 596.78 384.16 C 599.85 385.29 600.56 388.47 601.79 391.16 C 604.09 396.58 605.88 402.26 608.54 407.52 C 621.67 407.01 634.86 407.35 648.00 407.28 C 705.67 407.41 763.34 407.33 821.00 407.64 C 827.00 407.90 832.26 407.06 837.96 409.04 C 838.55 411.00 839.10 412.93 839.10 415.00 C 839.31 426.66 839.19 438.32 839.23 450.00 C 839.23 496.00 839.30 542.00 839.11 588.00 C 839.03 590.92 839.26 594.34 838.19 597.09 C 837.51 598.88 836.02 600.15 834.03 600.01 C 811.47 600.23 788.56 600.26 766.00 600.31 C 713.33 600.18 660.66 600.48 608.00 600.09 C 606.44 600.05 604.82 600.08 603.28 599.80 C 601.72 598.80 601.05 597.30 600.34 595.68 C 597.92 589.75 595.30 583.92 593.05 577.92 C 587.10 562.46 580.36 547.35 573.89 532.11 C 571.74 527.33 569.14 522.70 567.24 517.82 C 565.35 513.24 566.17 508.06 565.79 503.00 C 565.09 493.92 565.07 484.94 563.18 475.99 C 562.21 471.28 562.41 467.58 564.11 463.08 C 573.30 437.61 582.69 412.45 592.10 387.09 C 592.84 385.21 594.58 383.26 596.78 384.16 Z" fill="currentColor" /></svg></div>
+<div class="hr"></div>
+</div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>NOFILTER · A CONSERVATION-LED COFFEE COMPANY</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>01 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 02 · WHO WE ARE   (cream; Part 3 .relief + .parties + .payment-band)
+     Headline is the bag's back-panel line (Alex's copy, Sep 2026).
+     ===================================================================== -->
+<section class="page page--cream" data-screen-label="02 Who we are">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">NOFILTER</span><span>WHO WE ARE</span></div>
+</div>
+<div class="relief relief--who">
+<div class="relief__body">
+<h2 class="relief__title">Most coffee begins with<br/>price and taste.<br/><span class="orange">We begin with place.</span></h2>
+<p class="relief__lede">NoFilter is a conservation-coffee social enterprise, founded in Singapore and now supplying workplaces, hotels and cafés in Singapore and the UAE. We buy only from smallholders farming under shade in the buffer zones of threatened forest, pay them above market to keep that forest standing, and return 5 to 10% of every sale to the conservation NGO holding the boundary. Then we bring the whole programme to your pantry: the coffee, the machines, the servicing, the supplies and the evidence.</p>
+<div class="parties">
+<div class="party">
+<div class="role">Most workplace coffee · 01</div>
+<div class="name">Bought on price</div>
+<div class="meta">
+<div class="row"><b>Grown</b><span>Wherever it is cheapest, which usually means cleared ground</span></div>
+<div class="row"><b>Traced to</b><span>A country, sometimes a region</span></div>
+<div class="row"><b>Impact</b><span>Nothing you can report</span></div>
+<div class="row"><b>In the cup</b><span>Forgettable</span></div>
+</div>
+</div>
+<div class="party">
+<div class="role">NoFilter · 02</div>
+<div class="name">Bought on place</div>
+<div class="meta">
+<div class="row"><b>Grown</b><span>Under canopy, on the edge of standing forest</span></div>
+<div class="row"><b>Traced to</b><span>A named forest boundary, with coordinates, on a public map</span></div>
+<div class="row"><b>Impact</b><span>5 to 10% of every sale to the NGO partner, on every invoice</span></div>
+<div class="row"><b>In the cup</b><span>Four single origins your team will rate</span></div>
+</div>
+</div>
+</div>
+<div class="payment-band grain">
+<div class="cell"><span class="l">Farmers</span><span class="v">Above market</span><small>Paid to keep the forest edge</small></div>
+<div class="cell"><span class="l">To the forest</span><span class="v">5 to 10%</span><small>Of every sale, contracted</small></div>
+<div class="cell"><span class="l">Supplier</span><span class="v">Just one</span><small>Coffee, machines, service</small></div>
+</div>
+<div class="who__photo"><img alt="Coffee farmer in the Batang Gadis agroforest" src="assets/batang-gadis-farmer.jpg"/>
+<span class="cap">Batang Gadis · North Sumatra · coffee under canopy</span></div>
+</div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>02 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 03 · WHAT WE OFFER   (dark; .impact__top header + photo mosaic)
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="02 What we offer">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">OVERVIEW</span><span>WHAT WE OFFER</span></div>
+</div>
+<div class="impact__top">
+<div class="h">Everything your coffee needs.<br/><em>One supplier.</em></div>
+<div class="num">04</div>
+</div>
+<p class="mosaic-lede">Four things, one contract. Coffee from four forests, bean-to-cup machines in our livery, the servicing and supplies that keep them pouring, and an impact your team can see and your sustainability report can use.</p>
+<div class="mosaic mosaic--2x2">
+<div class="tile"><img alt="NoFilter 1 kg bags" src="assets/nw-bag-rotate-poster.jpg" style="object-position:center 40%"/>
+<div class="tile__cap"><div class="tile__k">01 · Coffee</div><div class="tile__h">Four forests.<br/>Four coffees.</div><div class="tile__p">Single origins from the edge of standing forest, roasted to order.</div></div></div>
+<div class="tile tile--cream"><img alt="CaféMatic 8 in NoFilter livery" src="assets/cafematic-8.jpg" style="object-fit:contain;object-position:center 30%"/>
+<div class="tile__cap"><div class="tile__k">02 · Machines</div><div class="tile__h">Bean-to-cup.<br/>In our livery.</div><div class="tile__p">CaféMatic range, rented or bought, sized to your team.</div></div></div>
+<div class="tile"><img alt="Latte art being poured" src="assets/quote-pour.jpg"/>
+<div class="tile__cap"><div class="tile__k">03 · Service &amp; supply</div><div class="tile__h">Serviced.<br/>Stocked. Sorted.</div><div class="tile__p">Maintenance, milk, cocoa, cleaning and grounds collection.</div></div></div>
+<div class="tile"><img alt="Orangutan in the canopy" src="assets/orangutan-canopy.jpg"/>
+<div class="tile__cap"><div class="tile__k">04 · Impact</div><div class="tile__h">Impact you<br/>can show.</div><div class="tile__p">5 to 10% of every sale to the NGO holding the forest line.</div></div></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>03 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 03 · FOUR FORESTS   (dark; four full-width photo bands)
+     Origin facts from _Partner-Brief-Master/build_brief.py ORIGINS
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="03 Forests">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">01 · COFFEE</span><span>WHERE IT COMES FROM</span></div>
+</div>
+<div class="impact__top">
+<div class="h">Four forests.<br/><em>Still standing.</em></div>
+<div class="num">01</div>
+</div>
+<p class="mosaic-lede">Every NoFilter coffee comes from smallholders farming under canopy in the buffer zone of a threatened forest, bought through the conservation NGO working there. Farmer income at the forest edge decides whether that forest stands or is cleared, so that is where we put the money.</p>
+<div class="mosaic mosaic--bands">
+<div class="tile tile--band"><img alt="Batang Toru" src="assets/batang-toru-banner-poster.jpg"/>
+<div class="tile__cap"><div class="tile__k">North Sumatra · Partner PRCF Indonesia · SRI</div><div class="tile__h">Batang Toru</div><div class="tile__p">The only place the Tapanuli orangutan lives.</div></div>
+<div class="tile__coord">1&deg;38&prime;18&Prime;N<br/>99&deg;15&prime;56&Prime;E</div></div>
+<div class="tile tile--band"><img alt="Batang Gadis" src="assets/batang-gadis-banner-poster.jpg"/>
+<div class="tile__cap"><div class="tile__k">North Sumatra · Partner SRI · Komanja</div><div class="tile__h">Batang Gadis</div><div class="tile__p">Community agroforestry holding the national park's edge.</div></div>
+<div class="tile__coord">0&deg;31&prime;50&Prime;N<br/>99&deg;46&prime;28&Prime;E</div></div>
+<div class="tile tile--band"><img alt="Gayo Lues" src="assets/gayo-lues-banner-poster.jpg"/>
+<div class="tile__cap"><div class="tile__k">Aceh · Partner OIC</div><div class="tile__h">Gayo Lues</div><div class="tile__p">Elephant, tiger, rhinoceros and orangutan still share ground.</div></div>
+<div class="tile__coord">3&deg;55&prime;N<br/>97&deg;22&prime;E</div></div>
+<div class="tile tile--band"><img alt="Arakan Mountains" src="assets/batang-arakan-banner-poster.jpg"/><span class="tile__flag">Low stock</span>
+<div class="tile__cap"><div class="tile__k">Magway, Myanmar · Partner ACCA · Fauna &amp; Flora</div><div class="tile__h">Arakan Mountains</div><div class="tile__p">Keeping the Mann Wildlife Sanctuary intact.</div></div>
+<div class="tile__coord">19&deg;48&prime;N<br/>94&deg;20&prime;30&Prime;E</div></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>04 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 04 · THE COFFEES   (cream; bag photos from Marketing/Product-Images)
+     Notes / profile verbatim from build_brief.py ORIGINS; seal colours from ORIGIN_COLOURS
+     ===================================================================== -->
+<section class="page page--cream" data-screen-label="04 Coffees">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">01 · COFFEE</span><span>THE RANGE</span></div>
+</div>
+<div class="relief relief--tight">
+<div class="relief__body">
+<h2 class="schedule__title">Four coffees.<br/>One standard.</h2>
+<div class="schedule__sub">1 KG · WHOLE BEAN · ROASTED [[ROAST_CADENCE_UC]] · ANY MIX</div>
+<p class="relief__lede relief__lede--sm">Four single origins with genuinely different cups. Each bag carries its origin's seal and the coordinates of the boundary it protects. Supplied in 1 kg whole bean, roasted to order, mixed in any combination and changed as you go.</p>
+<div class="bags">
+<div class="bag">
+<div class="bag__tile"><img alt="Batang Toru 1 kg bag" src="assets/bag-batang-toru.jpg"/></div>
+<div class="bag__seal" style="background:#2f5d3a"></div>
+<div class="bag__nm">Batang Toru</div>
+<div class="bag__notes">Dark chocolate · Red plum · Cedar</div>
+<div class="bag__prof">
+<div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+<div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+<div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+</div>
+</div>
+<div class="bag">
+<div class="bag__tile"><img alt="Batang Gadis 1 kg bag" src="assets/bag-batang-gadis.jpg"/></div>
+<div class="bag__seal" style="background:#b8531a"></div>
+<div class="bag__nm">Batang Gadis</div>
+<div class="bag__notes">Brown sugar · Orange · Almond</div>
+<div class="bag__prof">
+<div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+<div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+<div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+</div>
+</div>
+<div class="bag">
+<div class="bag__tile"><img alt="Gayo Lues 1 kg bag" src="assets/bag-gayo-lues.jpg"/></div>
+<div class="bag__seal" style="background:#9c7212"></div>
+<div class="bag__nm">Gayo Lues</div>
+<div class="bag__notes">Syrupy · Dried fig · Cinnamon</div>
+<div class="bag__prof">
+<div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span></div>
+<div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></span></div>
+<div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+</div>
+</div>
+<div class="bag">
+<div class="bag__tile"><img alt="Arakan Mountains 1 kg bag" src="assets/bag-arakan-mountains.jpg"/></div>
+<div class="bag__seal" style="background:#1f5661"></div>
+<div class="bag__nm">Arakan Mountains</div>
+<div class="bag__notes">Stone fruits · Candied nuts · Milk chocolate</div>
+<div class="bag__prof">
+<div>Acidity <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+<div>Body <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span></div>
+<div>Roast <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span></div>
+</div>
+</div>
+</div>
+<div class="duo">
+<div class="tile"><img alt="Coffee processing at Batang Toru" src="assets/batang-toru-processor-2.jpg" style="object-position:center 30%"/>
+<div class="tile__cap"><div class="tile__k">Batang Toru</div><div class="tile__p">Processed by the farmer group NoFilter helped equip.</div></div></div>
+<div class="tile"><img alt="Drying house in the Arakan Mountains" src="assets/arakan-drying-house.jpg"/>
+<div class="tile__cap"><div class="tile__k">Arakan Mountains</div><div class="tile__p">Sorted by hand in the Asho Chin drying house.</div></div></div>
+</div>
+</div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>05 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 05 · THE MACHINES   (dark; machine names/fit/spec verbatim from the website master MACHINES)
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="05 Machines">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">02 · MACHINES</span><span>THE RANGE</span></div>
+</div>
+<div class="impact__top">
+<div class="h">Four machines.<br/><em>Our livery.</em></div>
+<div class="num">02</div>
+</div>
+<p class="mosaic-lede">Bean-to-cup CaféMatic machines, sized to your headcount, rented over 24 or 36 months or bought outright. Every one arrives in NoFilter's HOLD THE LINE livery, so the story sits on the counter and not just in a report.</p>
+<div class="machines">
+<div class="mach"><div class="mach__img"><img alt="CaféMatic 2" src="assets/cafematic-2.jpg"/></div>
+<div class="mach__for">Small teams · up to ~40</div><div class="mach__nm">CaféMatic 2</div><div class="mach__spec">1 grinder · fresh-milk drinks · true countertop</div></div>
+<div class="mach"><div class="mach__img"><img alt="CaféMatic 5" src="assets/cafematic-5.jpg"/></div>
+<div class="mach__for">Mid-size teams · up to ~75</div><div class="mach__nm">CaféMatic 5</div><div class="mach__spec">1 grinder · 1 powder hopper · steam wand + hot water</div></div>
+<div class="mach"><div class="mach__img"><img alt="CaféMatic 6" src="assets/cafematic-6.jpg"/></div>
+<div class="mach__for">Large floors · 100+</div><div class="mach__nm">CaféMatic 6</div><div class="mach__spec">2 grinders · two beans side by side · no powder</div></div>
+<div class="mach"><div class="mach__img"><img alt="CaféMatic 8" src="assets/cafematic-8.jpg"/></div>
+<div class="mach__for">Large floors · 100+</div><div class="mach__nm">CaféMatic 8</div><div class="mach__spec">2 grinders · 2 powder hoppers · the fullest menu</div></div>
+</div>
+<div class="strip">
+<div><span class="l">Rent</span><span class="v">24 or 36 months</span></div>
+<div><span class="l">Or buy</span><span class="v">Outright</span></div>
+<div><span class="l">Every machine</span><span class="v">In NoFilter livery</span></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>06 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 06 · EVERY RENTAL INCLUDES   (dark; photo mosaic)
+     Inclusions per the website master machNote: "Rental is fully serviced and includes the
+     milk cooler, install, livery wrap and the live impact counter."
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="06 Included">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">02 · MACHINES</span><span>EVERY RENTAL INCLUDES</span></div>
+</div>
+<div class="impact__top">
+<div class="h">Installed. Serviced.<br/><em>Counting.</em></div>
+<div class="num">+5</div>
+</div>
+<p class="mosaic-lede">A rental is fully serviced. Nothing on this page is an extra, and there is no second supplier to chase when something needs attention.</p>
+<div class="mosaic mosaic--five">
+<div class="tile tile--a"><img alt="A NoFilter machine in a workplace pantry" src="assets/unit-machine.jpg" style="object-position:center 60%"/>
+<div class="tile__cap"><div class="tile__k">Included</div><div class="tile__h">Installation</div><div class="tile__p">Delivered and commissioned on site.</div></div></div>
+<div class="tile tile--b"><img alt="Split-flap impact counter on a coffee bar" src="assets/smiirl-counter.jpg"/>
+<div class="tile__cap"><div class="tile__k">Included</div><div class="tile__h">Live impact counter</div><div class="tile__p">Every cup counted, on the wall.</div></div></div>
+<div class="tile tile--c"><img alt="Milk being poured into a latte" src="assets/wp-pour-atmos.jpg"/>
+<div class="tile__cap"><div class="tile__k">Included</div><div class="tile__h">Milk cooler</div><div class="tile__p">One per machine.</div></div></div>
+<div class="tile tile--d tile--cream"><img alt="CaféMatic 5 in NoFilter livery" src="assets/cafematic-5.jpg" style="object-fit:contain;object-position:center 15%"/>
+<div class="tile__cap"><div class="tile__k">Included</div><div class="tile__h">Livery wrap</div><div class="tile__p">HOLD THE LINE, on your counter.</div></div></div>
+<div class="tile tile--e"><img alt="Espresso machine group heads" src="assets/img-02-8eac2398.jpg"/>
+<div class="tile__cap"><div class="tile__k">Included</div><div class="tile__h">Servicing</div><div class="tile__p">Bi-annual maintenance and calibration; [[SERVICE_RESPONSE]].</div></div></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>07 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 07 · SERVICE & SUPPLY   (dark; photo mosaic)
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="07 Supply">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">03 · SERVICE &amp; SUPPLY</span><span>DAY TO DAY</span></div>
+</div>
+<div class="impact__top">
+<div class="h">One order.<br/><em>Everything arrives.</em></div>
+<div class="num">03</div>
+</div>
+<p class="mosaic-lede">One contact, one order, one delivery. Coffee is roasted to order, the milk, cocoa and cleaning supplies come with it, and your used grounds go back with the driver.</p>
+<div class="mosaic mosaic--five mosaic--flip">
+<div class="tile tile--a"><img alt="A team with coffee in the office" src="assets/wp-office-poster.jpg"/>
+<div class="tile__cap"><div class="tile__k">Ordering</div><div class="tile__h">Email or message</div><div class="tile__p">One contact for coffee, supplies and service.</div></div></div>
+<div class="tile tile--b"><img alt="Ripe coffee cherries held in two hands" src="assets/nf-cherries-end.jpg"/>
+<div class="tile__cap"><div class="tile__k">Coffee</div><div class="tile__h">Roasted to order</div><div class="tile__p">Fresh every delivery.</div></div></div>
+<div class="tile tile--c"><img alt="Espresso pouring" src="assets/img-13-pour-88b47e5b.jpg"/>
+<div class="tile__cap"><div class="tile__k">Consumables</div><div class="tile__h">Milk, cocoa &amp; cleaning</div><div class="tile__p">Delivered with your coffee.</div></div></div>
+<div class="tile tile--d"><img alt="Used coffee grounds held in gloved hands" src="assets/wp-compost.jpg"/>
+<div class="tile__cap"><div class="tile__k">Circular</div><div class="tile__h">Grounds collected</div><div class="tile__p">Taken back for upcycling.</div></div></div>
+<div class="tile tile--e"><img alt="NoFilter coffee cart" src="assets/coffee-cart.jpg" style="object-position:center 60%"/>
+<div class="tile__cap"><div class="tile__k">Events</div><div class="tile__h">Coffee cart</div><div class="tile__p">For town halls, launches and CSR days.</div></div></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>08 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 08 · IMPACT YOU CAN SHOW   (dark; photo mosaic)
+     ===================================================================== -->
+<section class="page page--dark grain" data-screen-label="08 Impact">
+<div class="rail rail--top">
+<div class="rail__group"><span class="orange">04 · IMPACT</span><span>WHAT YOUR COFFEE DOES</span></div>
+</div>
+<div class="impact__top">
+<div class="h">Every cup<br/><em>holds the line.</em></div>
+<div class="num">04</div>
+</div>
+<p class="mosaic-lede">The share to the forest is written into your contract and shown on every invoice, so it can be audited rather than taken on trust. We also give you the pictures, the stories and the chain-of-custody paperwork to use it.</p>
+<div class="mosaic mosaic--five">
+<div class="tile tile--a"><img alt="Tapanuli orangutan" src="assets/tapanuli-orangutan.jpg"/>
+<div class="tile__cap"><div class="tile__k">Contracted, not charitable</div><div class="tile__h">5 to 10% to the forest</div><div class="tile__p">Written into your contract, shown on every invoice.</div></div></div>
+<div class="tile tile--b"><img alt="Smallholder farmer in an agroforest" src="assets/sabar-agroforest.jpg"/>
+<div class="tile__cap"><div class="tile__k">Farmers</div><div class="tile__h">Paid above market</div><div class="tile__p">To keep the forest edge where it is.</div></div></div>
+<div class="tile tile--c"><img alt="Drone survey of a forest boundary" src="assets/verify-drone-poster.jpg"/>
+<div class="tile__cap"><div class="tile__k">Verified</div><div class="tile__h">Mapped</div><div class="tile__p">Every lot on NoFilter's public GIS map.</div></div></div>
+<div class="tile tile--d"><img alt="Restoration planting at Cinta Raja" src="assets/cinta-raja-planting.jpg"/>
+<div class="tile__cap"><div class="tile__k">Restoration</div><div class="tile__h">Cinta Raja</div><div class="tile__p">Planting on the Leuser edge.</div></div></div>
+<div class="tile tile--e"><img alt="Hoolock gibbon in the Arakan Mountains" src="assets/arakan-hoolock.jpg"/>
+<div class="tile__cap"><div class="tile__k">For your reporting</div><div class="tile__h">Content &amp; figures</div><div class="tile__p">Visuals, stories and chain-of-custody for Scope 3.</div></div></div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>SUSTAINABLE WORKPLACE COFFEE · [[MARKET_NAME_UC]]</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>09 / 10</span></div>
+</div>
+</section>
+
+<!-- =====================================================================
+     PAGE 09 · LET'S TALK   (full-bleed photo on the Part 3 cover shell)
+     Contact order follows _Locale-Presets.md: both markets shown, this build's first.
+     ===================================================================== -->
+<section class="page page--dark page--cover page--close" data-screen-label="09 Contact">
+<div class="cover__bg">
+<img alt="" src="assets/batang-gadis-intro.jpg" style="object-position:center 55%"/>
+</div>
+<div class="cover">
+<div class="cover__head">
+<div class="stamp"><span class="dot"></span><span>NEXT STEP · LET'S TALK</span></div>
+<div class="stamp"><span>[[SITE_URL_UC]]</span></div>
+</div>
+<div class="close-top">
+<div class="close-line">Keen to explore?<br/><em>Let's talk.</em></div>
+<p class="close-intro">Tell us your headcount and your site, and we will come back with a programme and a quote. Or build your own in two minutes on <b>[[SITE_URL]]</b>.</p>
+</div>
+<div class="contacts">
+<div class="contact">
+<div class="k">[[CONTACT_A_MARKET]]</div>
+<div class="n">[[CONTACT_A_ENTITY]]</div>
+<div class="r">[[CONTACT_A_CHANNELS]] · [[CONTACT_A_PHONE]]</div>
+<div class="r">[[CONTACT_A_EMAIL]] · [[CONTACT_A_WEB]]</div>
+</div>
+<div class="contact">
+<div class="k">[[CONTACT_B_MARKET]]</div>
+<div class="n">[[CONTACT_B_ENTITY]]</div>
+<div class="r">[[CONTACT_B_CHANNELS]] · [[CONTACT_B_PHONE]]</div>
+<div class="r">[[CONTACT_B_EMAIL]] · [[CONTACT_B_WEB]]</div>
+</div>
+</div>
+<div class="close-foot">
+<div>
+<div class="partners-line"><b>NGO partners</b> · PRCF Indonesia · SRI · OIC · Fauna &amp; Flora · ACCA · GJI</div>
+<div class="close-line close-line--sm">Because everyone in coffee<br/>should be a <em>winner.</em></div>
+</div>
+</div>
+</div>
+<div class="rail rail--bottom">
+<div class="rail__group"><span>NOFILTER · A CONSERVATION-LED COFFEE COMPANY · HOLD THE LINE</span></div>
+<div class="rail__group"><span class="orange">PAGE</span><span>10 / 10</span></div>
+</div>
+</section>
+
+<!-- verbatim from Part 3 master: nf-fit-cover-title -->
+<script id="nf-fit-cover-title">
+/* Auto-fit the cover title: shrink font-size until the longest word fits its
+   column, so long client names never break mid-word. Runs after webfonts load
+   and again before printing. Falls back to CSS overflow-wrap if JS is off. */
+(function () {
+  function fit() {
+    document.querySelectorAll('.cover__title').forEach(function (el) {
+      el.style.overflowWrap = 'normal';
+      el.style.wordBreak = 'normal';
+      el.style.hyphens = 'none';
+      el.style.fontSize = '';                 /* reset to the CSS tune size */
+      var size = parseFloat(getComputedStyle(el).fontSize);
+      var guard = 0;
+      while (el.scrollWidth > el.clientWidth + 0.5 && size > 14 && guard < 400) {
+        size -= 0.5; el.style.fontSize = size + 'px'; guard++;
+      }
+    });
+  }
+  window.__nfFitCoverTitle = fit;
+  function ready() {
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+    else { fit(); }
+  }
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', ready);
+  else ready();
+  window.addEventListener('beforeprint', fit);
+})();
+</script>
+</body></html>

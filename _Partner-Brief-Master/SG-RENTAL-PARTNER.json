@@ -1,0 +1,61 @@
+{
+  "_NOTE": "Corporate introductions through a partner, Singapore: what the partner earns when a business it introduces contracts with NoFilter directly for a machine and its coffee. Read by build_brief.py only for a partner whose file sets \"RENTAL\": true; every other partner brief is unaffected. First used for Talula Farms, 6 Oct 2026.",
+  "STATUS": "Structure and the coffee fee set by Alex on 6 Oct 2026: NoFilter contracts the client, the partner earns on kilos of coffee sold AND on machines rented, about SGD 3 a kilo. The machine amounts (10% of the 36-month rental, rounded down to a clean 5), the first-agreement limit on the fees, and both guard floors below were proposed by Claude and are awaiting his confirmation.",
+  "_RULE_RATES": "No rental rate or coffee price lives in this file. build_brief.py reads the 24 and 36 month rentals and the cost-in per line from Business-docs/RATE-CARD.md (sections 1 and 2), and the direct coffee range (floor, opener, ceiling, 5% and 10%) from _Part2-Master/_presets/SG.json. Both are cross-checked against Tools/NF-Ops/config/rate-card.json, the extract of the live site. A mismatch stops the build.",
+  "_RULE_SHARE": "Machine: share = 10% of the 36-month rental, rounded DOWN to a clean 5, held at that one figure on either term. Coffee: a flat amount per kilogram supplied, the same whatever price the client chooses.",
+  "_RULE_GUARD": "Machine: (rental x term - RATE-CARD cost-in - share x term) / (rental x term) must not fall below MIN_NET_PCT_RENTAL on any of the eight lines. Coffee: (price x (1 - conservation rate) - DIRECT_COST_PER_KG - COFFEE_FEE_PER_KG) / price must not fall below MIN_NET_PCT_COFFEE_INTRO at the floor or at the opener.",
+  "_NOTE_COFFEE_GUARD": "At SGD 3.00 the coffee alone nets 28.4% at the floor (46, 5%) and 29.9% at the opener (51, 10%), both UNDER the 30% rule. Alex was shown this on 6 Oct 2026 and kept both fees; the fee only exists where there is a machine contract, and the account as a whole (machine included) stays above 30%. The build prints the whole-account figure for the example office on every run.",
+  "_NOTE_NOT_IN_COST": "RATE-CARD cost-in carries no leasing-partner financing cost. If the leasing partner pays NoFilter a discounted sum up front, the true machine margin is lower than the guard reports by that discount.",
+  "TERMS_MONTHS": [
+    24,
+    36
+  ],
+  "MIN_NET_PCT_RENTAL": 40,
+  "COFFEE_FEE_PER_KG": 3.0,
+  "COFFEE_ONLY_FEE_PER_KG": 2.0,
+  "COFFEE_ONLY_MONTHS": 24,
+  "_NOTE_COFFEE_ONLY": "Proposed by Claude 6 Oct 2026 and applied on Alex's 'proceed': a client with its own machine who contracts with NoFilter for coffee alone earns the partner 2.00 a kilo for 24 months. 2.00 is the most that clears the full 30% rule with no machine margin behind it (30.6% at 46, 31.9% at 51); the 24 months is the shorter machine term and is Claude's figure.",
+  "DIRECT_COST_PER_KG": 27.63,
+  "_NOTE_DIRECT_COST": "Cost per roasted kg for a direct client, as recorded in SG-WHOLESALE.json on 17 Sep 2026 against the costing calculator (6.00 green-kg roast fee). Internal guard input only; it is never printed.",
+  "MIN_NET_PCT_COFFEE_INTRO": 28,
+  "FEE_TERM": "the length of the client's first agreement",
+  "SHARE_FREQUENCY": "twice yearly in arrears",
+  "FINANCE_PARTNER": "our leasing partner",
+  "EXAMPLE_KG": 30,
+  "EXAMPLE_MACHINE": "cm5",
+  "_NOTE_SUITS": "The 'suits' lines are the daily-volume figures from the machine comparison in Marketing/NoFilter-Website/NoFilter-Website-Master.html (read only, never edited). Changed 6 Oct 2026 from team-size wording, because Talula's clients include hotels and restaurants as well as offices.",
+  "MACHINES": [
+    {
+      "key": "cm2",
+      "n": 2,
+      "name": "CaféMatic 2",
+      "photo": "cm-2.jpg",
+      "suits": "Up to about 50 cups a day",
+      "share": 30
+    },
+    {
+      "key": "cm5",
+      "n": 5,
+      "name": "CaféMatic 5",
+      "photo": "cm-5.jpg",
+      "suits": "Up to about 150 cups a day",
+      "share": 40
+    },
+    {
+      "key": "cm6",
+      "n": 6,
+      "name": "CaféMatic 6",
+      "photo": "cm-6.jpg",
+      "suits": "Up to about 200 cups a day, two bean types",
+      "share": 40
+    },
+    {
+      "key": "cm8",
+      "n": 8,
+      "name": "CaféMatic 8",
+      "photo": "cm-8.jpg",
+      "suits": "Up to about 200 cups a day, the fullest menu",
+      "share": 50
+    }
+  ]
+}

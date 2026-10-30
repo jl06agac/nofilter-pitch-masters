@@ -163,6 +163,16 @@ ranges, footers and screen labels. So:
   De-installation & Collection moved from Cl. 15 to Cl. 17. New tokens: `RATE_RUNG_MID`,
   `RATE_RUNG_FULL`, `DATA_PROTECTION_LAW` (all three presets updated).
 
+- **13 Oct 2026 — Cl. 18 Change of Site Operator.** Standard clauses are now 01-18. Cl. 18
+  covers novation of the financing partner's lease (and of this agreement) to an incoming
+  FM provider or the site occupier when a facilities-management customer loses the site
+  mid-term: 60 days' notice, reasonable-endeavours only, financing partner's credit approval
+  and admin fee are not NoFilter's, fallback is relocate to another customer site or collect
+  under Cl. 17. Drafted against ORIX's novation process (Claire Ang email, 13 Oct 2026:
+  SGD 400 + GST per agreement, 2 months' notice, credit evaluation of the novatee). Relevant
+  to FM-held leases (ISS, Compass, etc.); for a direct corporate customer it is harmless but
+  can be removed in the stamped file. Signature line reads "clauses 01 through 18".
+
 - **22 Sep 2026 — ladder reset.** Cl. 05 no longer names three bands. It reads: 5% at
   `[[PRICE_FLOOR]]`/kg, rising in direct proportion to the agreed price to 10% at
   `[[RATE_RUNG_FULL]]`/kg (nearest quarter of one percent), and 10% at or above it.
